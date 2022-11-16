@@ -8,15 +8,15 @@ public class GameManager : MonoBehaviour
 
     //public Grid mGrid;
     public Tilemap mTilemap;
-    public Vector2Int mTilemapMiddlePoint = new Vector2Int(0,0);
+    public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0);
 
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
     private TileBase mSelectedTileBase;
+    private Vector3Int mSelectedTileBasePosition;
+    private GridObject mSelectedTileBaseGridObject;
 
-    private Vector3Int mSelectedTilebasePosition;
-    
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -38,12 +38,10 @@ public class GameManager : MonoBehaviour
     private void MouseDown()
     {
         Vector3 mouseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        print(mouseClickPosition);
 
         Vector3Int cellClickPosition = mTilemap.WorldToCell(mouseClickPosition);
-        print(cellClickPosition);
 
-        if (cellClickPosition.x < mTilemapMinBounds.x || cellClickPosition.y < mTilemapMinBounds.y || 
+        if (cellClickPosition.x < mTilemapMinBounds.x || cellClickPosition.y < mTilemapMinBounds.y ||
             cellClickPosition.x > mTilemapMaxBounds.x || cellClickPosition.y > mTilemapMaxBounds.y)
             // out of bounds
             return;
@@ -52,26 +50,72 @@ public class GameManager : MonoBehaviour
 
         if (mSelectedTileBase)
         {
-            mTilemap.GetInstantiatedObject(mSelectedTilebasePosition).GetComponent<GridObject>().OnDeselected();
-            Vector3Int posDifference = cellClickPosition - mSelectedTilebasePosition;
+
+
+            Vector3Int posDifference = cellClickPosition - mSelectedTileBasePosition;
             if (posDifference.magnitude == 1 && !newSelectedTileBase)
             {
                 // move object to new tile
                 mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
-                mTilemap.SetTile(mSelectedTilebasePosition, null);
+                mTilemap.SetTile(mSelectedTileBasePosition, null);
+
+                if (mSelectedTileBaseGridObject is Dino)
+                {
+                    CheckWinCondition(cellClickPosition);
+                }
 
                 mSelectedTileBase = null;
+                mSelectedTileBaseGridObject = null;
 
                 return;
             }
         }
 
-        mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>().OnSelected();
+        if (newSelectedTileBase)
+        {
+            if (mSelectedTileBase)
+                mSelectedTileBaseGridObject.OnDeselected();
 
-        // select new tile base
-        mSelectedTileBase = newSelectedTileBase;
-        mSelectedTilebasePosition = cellClickPosition;
-        
-        print(mSelectedTileBase);
+            // select new tile base
+
+            mSelectedTileBase = newSelectedTileBase;
+            mSelectedTileBasePosition = cellClickPosition;
+            mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+            mSelectedTileBaseGridObject.OnSelected();
+        }
+
+
+
+    }
+
+    // Check if game is won after player moved a dino
+    private void CheckWinCondition(Vector3Int cellClickPosition)
+    {
+        bool win = CheckIfDino(cellClickPosition + new Vector3Int(-1, 0)) // neighbour left
+            || CheckIfDino(cellClickPosition + new Vector3Int(1, 0)) // neighbour right
+            || CheckIfDino(cellClickPosition + new Vector3Int(0, -1)) // neighbour down
+            || CheckIfDino(cellClickPosition + new Vector3Int(0, 1)); // neighbour up
+
+        if (win)
+        {
+            print("YOU WON!");
+            #if (UNITY_EDITOR)
+                        UnityEditor.EditorApplication.isPlaying = false;
+            #else
+            Application.Quit()
+            #endif
+        }
+    }
+
+    private bool CheckIfDino(Vector3Int pos)
+    {
+        GameObject targetObj = mTilemap.GetInstantiatedObject(pos);
+        if (!targetObj)
+            return false;
+
+        if (targetObj.GetComponent<GridObject>() is Dino)
+            return true;
+
+        return false;
     }
 }
