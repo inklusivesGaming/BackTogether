@@ -772,7 +772,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mTilemap: {fileID: 377266512}
-  mTilebase: {fileID: 11400000, guid: a46c96b4a6d3b73468457593874341f9, type: 2}
 --- !u!4 &2092671576
 Transform:
   m_ObjectHideFlags: 0

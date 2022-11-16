@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
 
     //public Grid mGrid;
     public Tilemap mTilemap;
-    public TileBase mTilebase;
+    private TileBase mSelectedTilebase;
+    private Vector3 mSelectedTilebasePosition;
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -19,16 +20,30 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
+            MouseDown();
+    }
+
+    private void MouseDown()
+    {
+        Vector3 mouseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        print(mouseClickPosition);
+
+        Vector3Int cellClickPosition = mTilemap.WorldToCell(mouseClickPosition);
+        print(cellClickPosition);
+
+        TileBase newSelectedTileBase = mTilemap.GetTile(cellClickPosition);
+
+        if (mSelectedTilebase)
         {
-            Vector3 mouseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            print(mouseClickPosition);
+            Vector2 posDifference = cellClickPosition - mSelectedTilebasePosition;
+            if (posDifference.magnitude == 1)
+            {
 
-            Vector3Int cellClickPosition = mTilemap.WorldToCell(mouseClickPosition);
-            print(cellClickPosition);
-
-            TileBase targetTile = mTilemap.GetTile(cellClickPosition);
-            print(targetTile);
+            }
         }
+        mSelectedTilebase = newSelectedTileBase;
+        mSelectedTilebasePosition = cellClickPosition;
+        print(mSelectedTilebase);
     }
 }
