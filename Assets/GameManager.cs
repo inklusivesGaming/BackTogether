@@ -8,8 +8,8 @@ public class GameManager : MonoBehaviour
 
     //public Grid mGrid;
     public Tilemap mTilemap;
-    private TileBase mSelectedTilebase;
-    private Vector3 mSelectedTilebasePosition;
+    private TileBase mSelectedTileBase;
+    private Vector3Int mSelectedTilebasePosition;
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -34,16 +34,23 @@ public class GameManager : MonoBehaviour
 
         TileBase newSelectedTileBase = mTilemap.GetTile(cellClickPosition);
 
-        if (mSelectedTilebase)
+        if (mSelectedTileBase)
         {
-            Vector2 posDifference = cellClickPosition - mSelectedTilebasePosition;
-            if (posDifference.magnitude == 1)
+            Vector3Int posDifference = cellClickPosition - mSelectedTilebasePosition;
+            if (posDifference.magnitude == 1 && !newSelectedTileBase)
             {
+                // move object to new tile
+                print("NextField!");
+                mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
+                print("DELETE");
+                print(mSelectedTilebasePosition);
+                mTilemap.SetTile(mSelectedTilebasePosition, null);
 
+                mSelectedTileBase = null;
             }
         }
-        mSelectedTilebase = newSelectedTileBase;
+        mSelectedTileBase = newSelectedTileBase;
         mSelectedTilebasePosition = cellClickPosition;
-        print(mSelectedTilebase);
+        print(mSelectedTileBase);
     }
 }
