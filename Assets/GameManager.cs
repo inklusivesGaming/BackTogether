@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private Vector2Int mTilemapMaxBounds;
 
     private TileBase mSelectedTileBase;
+
     private Vector3Int mSelectedTilebasePosition;
     
     //public Vector3 mMouseClickPosition;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
             MouseDown();
     }
 
+    // Called when mouse gets pressed
     private void MouseDown()
     {
         Vector3 mouseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -48,25 +50,28 @@ public class GameManager : MonoBehaviour
 
         TileBase newSelectedTileBase = mTilemap.GetTile(cellClickPosition);
 
-
-
         if (mSelectedTileBase)
         {
+            mTilemap.GetInstantiatedObject(mSelectedTilebasePosition).GetComponent<GridObject>().OnDeselected();
             Vector3Int posDifference = cellClickPosition - mSelectedTilebasePosition;
             if (posDifference.magnitude == 1 && !newSelectedTileBase)
             {
                 // move object to new tile
-                print("NextField!");
                 mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
-                print("DELETE");
-                print(mSelectedTilebasePosition);
                 mTilemap.SetTile(mSelectedTilebasePosition, null);
 
                 mSelectedTileBase = null;
+
+                return;
             }
         }
+
+        mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>().OnSelected();
+
+        // select new tile base
         mSelectedTileBase = newSelectedTileBase;
         mSelectedTilebasePosition = cellClickPosition;
+        
         print(mSelectedTileBase);
     }
 }
