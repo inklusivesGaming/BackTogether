@@ -9,17 +9,26 @@ public class GameManager : MonoBehaviour
     //public Grid mGrid;
     public Tilemap mTilemap;
     public TileBase mTilebase;
+    //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
     {
-        //mTilemap.GetTile()
-        //mTilemap.DeleteCells(new Vector3Int(0, 0, 0), new Vector3Int(5, 5, 5));
-        mTilemap.BoxFill(new Vector3Int(0, 0, 0), mTilebase, 0, 0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseClickPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            print(mouseClickPosition);
+
+            Vector3Int cellClickPosition = mTilemap.WorldToCell(mouseClickPosition);
+            print(cellClickPosition);
+
+            TileBase targetTile = mTilemap.GetTile(cellClickPosition);
+            print(targetTile);
+        }
     }
 }
