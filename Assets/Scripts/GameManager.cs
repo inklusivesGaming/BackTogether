@@ -190,12 +190,13 @@ public class GameManager : MonoBehaviour
     {
         print("STONIFY!");
         int randomIndex = Random.Range(0, mNormalEggs.Count);
+        print(randomIndex);
         Vector3Int tilePos = mNormalEggsPositions[randomIndex];
 
         mNormalEggs.RemoveAt(randomIndex);
         mNormalEggsPositions.RemoveAt(randomIndex);
 
-        mTilemap.SetTile(mSelectedTileBasePosition, mStoneTileBase);
+        mTilemap.SetTile(tilePos, mStoneTileBase);
 
         mStones.Add(mTilemap.GetInstantiatedObject(tilePos).GetComponent<Stone>());
         mStonesPositions.Add(tilePos);
@@ -208,6 +209,8 @@ public class GameManager : MonoBehaviour
         if (mSelectedTileBaseGridObject is NormalEgg)
         {
             int index = mNormalEggs.IndexOf((NormalEgg)mSelectedTileBaseGridObject);
+            print("REMOVEAT");
+            print(index);
             mNormalEggs.RemoveAt(index);
             mNormalEggsPositions.RemoveAt(index);
         }
