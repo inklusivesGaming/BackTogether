@@ -25,12 +25,14 @@ public class GameManager : MonoBehaviour
     //private List<Bone> mBones;
     //private List<Dino> mDinos;
 
-    public List<Vector3Int> mNormalEggsPositions;
-    //public List<Vector3Int> mStonesPositions;
-    //public List<Vector3Int> mBonesPositions;
-    //public List<Vector3Int> mDinosPositions;
+    private List<Vector3Int> mNormalEggsPositions;
+    //private List<Vector3Int> mStonesPositions;
+    //private List<Vector3Int> mBonesPositions;
+    //private List<Vector3Int> mDinosPositions;
 
     public TileBase mStoneTileBase;
+
+    public int mNumberOfBones = 0;
 
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
@@ -122,31 +124,31 @@ public class GameManager : MonoBehaviour
         if (mSelectedTileBase)
         {
             Vector3Int posDifference = cellClickPosition - mSelectedTileBasePosition;
-            if (posDifference.magnitude == 1 && !newSelectedTileBase && !(mSelectedTileBaseGridObject is Stone))
+            if (posDifference.magnitude == 1 && (!newSelectedTileBase && !(mSelectedTileBaseGridObject is Stone)))
             {
                 // move object to new tile
+                MoveTile(cellClickPosition);
+                return;
+            }
 
-                RemoveSelectedTileBaseFromList();
+            else if (posDifference.magnitude == 1 && newSelectedTileBase && mSelectedTileBaseGridObject is Dino)
+            {
 
-                mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
-                mTilemap.SetTile(mSelectedTileBasePosition, null);
-
-                AddNewTileBaseToList(cellClickPosition);
-
-                mNumberOfTurns++;
-
-                if (mNumberOfTurns % 5 == 0)
-                    Stonify();
-
-                if (mSelectedTileBaseGridObject is Dino)
+                GridObject newSelectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+                if (newSelectedGridObject is Bone)
                 {
-                    CheckWinCondition(cellClickPosition);
+                    // dino steps on bone
+                    mNumberOfBones++;
+                    MoveTile(cellClickPosition);
+
                 }
 
-                mSelectedTileBase = null;
-                mSelectedTileBaseGridObject = null;
-
-                return;
+                else if(newSelectedGridObject is Stone && mNumberOfBones > 0)
+                {
+                    // dino steps on stone with bone
+                    mNumberOfBones--;
+                    MoveTile(cellClickPosition);
+                }
             }
         }
 
@@ -162,6 +164,30 @@ public class GameManager : MonoBehaviour
             mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
             mSelectedTileBaseGridObject.OnSelected();
         }
+    }
+
+    // move currently selected tile to cellClickPosition
+    private void MoveTile(Vector3Int cellClickPosition)
+    {
+        RemoveSelectedTileBaseFromList();
+
+        mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
+        mTilemap.SetTile(mSelectedTileBasePosition, null);
+
+        AddNewTileBaseToList(cellClickPosition);
+
+        mNumberOfTurns++;
+
+        if (mNumberOfTurns % 5 == 0)
+            Stonify();
+
+        if (mSelectedTileBaseGridObject is Dino)
+        {
+            CheckWinCondition(cellClickPosition);
+        }
+
+        mSelectedTileBase = null;
+        mSelectedTileBaseGridObject = null;
     }
 
     // Check if game is won after player moved a dino
