@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: NormalEggTile
+  m_Name: StoneTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_DefaultGameObject: {fileID: 7574083044356182250, guid: 4c370aa0f217b684bbf20389880416ee, type: 3}
-  m_DefaultColliderType: 0
+  m_DefaultSprite: {fileID: 21300000, guid: 0c37c5a757713bc42a9f8a72e887b942, type: 3}
+  m_DefaultGameObject: {fileID: 4532724020583536014, guid: e6d90c86af075344999d0f3f952b5a28, type: 3}
+  m_DefaultColliderType: 1
   m_TilingRules: []
