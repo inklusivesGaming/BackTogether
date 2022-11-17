@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,7 +33,8 @@ public class GameManager : MonoBehaviour
 
     public TileBase mStoneTileBase;
 
-    public int mNumberOfBones = 0;
+    private int mNumberOfBones = 0;
+    public TMP_Text mNumberOfBonesText;
 
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
@@ -139,6 +141,7 @@ public class GameManager : MonoBehaviour
                 {
                     // dino steps on bone
                     mNumberOfBones++;
+                    mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                     MoveTile(cellClickPosition);
 
                 }
@@ -147,6 +150,7 @@ public class GameManager : MonoBehaviour
                 {
                     // dino steps on stone with bone
                     mNumberOfBones--;
+                    mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                     MoveTile(cellClickPosition);
                 }
             }
