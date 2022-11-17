@@ -4,5 +4,14 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: "Assets/Scenes/Test Startmen\xFC.unity"
+    guid: 139e276844d4a40489dbf2b1fde14d92
+  - enabled: 1
+    path: Assets/Scenes/Test Credits.unity
+    guid: ba5c1ac0a1d47934b840afea5542d4be
+  - enabled: 1
+    path: Assets/Scenes/TilemapTest.unity
+    guid: 60cd15e6b5b76c546b1e4d88caf54cc8
   m_configObjects: {}
