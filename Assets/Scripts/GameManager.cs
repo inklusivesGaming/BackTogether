@@ -19,6 +19,14 @@ public class GameManager : MonoBehaviour
     private Vector3Int mSelectedTileBasePosition;
     private GridObject mSelectedTileBaseGridObject;
 
+    private List<NormalEgg> mNormalEggs;
+    private List<Stone> mStones;
+    private List<Dino> mDinos;
+
+    public List<Vector3Int> mNormalEggsPositions;
+    public List<Vector3Int> mStonesPositions;
+    public List<Vector3Int> mDinosPositions;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -42,7 +50,43 @@ public class GameManager : MonoBehaviour
         mTilemapMinBounds = mTilemapMiddlePoint - new Vector2Int(2, 2);
         mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
 
+        mNormalEggs = new List<NormalEgg>();
+        mStones = new List<Stone>();
+        mDinos = new List<Dino>();
 
+        mNormalEggsPositions = new List<Vector3Int>();
+        mStonesPositions = new List<Vector3Int>();
+        mDinosPositions = new List<Vector3Int>();
+
+        for (int x = mTilemapMinBounds.x; x <= mTilemapMaxBounds.x; x++)
+        {
+            for (int y = mTilemapMinBounds.y; y <= mTilemapMaxBounds.y; y++)
+            {
+                Vector3Int targetPos = new Vector3Int(x, y, 0);
+                TileBase targetTileBase = mTilemap.GetTile(targetPos);
+                if (!targetTileBase)
+                    continue;
+                GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetPos).GetComponent<GridObject>();
+                print(targetGridObject);
+                if (targetGridObject is NormalEgg)
+                {
+                    mNormalEggs.Add(((NormalEgg)targetGridObject));
+                    mNormalEggsPositions.Add(targetPos);
+                }
+
+                else if (targetGridObject is Stone)
+                {
+                    mStones.Add(((Stone)targetGridObject));
+                    mStonesPositions.Add(targetPos);
+                }
+
+                else if (targetGridObject is Dino)
+                {
+                    mDinos.Add(((Dino)targetGridObject));
+                    mDinosPositions.Add(targetPos);
+                }
+            }
+        }
     }
 
     // Called when mouse gets pressed
