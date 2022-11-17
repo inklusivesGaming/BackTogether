@@ -21,12 +21,14 @@ public class GameManager : MonoBehaviour
     private GridObject mSelectedTileBaseGridObject;
 
     private List<NormalEgg> mNormalEggs;
-    private List<Stone> mStones;
-    private List<Dino> mDinos;
+    //private List<Stone> mStones;
+    //private List<Bone> mBones;
+    //private List<Dino> mDinos;
 
     public List<Vector3Int> mNormalEggsPositions;
-    public List<Vector3Int> mStonesPositions;
-    public List<Vector3Int> mDinosPositions;
+    //public List<Vector3Int> mStonesPositions;
+    //public List<Vector3Int> mBonesPositions;
+    //public List<Vector3Int> mDinosPositions;
 
     public TileBase mStoneTileBase;
 
@@ -57,12 +59,14 @@ public class GameManager : MonoBehaviour
         mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
 
         mNormalEggs = new List<NormalEgg>();
-        mStones = new List<Stone>();
-        mDinos = new List<Dino>();
+        //mStones = new List<Stone>();
+        //mBones = new List<Bone>();
+        //mDinos = new List<Dino>();
 
         mNormalEggsPositions = new List<Vector3Int>();
-        mStonesPositions = new List<Vector3Int>();
-        mDinosPositions = new List<Vector3Int>();
+        //mStonesPositions = new List<Vector3Int>();
+        //mBonesPositions = new List<Vector3Int>();
+        //mDinosPositions = new List<Vector3Int>();
 
         for (int x = mTilemapMinBounds.x; x <= mTilemapMaxBounds.x; x++)
         {
@@ -80,17 +84,23 @@ public class GameManager : MonoBehaviour
                     mNormalEggsPositions.Add(targetPos);
                 }
 
-                else if (targetGridObject is Stone)
-                {
-                    mStones.Add(((Stone)targetGridObject));
-                    mStonesPositions.Add(targetPos);
-                }
+                //else if (targetGridObject is Stone)
+                //{
+                //    mStones.Add(((Stone)targetGridObject));
+                //    mStonesPositions.Add(targetPos);
+                //}
 
-                else if (targetGridObject is Dino)
-                {
-                    mDinos.Add(((Dino)targetGridObject));
-                    mDinosPositions.Add(targetPos);
-                }
+                //else if (targetGridObject is Bone)
+                //{
+                //    mBones.Add(((Bone)targetGridObject));
+                //    mBonesPositions.Add(targetPos);
+                //}
+
+                //else if (targetGridObject is Dino)
+                //{
+                //    mDinos.Add(((Dino)targetGridObject));
+                //    mDinosPositions.Add(targetPos);
+                //}
             }
         }
     }
@@ -198,8 +208,8 @@ public class GameManager : MonoBehaviour
 
         mTilemap.SetTile(tilePos, mStoneTileBase);
 
-        mStones.Add(mTilemap.GetInstantiatedObject(tilePos).GetComponent<Stone>());
-        mStonesPositions.Add(tilePos);
+        //mStones.Add(mTilemap.GetInstantiatedObject(tilePos).GetComponent<Stone>());
+        //mStonesPositions.Add(tilePos);
     }
 
     private void RemoveSelectedTileBaseFromList()
@@ -215,19 +225,26 @@ public class GameManager : MonoBehaviour
             mNormalEggsPositions.RemoveAt(index);
         }
 
-        if (mSelectedTileBaseGridObject is Stone)
-        {
-            int index = mStones.IndexOf((Stone)mSelectedTileBaseGridObject);
-            mStones.RemoveAt(index);
-            mStonesPositions.RemoveAt(index);
-        }
+        //if (mSelectedTileBaseGridObject is Stone)
+        //{
+        //    int index = mStones.IndexOf((Stone)mSelectedTileBaseGridObject);
+        //    mStones.RemoveAt(index);
+        //    mStonesPositions.RemoveAt(index);
+        //}
 
-        if (mSelectedTileBaseGridObject is Dino)
-        {
-            int index = mDinos.IndexOf((Dino)mSelectedTileBaseGridObject);
-            mDinos.RemoveAt(index);
-            mDinosPositions.RemoveAt(index);
-        }
+        //if (mSelectedTileBaseGridObject is Bone)
+        //{
+        //    int index = mBones.IndexOf((Bone)mSelectedTileBaseGridObject);
+        //    mBones.RemoveAt(index);
+        //    mBonesPositions.RemoveAt(index);
+        //}
+
+        //if (mSelectedTileBaseGridObject is Dino)
+        //{
+        //    int index = mDinos.IndexOf((Dino)mSelectedTileBaseGridObject);
+        //    mDinos.RemoveAt(index);
+        //    mDinosPositions.RemoveAt(index);
+        //}
     }
 
     private void AddNewTileBaseToList(Vector3Int cellClickPosition)
@@ -243,16 +260,22 @@ public class GameManager : MonoBehaviour
             mNormalEggsPositions.Add(cellClickPosition);
         }
 
-        if (targetGridObject is Stone)
-        {
-            mStones.Add((Stone)targetGridObject);
-            mStonesPositions.Add(cellClickPosition);
-        }
+        //if (targetGridObject is Stone)
+        //{
+        //    mStones.Add((Stone)targetGridObject);
+        //    mStonesPositions.Add(cellClickPosition);
+        //}
 
-        if (targetGridObject is Dino)
-        {
-            mDinos.Add((Dino)targetGridObject);
-            mDinosPositions.Add(cellClickPosition);
-        }
+        //if (targetGridObject is Bone)
+        //{
+        //    mBones.Add((Bone)targetGridObject);
+        //    mBonesPositions.Add(cellClickPosition);
+        //}
+
+        //if (targetGridObject is Dino)
+        //{
+        //    mDinos.Add((Dino)targetGridObject);
+        //    mDinosPositions.Add(cellClickPosition);
+        //}
     }
 }
