@@ -50,10 +50,8 @@ public class GameManager : MonoBehaviour
 
         if (mSelectedTileBase)
         {
-
-
             Vector3Int posDifference = cellClickPosition - mSelectedTileBasePosition;
-            if (posDifference.magnitude == 1 && !newSelectedTileBase)
+            if (posDifference.magnitude == 1 && !newSelectedTileBase && !(mSelectedTileBaseGridObject is Stone))
             {
                 // move object to new tile
                 mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
