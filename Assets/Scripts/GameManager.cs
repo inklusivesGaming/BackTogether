@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public Tilemap mTilemap;
     public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0);
 
+    private int mNumberOfTurns = 0;
+
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
@@ -21,9 +23,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // assuming grid is always 5x5
-        mTilemapMinBounds = mTilemapMiddlePoint - new Vector2Int(2, 2);
-        mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
+        InitializeTileMap();
     }
 
     // Update is called once per frame
@@ -32,6 +32,17 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
             MouseDown();
+    }
+
+    // Check where your map is and what kinds of objects are in there
+    // It is assumed that the map is always 5x5
+    private void InitializeTileMap()
+    {
+        // assuming grid is always 5x5
+        mTilemapMinBounds = mTilemapMiddlePoint - new Vector2Int(2, 2);
+        mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
+
+
     }
 
     // Called when mouse gets pressed
@@ -54,6 +65,11 @@ public class GameManager : MonoBehaviour
             if (posDifference.magnitude == 1 && !newSelectedTileBase && !(mSelectedTileBaseGridObject is Stone))
             {
                 // move object to new tile
+
+                mNumberOfTurns++;
+                if (mNumberOfTurns % 5 == 0)
+                    Stonify();
+
                 mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
                 mTilemap.SetTile(mSelectedTileBasePosition, null);
 
@@ -115,5 +131,11 @@ public class GameManager : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    // Turn one random chest in the level into stone
+    private void Stonify()
+    {
+        print("STONIFY!");
     }
 }
