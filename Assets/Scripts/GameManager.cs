@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -39,9 +40,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
             MouseDown();
+
+        // restart button
+        if (Input.GetKeyDown("r"))
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // Check where your map is and what kinds of objects are in there
