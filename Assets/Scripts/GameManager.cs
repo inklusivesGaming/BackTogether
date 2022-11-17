@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     //private List<Vector3Int> mDinosPositions;
 
     public TileBase mStoneTileBase;
+    public TileBase mHoleTileBase;
 
     private int mNumberOfBones = 0;
     public TMP_Text mNumberOfBonesText;
@@ -126,38 +127,84 @@ public class GameManager : MonoBehaviour
         if (mSelectedTileBase)
         {
             Vector3Int posDifference = cellClickPosition - mSelectedTileBasePosition;
-            if (posDifference.magnitude == 1 && (!newSelectedTileBase && !(mSelectedTileBaseGridObject is Stone)))
-            {
-                // move object to new tile
-                MoveTile(cellClickPosition);
-                return;
-            }
 
-            else if (posDifference.magnitude == 1 && newSelectedTileBase && mSelectedTileBaseGridObject is Dino)
+            if (posDifference.magnitude == 1)
             {
-
-                GridObject newSelectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
-                if (newSelectedGridObject is Bone)
+                if (!newSelectedTileBase)
                 {
-                    // dino steps on bone
-                    mNumberOfBones++;
-                    mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                    // move object to new tile
                     MoveTile(cellClickPosition);
+                    return;
+                }
+
+                else if (mSelectedTileBaseGridObject is Dino)
+                {
+
+                    GridObject newSelectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+
+                    if (newSelectedGridObject is Bone)
+                    {
+                        // dino steps on bone
+                        mNumberOfBones++;
+                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        MoveTile(cellClickPosition);
+
+                    }
+
+                    else if (newSelectedGridObject is Stone && mNumberOfBones > 0)
+                    {
+                        // dino steps on stone with bone
+                        mNumberOfBones--;
+                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        MoveTile(cellClickPosition);
+                    }
+
+                    else if (newSelectedGridObject is SurpriseChest)
+                    {
+                        int transformTarget = 0;
+                        // dino steps on surprise chest
+                        SurpriseChest surpriseChest = (SurpriseChest)newSelectedGridObject;
+                        if (((SurpriseChest)newSelectedGridObject).mTargetItem == SurpriseChest.eTargetItem.RANDOM)
+                        {
+                            transformTarget = Random.RandomRange(0, 2);
+                        }
+
+                        if (((SurpriseChest)newSelectedGridObject).mTargetItem == SurpriseChest.eTargetItem.HOLE || transformTarget == 0)
+                        {
+                            mTilemap.SetTile(cellClickPosition, mHoleTileBase);
+                        }
+
+                        else if (((SurpriseChest)newSelectedGridObject).mTargetItem == SurpriseChest.eTargetItem.STONE || transformTarget == 1)
+                        {
+                            mTilemap.SetTile(cellClickPosition, mStoneTileBase);
+                        }
+                    }
 
                 }
 
-                else if(newSelectedGridObject is Stone && mNumberOfBones > 0)
+                else
                 {
-                    // dino steps on stone with bone
-                    mNumberOfBones--;
-                    mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
-                    MoveTile(cellClickPosition);
+                    GridObject selectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+                    if (selectedGridObject is Hole)
+                    {
+                        RemoveSelectedTileBaseFromList();
+                        mTilemap.SetTile(mSelectedTileBasePosition, null);
+                        mTilemap.SetTile(cellClickPosition, null);
+                        mSelectedTileBase = null;
+                        newSelectedTileBase = null;
+
+                    }
                 }
             }
+
+            
         }
 
         if (newSelectedTileBase)
         {
+            GridObject selectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+            if (selectedGridObject is Hole || selectedGridObject is Stone)
+                return;
             if (mSelectedTileBase)
                 mSelectedTileBaseGridObject.OnDeselected();
 
@@ -165,7 +212,7 @@ public class GameManager : MonoBehaviour
 
             mSelectedTileBase = newSelectedTileBase;
             mSelectedTileBasePosition = cellClickPosition;
-            mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+            mSelectedTileBaseGridObject = selectedGridObject;
             mSelectedTileBaseGridObject.OnSelected();
         }
     }
@@ -205,11 +252,11 @@ public class GameManager : MonoBehaviour
         if (win)
         {
             print("YOU WON!");
-            #if (UNITY_EDITOR)
-                        UnityEditor.EditorApplication.isPlaying = false;
-            #else
+#if (UNITY_EDITOR)
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-            #endif
+#endif
         }
     }
 
