@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
-    private TileBase mSelectedTileBase;
+    public TileBase mSelectedTileBase;
     private Vector3Int mSelectedTileBasePosition;
     private GridObject mSelectedTileBaseGridObject;
 
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
                         mNumberOfBones++;
                         mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                         MoveTile(cellClickPosition);
-
+                        newSelectedTileBase = null;
                     }
 
                     else if (newSelectedGridObject is Stone && mNumberOfBones > 0)
@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
                         mNumberOfBones--;
                         mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                         MoveTile(cellClickPosition);
+                        newSelectedTileBase = null;
                     }
 
                     else if (newSelectedGridObject is SurpriseChest)
@@ -178,6 +179,8 @@ public class GameManager : MonoBehaviour
                         {
                             mTilemap.SetTile(cellClickPosition, mStoneTileBase);
                         }
+
+                        newSelectedTileBase = null;
                     }
 
                 }
