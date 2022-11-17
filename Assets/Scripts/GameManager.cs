@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public List<Vector3Int> mStonesPositions;
     public List<Vector3Int> mDinosPositions;
 
+    public TileBase mStoneTileBase;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -110,12 +112,17 @@ public class GameManager : MonoBehaviour
             {
                 // move object to new tile
 
-                mNumberOfTurns++;
-                if (mNumberOfTurns % 5 == 0)
-                    Stonify();
+                RemoveSelectedTileBaseFromList();
 
                 mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
                 mTilemap.SetTile(mSelectedTileBasePosition, null);
+
+                AddNewTileBaseToList(cellClickPosition);
+
+                mNumberOfTurns++;
+
+                if (mNumberOfTurns % 5 == 0)
+                    Stonify();
 
                 if (mSelectedTileBaseGridObject is Dino)
                 {
@@ -141,9 +148,6 @@ public class GameManager : MonoBehaviour
             mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
             mSelectedTileBaseGridObject.OnSelected();
         }
-
-
-
     }
 
     // Check if game is won after player moved a dino
@@ -181,5 +185,67 @@ public class GameManager : MonoBehaviour
     private void Stonify()
     {
         print("STONIFY!");
+        int randomIndex = Random.Range(0, mNormalEggs.Count);
+        Vector3Int tilePos = mNormalEggsPositions[randomIndex];
+
+        mNormalEggs.RemoveAt(randomIndex);
+        mNormalEggsPositions.RemoveAt(randomIndex);
+
+        mTilemap.SetTile(mSelectedTileBasePosition, mStoneTileBase);
+
+        mStones.Add(mTilemap.GetInstantiatedObject(tilePos).GetComponent<Stone>());
+        mStonesPositions.Add(tilePos);
+    }
+
+    private void RemoveSelectedTileBaseFromList()
+    {
+        if (!mSelectedTileBase)
+            return;
+        if (mSelectedTileBaseGridObject is NormalEgg)
+        {
+            int index = mNormalEggs.IndexOf((NormalEgg)mSelectedTileBaseGridObject);
+            mNormalEggs.RemoveAt(index);
+            mNormalEggsPositions.RemoveAt(index);
+        }
+
+        if (mSelectedTileBaseGridObject is Stone)
+        {
+            int index = mStones.IndexOf((Stone)mSelectedTileBaseGridObject);
+            mStones.RemoveAt(index);
+            mStonesPositions.RemoveAt(index);
+        }
+
+        if (mSelectedTileBaseGridObject is Dino)
+        {
+            int index = mDinos.IndexOf((Dino)mSelectedTileBaseGridObject);
+            mDinos.RemoveAt(index);
+            mDinosPositions.RemoveAt(index);
+        }
+    }
+
+    private void AddNewTileBaseToList(Vector3Int cellClickPosition)
+    {
+        GameObject targetObj = mTilemap.GetInstantiatedObject(cellClickPosition);
+        if (!targetObj)
+            return;
+        GridObject targetGridObject = targetObj.GetComponent<GridObject>();
+
+        if (targetGridObject is NormalEgg)
+        {
+            mNormalEggs.Add((NormalEgg)targetGridObject);
+            mNormalEggsPositions.Add(cellClickPosition);
+        }
+
+        if (targetGridObject is Stone)
+        {
+            mStones.Add((Stone)targetGridObject);
+            mStonesPositions.Add(cellClickPosition);
+        }
+
+        if (targetGridObject is Dino)
+        {
+            mDinos.Add((Dino)targetGridObject);
+            mDinosPositions.Add(cellClickPosition);
+        }
     }
 }

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: NormalEggTile
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_DefaultGameObject: {fileID: 7532987313690087698, guid: e8f52dd9b5c02cc42953e8dc38ed67c5, type: 3}
+  m_DefaultGameObject: {fileID: 7574083044356182250, guid: 4c370aa0f217b684bbf20389880416ee, type: 3}
   m_DefaultColliderType: 0
   m_TilingRules: []
