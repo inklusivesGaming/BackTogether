@@ -314,6 +314,7 @@ public class GameManager : MonoBehaviour
 
     private void TransformSurpriseChest(Vector3Int pos)
     {
+        PlayAudio(4);
         SurpriseChest surpriseChest = (SurpriseChest) mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
 
         int transformTarget = 0;
