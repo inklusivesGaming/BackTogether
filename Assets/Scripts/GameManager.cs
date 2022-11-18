@@ -187,7 +187,12 @@ public class GameManager : MonoBehaviour
 
         if (mSelectedTileBaseGridObject is Dino)
         {
-            CheckDinoNeighbours(cellClickPosition);
+            CheckNeighbours(cellClickPosition, true);
+        }
+
+        else if (mSelectedTileBaseGridObject is SurpriseChest)
+        {
+            CheckNeighbours(cellClickPosition, false);
         }
 
         mSelectedTileBase = null;
@@ -195,38 +200,62 @@ public class GameManager : MonoBehaviour
     }
 
     // Check if game is won after player moved a dino and if surprise chests are activated
-    private void CheckDinoNeighbours(Vector3Int cellClickPosition)
+    // bool dino is true if you moved a dino and false if you moved a surprisechest
+    private void CheckNeighbours(Vector3Int cellClickPosition, bool dino)
     {
         Vector3Int neighbourLeftPos = cellClickPosition + new Vector3Int(-1, 0);
         Vector3Int neighbourRightPos = cellClickPosition + new Vector3Int(1, 0);
         Vector3Int neighbourUpPos = cellClickPosition + new Vector3Int(0, 1);
         Vector3Int neighbourDownPos = cellClickPosition + new Vector3Int(0, -1);
-
-        bool win = CheckIfDino(neighbourLeftPos)
-            || CheckIfDino(neighbourRightPos)
-            || CheckIfDino(neighbourUpPos)
-            || CheckIfDino(neighbourDownPos);
-
-        if (win)
+        
+        if(dino)
         {
+            // check win condition
+            bool win = CheckIfDino(neighbourLeftPos)
+                || CheckIfDino(neighbourRightPos)
+                || CheckIfDino(neighbourUpPos)
+                || CheckIfDino(neighbourDownPos);
 
-            mWinScreen.SetActive(true);
+            if (win)
+            {
 
-            gameObject.SetActive(false);
+                mWinScreen.SetActive(true);
 
+                gameObject.SetActive(false);
+
+            }
+
+            if (CheckIfSurpriseChest(neighbourLeftPos))
+                TransformSurpriseChest(neighbourLeftPos);
+
+            if (CheckIfSurpriseChest(neighbourRightPos))
+                TransformSurpriseChest(neighbourRightPos);
+
+            if (CheckIfSurpriseChest(neighbourUpPos))
+                TransformSurpriseChest(neighbourUpPos);
+
+            if (CheckIfSurpriseChest(neighbourDownPos))
+                TransformSurpriseChest(neighbourDownPos);
         }
 
-        if (CheckIfSurpriseChest(neighbourLeftPos))
-            TransformSurpriseChest(neighbourLeftPos);
+        else
+        {
 
-        if (CheckIfSurpriseChest(neighbourRightPos))
-            TransformSurpriseChest(neighbourRightPos);
+            if (CheckIfDino(neighbourLeftPos)
+                || CheckIfDino(neighbourRightPos)
+                || CheckIfDino(neighbourUpPos)
+                || CheckIfDino(neighbourDownPos))
 
-        if (CheckIfSurpriseChest(neighbourUpPos))
-            TransformSurpriseChest(neighbourUpPos);
+            {
+                TransformSurpriseChest(cellClickPosition);
 
-        if (CheckIfSurpriseChest(neighbourDownPos))
-            TransformSurpriseChest(neighbourDownPos);
+                mSelectedTileBase = null;
+                mSelectedTileBaseGridObject = null;
+            }
+        }
+
+
+
     }
 
     private bool CheckIfDino(Vector3Int pos)
