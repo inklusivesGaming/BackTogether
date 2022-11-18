@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
 
             if (win)
             {
-
+                PlayAudio(9);
                 mWinScreen.SetActive(true);
 
                 gameObject.SetActive(false);
