@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject mWinScreen;
 
+    public AudioSource mAudioSource;
+
+    public List<AudioClip> mAudioClips;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -173,6 +177,7 @@ public class GameManager : MonoBehaviour
     // move currently selected tile to cellClickPosition
     private void MoveTile(Vector3Int cellClickPosition)
     {
+        PlayAudio(3);
         RemoveSelectedTileBaseFromList();
 
         mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
@@ -349,5 +354,15 @@ public class GameManager : MonoBehaviour
             mNormalEggs.Add((NormalEgg)targetGridObject);
             mNormalEggsPositions.Add(cellClickPosition);
         }
+    }
+
+    // track numbers beginning with one
+    private void PlayAudio(int trackNumber)
+    {
+        print("PLAY AUDIO! " + trackNumber);
+        if (mAudioClips.Count < trackNumber)
+            return;
+        print("REALLYPLAYAUDIO");
+        mAudioSource.PlayOneShot(mAudioClips[trackNumber-1]);
     }
 }
