@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     public GameObject mWinScreen;
 
     public AudioSource mAudioSource;
+    public AudioSource mFinalScreenAudioSource;
 
     public List<AudioClip> mAudioClips;
 
@@ -252,8 +253,8 @@ public class GameManager : MonoBehaviour
 
             if (win)
             {
-                PlayAudio(9);
                 mWinScreen.SetActive(true);
+                mFinalScreenAudioSource.PlayOneShot(mAudioClips[8]);
 
                 gameObject.SetActive(false);
 
@@ -287,8 +288,6 @@ public class GameManager : MonoBehaviour
                 mSelectedTileBaseGridObject = null;
             }
         }
-
-
 
     }
 
@@ -389,10 +388,8 @@ public class GameManager : MonoBehaviour
     // track numbers beginning with one
     private void PlayAudio(int trackNumber)
     {
-        print("PLAY AUDIO! " + trackNumber);
         if (mAudioClips.Count < trackNumber)
             return;
-        print("REALLYPLAYAUDIO");
         mAudioSource.PlayOneShot(mAudioClips[trackNumber-1]);
     }
 }

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Dino : GridObject
 {
-    public SkinnedMeshRenderer mSkinnedMeshRenderer;
-
+    public GameObject mPlane;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +20,12 @@ public class Dino : GridObject
     // Is called when the object gets selected
     public override void OnSelected()
     {
-        mSkinnedMeshRenderer.material.color = Color.yellow;
+        mPlane.SetActive(true);
     }
 
     // Is called when object gets deselected
     public override void OnDeselected()
     {
-        mSkinnedMeshRenderer.material.color = Color.white;
+        mPlane.SetActive(false);
     }
 }
