@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     private int mNumberOfBones = 0;
     public TMP_Text mNumberOfBonesText;
 
+    public GameObject mWinScreen;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -206,12 +208,11 @@ public class GameManager : MonoBehaviour
 
         if (win)
         {
-            print("YOU WON!");
-#if (UNITY_EDITOR)
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+
+            mWinScreen.SetActive(true);
+
+            gameObject.SetActive(false);
+
         }
 
         if (CheckIfSurpriseChest(neighbourLeftPos))
