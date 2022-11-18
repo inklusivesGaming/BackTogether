@@ -1503,7 +1503,7 @@ Tilemap:
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 2
+      m_TileObjectToInstantiateIndex: 8
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
   - first: {x: -1, y: -1, z: 0}
@@ -1633,7 +1633,7 @@ Tilemap:
       m_TileSpriteIndex: 2
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 2
+      m_TileObjectToInstantiateIndex: 8
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
   - first: {x: -1, y: 2, z: 0}
@@ -1728,8 +1728,8 @@ Tilemap:
     m_Data: {fileID: 8253868056387364768, guid: 714cb825742af044db0cfba7b39db580, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 1067116914226726365, guid: 4c6296d6e40f81d438b454be9b8d9ab1, type: 3}
-  - m_RefCount: 2
-    m_Data: {fileID: 4424421908563220045, guid: 2a20c6663ec9da84fb37b8db520ad395, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 6
     m_Data: {fileID: 4532724020583536014, guid: e6d90c86af075344999d0f3f952b5a28, type: 3}
   - m_RefCount: 4
@@ -1740,6 +1740,8 @@ Tilemap:
     m_Data: {fileID: 7564841971943251321, guid: b187e2654c4e0704d88d27c2ce636399, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 7564841971943251321, guid: 6cd3857c2aa32354e99c132b8a0786bd, type: 3}
+  - m_RefCount: 2
+    m_Data: {fileID: 4693731300586413667, guid: b75b58d06441e864c93956b7d668b111, type: 3}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -2, y: -2, z: 0}
@@ -1763,11 +1765,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &422777086 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 219386504, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
-  m_PrefabInstance: {fileID: 1205260154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &505419557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4090,13 +4087,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9a0cf6ce8048fc9429b6d85176f54c19, type: 3}
   m_PrefabInstance: {fileID: 863952752}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &889877173
+--- !u!43 &911088690
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterVolume-40764
+  m_Name: WaterVolume-57318
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4297,7 +4294,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 973626243}
-  m_Mesh: {fileID: 889877173}
+  m_Mesh: {fileID: 911088690}
 --- !u!23 &973626246
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4887,6 +4884,10 @@ PrefabInstance:
     - target: {fileID: 1625580449, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080651198880426569, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2626050714100211169, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
       propertyPath: m_Name
@@ -5749,7 +5750,7 @@ PrefabInstance:
     - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: mWinScreen
       value: 
-      objectReference: {fileID: 422777086}
+      objectReference: {fileID: 0}
     - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: mNumberOfBonesText
       value: 

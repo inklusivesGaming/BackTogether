@@ -5,6 +5,8 @@ using UnityEngine;
 public class GridObject : MonoBehaviour
 {
 
+    public MeshRenderer mMeshRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,15 +20,15 @@ public class GridObject : MonoBehaviour
     }
 
     // Is called when the object gets selected
-    public void OnSelected()
+    public virtual void OnSelected()
     {
-        gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
+        mMeshRenderer.material.color = Color.yellow;
     }
 
     // Is called when object gets deselected
-    public void OnDeselected()
+    public virtual void OnDeselected()
     {
-        gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
+        mMeshRenderer.material.color = Color.white;
     }
 
 }
