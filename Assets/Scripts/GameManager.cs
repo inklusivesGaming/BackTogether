@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private List<Vector3Int> mNormalEggsPositions;
 
     public TileBase mStoneTileBase;
+    public TileBase mBoneTileBase;
     public TileBase mHoleTileBase;
 
     private int mNumberOfBones = 0;
@@ -260,17 +261,22 @@ public class GameManager : MonoBehaviour
         // dino steps on surprise chest
         if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM)
         {
-            transformTarget = Random.Range(0, 2);
+            transformTarget = Random.Range(0, 3);
         }
 
-        if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.HOLE || transformTarget == 0)
+        if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.HOLE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 0)
         {
             mTilemap.SetTile(pos, mHoleTileBase);
         }
 
-        else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.STONE || transformTarget == 1)
+        else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.STONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 1)
         {
             mTilemap.SetTile(pos, mStoneTileBase);
+        }
+
+        else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.BONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 2)
+        {
+            mTilemap.SetTile(pos, mBoneTileBase);
         }
     }
 

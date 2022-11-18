@@ -8,7 +8,8 @@ public class SurpriseChest : GridObject
     {
         RANDOM,
         HOLE,
-        STONE
+        STONE,
+        BONE
     }
 
     public eTargetItem mTargetItem = eTargetItem.RANDOM;
