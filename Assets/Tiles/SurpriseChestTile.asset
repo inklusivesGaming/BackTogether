@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: SurpriseChestTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: 9aebd705574f9e642aef1e5f59b3e4d8, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 0996bf87073c04648a3ad207b487a03a, type: 3}
   m_DefaultGameObject: {fileID: 1067116914226726365, guid: 4c6296d6e40f81d438b454be9b8d9ab1, type: 3}
   m_DefaultColliderType: 1
   m_TilingRules: []
