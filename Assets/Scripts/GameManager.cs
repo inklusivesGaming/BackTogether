@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
-    public TileBase mSelectedTileBase;
+    private TileBase mSelectedTileBase;
     private Vector3Int mSelectedTileBasePosition;
     private GridObject mSelectedTileBaseGridObject;
 
@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject mWinScreen;
 
+    public AudioSource mAudioSource;
+
+    public List<AudioClip> mAudioClips;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -45,7 +49,15 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
+        {
             MouseDown();
+            PlayAudio(1);
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            PlayAudio(2);
+        }
 
         // restart button
         if (Input.GetKeyDown("r"))
@@ -122,6 +134,8 @@ public class GameManager : MonoBehaviour
                         mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
+                        PlayAudio(12);
+
                     }
 
                     else if (newSelectedGridObject is Stone && mNumberOfBones > 0)
@@ -131,6 +145,13 @@ public class GameManager : MonoBehaviour
                         mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
+                        PlayAudio(5);
+
+                    }
+
+                    else
+                    {
+                        PlayAudio(10);
                     }
 
                 }
@@ -147,6 +168,11 @@ public class GameManager : MonoBehaviour
                         newSelectedTileBase = null;
 
                     }
+
+                    else if (selectedGridObject is Stone)
+                    {
+                        PlayAudio(10);
+                    }
                 }
             }
 
@@ -157,7 +183,10 @@ public class GameManager : MonoBehaviour
         {
             GridObject selectedGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
             if (selectedGridObject is Hole || selectedGridObject is Stone)
+            {
+                PlayAudio(10);
                 return;
+            }
             if (mSelectedTileBase)
                 mSelectedTileBaseGridObject.OnDeselected();
 
@@ -173,6 +202,7 @@ public class GameManager : MonoBehaviour
     // move currently selected tile to cellClickPosition
     private void MoveTile(Vector3Int cellClickPosition)
     {
+        PlayAudio(3);
         RemoveSelectedTileBaseFromList();
 
         mTilemap.SetTile(cellClickPosition, mSelectedTileBase);
@@ -187,7 +217,12 @@ public class GameManager : MonoBehaviour
 
         if (mSelectedTileBaseGridObject is Dino)
         {
-            CheckDinoNeighbours(cellClickPosition);
+            CheckNeighbours(cellClickPosition, true);
+        }
+
+        else if (mSelectedTileBaseGridObject is SurpriseChest)
+        {
+            CheckNeighbours(cellClickPosition, false);
         }
 
         mSelectedTileBase = null;
@@ -195,38 +230,62 @@ public class GameManager : MonoBehaviour
     }
 
     // Check if game is won after player moved a dino and if surprise chests are activated
-    private void CheckDinoNeighbours(Vector3Int cellClickPosition)
+    // bool dino is true if you moved a dino and false if you moved a surprisechest
+    private void CheckNeighbours(Vector3Int cellClickPosition, bool dino)
     {
         Vector3Int neighbourLeftPos = cellClickPosition + new Vector3Int(-1, 0);
         Vector3Int neighbourRightPos = cellClickPosition + new Vector3Int(1, 0);
         Vector3Int neighbourUpPos = cellClickPosition + new Vector3Int(0, 1);
         Vector3Int neighbourDownPos = cellClickPosition + new Vector3Int(0, -1);
-
-        bool win = CheckIfDino(neighbourLeftPos)
-            || CheckIfDino(neighbourRightPos)
-            || CheckIfDino(neighbourUpPos)
-            || CheckIfDino(neighbourDownPos);
-
-        if (win)
+        
+        if(dino)
         {
+            // check win condition
+            bool win = CheckIfDino(neighbourLeftPos)
+                || CheckIfDino(neighbourRightPos)
+                || CheckIfDino(neighbourUpPos)
+                || CheckIfDino(neighbourDownPos);
 
-            mWinScreen.SetActive(true);
+            if (win)
+            {
 
-            gameObject.SetActive(false);
+                mWinScreen.SetActive(true);
 
+                gameObject.SetActive(false);
+
+            }
+
+            if (CheckIfSurpriseChest(neighbourLeftPos))
+                TransformSurpriseChest(neighbourLeftPos);
+
+            if (CheckIfSurpriseChest(neighbourRightPos))
+                TransformSurpriseChest(neighbourRightPos);
+
+            if (CheckIfSurpriseChest(neighbourUpPos))
+                TransformSurpriseChest(neighbourUpPos);
+
+            if (CheckIfSurpriseChest(neighbourDownPos))
+                TransformSurpriseChest(neighbourDownPos);
         }
 
-        if (CheckIfSurpriseChest(neighbourLeftPos))
-            TransformSurpriseChest(neighbourLeftPos);
+        else
+        {
 
-        if (CheckIfSurpriseChest(neighbourRightPos))
-            TransformSurpriseChest(neighbourRightPos);
+            if (CheckIfDino(neighbourLeftPos)
+                || CheckIfDino(neighbourRightPos)
+                || CheckIfDino(neighbourUpPos)
+                || CheckIfDino(neighbourDownPos))
 
-        if (CheckIfSurpriseChest(neighbourUpPos))
-            TransformSurpriseChest(neighbourUpPos);
+            {
+                TransformSurpriseChest(cellClickPosition);
 
-        if (CheckIfSurpriseChest(neighbourDownPos))
-            TransformSurpriseChest(neighbourDownPos);
+                mSelectedTileBase = null;
+                mSelectedTileBaseGridObject = null;
+            }
+        }
+
+
+
     }
 
     private bool CheckIfDino(Vector3Int pos)
@@ -255,6 +314,7 @@ public class GameManager : MonoBehaviour
 
     private void TransformSurpriseChest(Vector3Int pos)
     {
+        PlayAudio(4);
         SurpriseChest surpriseChest = (SurpriseChest) mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
 
         int transformTarget = 0;
@@ -283,7 +343,6 @@ public class GameManager : MonoBehaviour
     // Turn one random chest in the level into stone
     private void Stonify()
     {
-        print("STONIFY!");
         int randomIndex = Random.Range(0, mNormalEggs.Count);
         print(randomIndex);
         Vector3Int tilePos = mNormalEggsPositions[randomIndex];
@@ -292,6 +351,7 @@ public class GameManager : MonoBehaviour
         mNormalEggsPositions.RemoveAt(randomIndex);
 
         mTilemap.SetTile(tilePos, mStoneTileBase);
+        PlayAudio(11);
     }
 
     private void RemoveSelectedTileBaseFromList()
@@ -320,5 +380,15 @@ public class GameManager : MonoBehaviour
             mNormalEggs.Add((NormalEgg)targetGridObject);
             mNormalEggsPositions.Add(cellClickPosition);
         }
+    }
+
+    // track numbers beginning with one
+    private void PlayAudio(int trackNumber)
+    {
+        print("PLAY AUDIO! " + trackNumber);
+        if (mAudioClips.Count < trackNumber)
+            return;
+        print("REALLYPLAYAUDIO");
+        mAudioSource.PlayOneShot(mAudioClips[trackNumber-1]);
     }
 }
