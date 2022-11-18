@@ -365,42 +365,6 @@ PrefabInstance:
       propertyPath: mNumberOfBonesText
       value: 
       objectReference: {fileID: 1618879319}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[3]
-      value: 
-      objectReference: {fileID: 8300000, guid: e8ede07e40bcecd42b63a901d0912e67, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[4]
-      value: 
-      objectReference: {fileID: 8300000, guid: 116ed6a15d440e844a4dcd7e49701fef, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[5]
-      value: 
-      objectReference: {fileID: 8300000, guid: 3b4428223547af443b65f469543a7271, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[6]
-      value: 
-      objectReference: {fileID: 8300000, guid: c8b11ce4c8ad161409117da650f4773b, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[7]
-      value: 
-      objectReference: {fileID: 8300000, guid: d0b223a966efee3498de82e894732c45, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[8]
-      value: 
-      objectReference: {fileID: 8300000, guid: 05e94c3876b6ac44cb3a29e381ad39ec, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[9]
-      value: 
-      objectReference: {fileID: 8300000, guid: d567e011810265749947c26d9c7272ae, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[10]
-      value: 
-      objectReference: {fileID: 8300000, guid: aa29d5f45abea724eb155f9070dab7c4, type: 3}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mAudioClips.Array.data[11]
-      value: 
-      objectReference: {fileID: 8300000, guid: 02527b1684611c04c8d42f89896ddf41, type: 3}
     - target: {fileID: 8932958392661991707, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: m_Name
       value: GameManager
