@@ -167,6 +167,8 @@ public class GameManager : MonoBehaviour
                         mSelectedTileBase = null;
                         newSelectedTileBase = null;
 
+                        PlayAudio(3);
+
                     }
 
                     else if (selectedGridObject is Stone)
@@ -248,7 +250,7 @@ public class GameManager : MonoBehaviour
 
             if (win)
             {
-
+                PlayAudio(9);
                 mWinScreen.SetActive(true);
 
                 gameObject.SetActive(false);
