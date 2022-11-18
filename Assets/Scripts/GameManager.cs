@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     public Tilemap mTilemap;
     public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0);
 
-    private int mNumberOfTurns = 0;
-
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
@@ -31,6 +29,9 @@ public class GameManager : MonoBehaviour
 
     private int mNumberOfBones = 0;
     public TMP_Text mNumberOfBonesText;
+
+    private int mNumberOfTurns = 0;
+    public TMP_Text mNumberOfTurnsText;
 
     public GameObject mWinScreen;
 
@@ -213,6 +214,7 @@ public class GameManager : MonoBehaviour
         AddNewTileBaseToList(cellClickPosition);
 
         mNumberOfTurns++;
+        mNumberOfTurnsText.text = mNumberOfTurns.ToString();
 
         if (mNumberOfTurns % 5 == 0)
             Stonify();
