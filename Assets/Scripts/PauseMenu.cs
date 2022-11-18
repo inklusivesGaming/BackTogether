@@ -8,7 +8,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject pauseMenu;
 
-    public GameObject gameManager;
+    public GameObject mGameManager;
 
     private bool mPause = false;
 
@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
 
-        gameManager.SetActive(false);
+        mGameManager.SetActive(false);
 
         mPause = true;
     }
@@ -27,7 +27,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
 
-        gameManager.SetActive(true);
+        mGameManager.SetActive(true);
 
         mPause = false;
     }
