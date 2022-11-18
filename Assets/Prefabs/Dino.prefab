@@ -400,6 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5361723455553504473}
   - component: {fileID: -5809969532599883507}
+  - component: {fileID: 5505072719903199551}
   m_Layer: 0
   m_Name: Dino
   m_TagString: Untagged
@@ -438,6 +439,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mMeshRenderer: {fileID: 0}
   mSkinnedMeshRenderer: {fileID: 8675881977454224684}
+--- !u!95 &5505072719903199551
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4693731300586413667}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 29ec97f2add243d408265e84dcac9d41, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4836055080536786855
 GameObject:
   m_ObjectHideFlags: 0
