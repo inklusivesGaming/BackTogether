@@ -167,6 +167,8 @@ public class GameManager : MonoBehaviour
                         mSelectedTileBase = null;
                         newSelectedTileBase = null;
 
+                        PlayAudio(3);
+
                     }
 
                     else if (selectedGridObject is Stone)
