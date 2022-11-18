@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     public Tilemap mTilemap;
     public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0);
 
-    private int mNumberOfTurns = 0;
-
     private Vector2Int mTilemapMinBounds;
     private Vector2Int mTilemapMaxBounds;
 
@@ -31,6 +29,9 @@ public class GameManager : MonoBehaviour
 
     private int mNumberOfBones = 0;
     public TMP_Text mNumberOfBonesText;
+
+    private int mNumberOfTurns = 0;
+    public TMP_Text mNumberOfTurnsText;
 
     public GameObject mWinScreen;
 
@@ -131,7 +132,7 @@ public class GameManager : MonoBehaviour
                     {
                         // dino steps on bone
                         mNumberOfBones++;
-                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        mNumberOfBonesText.text = mNumberOfBones.ToString();
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
                         PlayAudio(12);
@@ -142,7 +143,7 @@ public class GameManager : MonoBehaviour
                     {
                         // dino steps on stone with bone
                         mNumberOfBones--;
-                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        mNumberOfBonesText.text = mNumberOfBones.ToString();
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
                         PlayAudio(5);
@@ -166,6 +167,8 @@ public class GameManager : MonoBehaviour
                         mTilemap.SetTile(cellClickPosition, null);
                         mSelectedTileBase = null;
                         newSelectedTileBase = null;
+
+                        PlayAudio(3);
 
                     }
 
@@ -211,6 +214,7 @@ public class GameManager : MonoBehaviour
         AddNewTileBaseToList(cellClickPosition);
 
         mNumberOfTurns++;
+        mNumberOfTurnsText.text = mNumberOfTurns.ToString();
 
         if (mNumberOfTurns % 5 == 0)
             Stonify();
@@ -248,7 +252,7 @@ public class GameManager : MonoBehaviour
 
             if (win)
             {
-
+                PlayAudio(9);
                 mWinScreen.SetActive(true);
 
                 gameObject.SetActive(false);
