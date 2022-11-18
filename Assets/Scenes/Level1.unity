@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -931,6 +931,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
+--- !u!1 &1205260155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1781340548, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
+  m_PrefabInstance: {fileID: 1205260154}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1402849544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,6 +1144,10 @@ PrefabInstance:
       propertyPath: mTilemap
       value: 
       objectReference: {fileID: 377266512}
+    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
+      propertyPath: mWinScreen
+      value: 
+      objectReference: {fileID: 1205260155}
     - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: mNumberOfBonesText
       value: 
