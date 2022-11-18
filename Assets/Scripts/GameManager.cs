@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
                     {
                         // dino steps on bone
                         mNumberOfBones++;
-                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        mNumberOfBonesText.text = mNumberOfBones.ToString();
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
                         PlayAudio(12);
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
                     {
                         // dino steps on stone with bone
                         mNumberOfBones--;
-                        mNumberOfBonesText.text = "Bones: " + mNumberOfBones;
+                        mNumberOfBonesText.text = mNumberOfBones.ToString();
                         MoveTile(cellClickPosition);
                         newSelectedTileBase = null;
                         PlayAudio(5);
