@@ -7,6 +7,7 @@ public class GridObject : MonoBehaviour
 {
 
     public MeshRenderer mMeshRenderer;
+    public VisualEffect mPoufEffect;
     
 
     // Start is called before the first frame update
@@ -33,9 +34,9 @@ public class GridObject : MonoBehaviour
         mMeshRenderer.material.color = Color.white;
     }
 
-    public virtual void Pouf(VisualEffectAsset poufEffectAsset)
+    public virtual void Pouf()
     {
-        
+        mPoufEffect.SendEvent("StartPouf");
     }
 
 }

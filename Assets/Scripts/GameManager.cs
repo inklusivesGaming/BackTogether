@@ -41,9 +41,6 @@ public class GameManager : MonoBehaviour
 
     public List<AudioClip> mAudioClips;
 
-    public VisualEffect mPoufEffect;
-    public VisualEffectAsset mPoufEffectAsset;
-
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -345,6 +342,9 @@ public class GameManager : MonoBehaviour
         {
             mTilemap.SetTile(pos, mBoneTileBase);
         }
+
+        GridObject gridObject = mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
+        gridObject.Pouf();
     }
 
     // Turn one random chest in the level into stone
@@ -361,7 +361,7 @@ public class GameManager : MonoBehaviour
         PlayAudio(11);
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(tilePos).GetComponent<GridObject>();
-        gridObject.Pouf(mPoufEffectAsset);
+        gridObject.Pouf();
     }
 
     private void RemoveSelectedTileBaseFromList()
