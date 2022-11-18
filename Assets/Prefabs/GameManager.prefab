@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8932958392661991707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8932958392661991701}
+  - component: {fileID: 8932958392661991706}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8932958392661991701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8932958392661991707}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.9544299, y: -3.8669422, z: 1.8845828}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8932958392661991706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8932958392661991707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe65597c0f0a5a48a27c6248a959e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTilemap: {fileID: 0}
+  mTilemapMiddlePoint: {x: 0, y: 0}
+  mSelectedTileBase: {fileID: 0}
+  mStoneTileBase: {fileID: 11400000, guid: c30ef028788a0b44d83a37205c66f9bd, type: 2}
+  mBoneTileBase: {fileID: 11400000, guid: c9722c60c0366cc41845d2cceeaf8115, type: 2}
+  mHoleTileBase: {fileID: 11400000, guid: 3b16859b4fa0bfe47a6c59b4f92c9d0b, type: 2}
+  mNumberOfBonesText: {fileID: 0}
+  mWinScreen: {fileID: 0}
