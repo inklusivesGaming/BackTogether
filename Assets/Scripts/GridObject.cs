@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GridObject : MonoBehaviour
 {
 
     public MeshRenderer mMeshRenderer;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,11 @@ public class GridObject : MonoBehaviour
     public virtual void OnDeselected()
     {
         mMeshRenderer.material.color = Color.white;
+    }
+
+    public virtual void Pouf(VisualEffectAsset poufEffectAsset)
+    {
+        
     }
 
 }

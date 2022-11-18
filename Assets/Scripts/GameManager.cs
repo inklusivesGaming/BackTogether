@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class GameManager : MonoBehaviour
     public AudioSource mFinalScreenAudioSource;
 
     public List<AudioClip> mAudioClips;
+
+    public VisualEffect mPoufEffect;
+    public VisualEffectAsset mPoufEffectAsset;
 
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
@@ -355,6 +359,9 @@ public class GameManager : MonoBehaviour
 
         mTilemap.SetTile(tilePos, mStoneTileBase);
         PlayAudio(11);
+
+        GridObject gridObject = mTilemap.GetInstantiatedObject(tilePos).GetComponent<GridObject>();
+        gridObject.Pouf(mPoufEffectAsset);
     }
 
     private void RemoveSelectedTileBaseFromList()
