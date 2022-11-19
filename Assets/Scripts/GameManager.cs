@@ -350,6 +350,8 @@ public class GameManager : MonoBehaviour
     // Turn one random chest in the level into stone
     private void Stonify()
     {
+        if (mNormalEggs.Count == 0)
+            return;
         int randomIndex = Random.Range(0, mNormalEggs.Count);
         print(randomIndex);
         Vector3Int tilePos = mNormalEggsPositions[randomIndex];
