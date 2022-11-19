@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     public List<AudioClip> mAudioClips;
 
+    private bool mLastMoveWithoutDestruction = true; // true if you made a move that didnt destroy your selected tile
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
@@ -207,6 +209,8 @@ public class GameManager : MonoBehaviour
     // move currently selected tile to cellClickPosition
     private void MoveTile(Vector3Int cellClickPosition)
     {
+        mLastMoveWithoutDestruction = true;
+
         PlayAudio(3);
         RemoveSelectedTileBaseFromList();
 
@@ -231,8 +235,27 @@ public class GameManager : MonoBehaviour
             CheckNeighbours(cellClickPosition, false);
         }
 
-        mSelectedTileBase = null;
-        mSelectedTileBaseGridObject = null;
+        if (mLastMoveWithoutDestruction)
+        {
+            mSelectedTileBase = mTilemap.GetTile(cellClickPosition);
+            if(mSelectedTileBase)
+            {
+                mSelectedTileBasePosition = cellClickPosition;
+                mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
+                if (mSelectedTileBaseGridObject is Stone)
+                {
+                    // could happen if you move an egg that turns into stone
+                    mSelectedTileBase = null;
+                    mSelectedTileBaseGridObject = null;
+                }
+
+                else
+                {
+                    mSelectedTileBaseGridObject.OnSelected();
+                }
+            }
+
+        }
     }
 
     // Check if game is won after player moved a dino and if surprise chests are activated
@@ -284,7 +307,7 @@ public class GameManager : MonoBehaviour
 
             {
                 TransformSurpriseChest(cellClickPosition);
-
+                mLastMoveWithoutDestruction = false;
                 mSelectedTileBase = null;
                 mSelectedTileBaseGridObject = null;
             }
