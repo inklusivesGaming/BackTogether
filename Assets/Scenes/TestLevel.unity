@@ -9763,6 +9763,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1205260155}
     - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
+      propertyPath: mSelectionField
+      value: 
+      objectReference: {fileID: 1977228524}
+    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
+      propertyPath: mSelectedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: afc79d1c635c3af45b4ffb713920d2c9, type: 2}
+    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: mNumberOfBonesText
       value: 
       objectReference: {fileID: 1205260157}
@@ -9770,6 +9778,10 @@ PrefabInstance:
       propertyPath: mNumberOfTurnsText
       value: 
       objectReference: {fileID: 1205260156}
+    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
+      propertyPath: mUnselectedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a0e09b2a9857a74c90d7f70ee902169, type: 2}
     - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: mFinalScreenAudioSource
       value: 

@@ -41,6 +41,12 @@ public class GameManager : MonoBehaviour
 
     public List<AudioClip> mAudioClips;
 
+    public GameObject mSelectionField;
+    private bool mSelectedMode = false;
+
+    public Material mUnselectedMaterial;
+    public Material mSelectedMaterial;
+
     private bool mLastMoveWithoutDestruction = true; // true if you made a move that didnt destroy your selected tile
 
     //public Vector3 mMouseClickPosition;
@@ -55,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Select"))
         {
-            print("Select");
+            SelectDown();
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -103,6 +109,23 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SelectDown()
+    {
+        if(mSelectedMode)
+        {
+            mSelectedMode = false;
+            mSelectionField.GetComponent<MeshRenderer>().material = mUnselectedMaterial;
+        }
+
+        else
+        {
+            mSelectedMode = true;
+            mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
+        }
+        print("Select");
+
     }
 
     // Called when mouse gets pressed
