@@ -49,35 +49,114 @@ public class GameManager : MonoBehaviour
 
     private bool mLastMoveWithoutDestruction = true; // true if you made a move that didnt destroy your selected tile
 
+    private float mSelectionFieldYPos = 0;
+    private Vector2Int mSelectionFieldMapPos;
+
+    public float mTimeBetweenSelectionMovement = 0.5f;
+    private float mCurrentTimeBetweenSelectionMovement = 0f;
+
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
     {
+        mSelectionFieldYPos = mSelectionField.transform.position.y;
+        mSelectionFieldMapPos = mTilemapMiddlePoint;
+
         InitializeTileMap();
+
+        SetSelectionFieldPos();
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleInputs();
+    }
+
+    private void HandleInputs()
+    {
+        //TODO set timer for movement
+        if (mCurrentTimeBetweenSelectionMovement == 0)
+        {
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+
+            if (horizontal > 0)
+            {
+                MoveSelection(new Vector2Int(1, 0));
+            }
+
+            else if (horizontal < 0)
+            {
+                MoveSelection(new Vector2Int(-1, 0));
+            }
+
+            else if (vertical > 0)
+            {
+                MoveSelection(new Vector2Int(0, 1));
+            }
+
+            else if (vertical < 0)
+            {
+                MoveSelection(new Vector2Int(0, -1));
+            }
+        }
+        else
+        {
+            mCurrentTimeBetweenSelectionMovement -= Time.deltaTime;
+            if (mCurrentTimeBetweenSelectionMovement < 0)
+                mCurrentTimeBetweenSelectionMovement = 0;
+        }
+
+
+
         if (Input.GetButtonDown("Select"))
         {
             SelectDown();
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            MouseDown();
-            PlayAudio(1);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    MouseDown();
+        //    PlayAudio(1);
+        //}
 
-        if(Input.GetMouseButtonUp(0))
-        {
-            PlayAudio(2);
-        }
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    PlayAudio(2);
+        //}
 
         // restart button
         if (Input.GetKeyDown("r"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void SetSelectionFieldPos()
+    {
+        Vector3 tilemapMiddlePointWorld = mTilemap.CellToWorld(new Vector3Int(mSelectionFieldMapPos.x, mSelectionFieldMapPos.y, 0));
+        mSelectionField.transform.position = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
+    }
+
+    private void MoveSelection(Vector2Int direction)
+    {
+        mCurrentTimeBetweenSelectionMovement = mTimeBetweenSelectionMovement;
+        Vector2Int newSelectionFieldPos = mSelectionFieldMapPos + direction;
+
+        if (!IsValidMapPos(newSelectionFieldPos))
+        {
+            //TODO PLAY SOUND
+            return;
+        }
+
+
+        mSelectionFieldMapPos = newSelectionFieldPos;
+        SetSelectionFieldPos();
+    }
+
+    private bool IsValidMapPos(Vector2Int pos)
+    {
+        //TODO check
+        return true;
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -113,19 +192,23 @@ public class GameManager : MonoBehaviour
 
     private void SelectDown()
     {
-        if(mSelectedMode)
-        {
-            mSelectedMode = false;
-            mSelectionField.GetComponent<MeshRenderer>().material = mUnselectedMaterial;
-        }
+        if (mSelectedMode)
+            Select();
 
         else
-        {
-            mSelectedMode = true;
-            mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
-        }
-        print("Select");
+            Deselect();
+    }
 
+    private void Select()
+    {
+        mSelectedMode = false;
+        mSelectionField.GetComponent<MeshRenderer>().material = mUnselectedMaterial;
+    }
+
+    private void Deselect()
+    {
+        mSelectedMode = true;
+        mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
     }
 
     // Called when mouse gets pressed
@@ -266,7 +349,7 @@ public class GameManager : MonoBehaviour
         if (mLastMoveWithoutDestruction)
         {
             mSelectedTileBase = mTilemap.GetTile(cellClickPosition);
-            if(mSelectedTileBase)
+            if (mSelectedTileBase)
             {
                 mSelectedTileBasePosition = cellClickPosition;
                 mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(cellClickPosition).GetComponent<GridObject>();
@@ -294,8 +377,8 @@ public class GameManager : MonoBehaviour
         Vector3Int neighbourRightPos = cellClickPosition + new Vector3Int(1, 0);
         Vector3Int neighbourUpPos = cellClickPosition + new Vector3Int(0, 1);
         Vector3Int neighbourDownPos = cellClickPosition + new Vector3Int(0, -1);
-        
-        if(dino)
+
+        if (dino)
         {
             // check win condition
             bool win = CheckIfDino(neighbourLeftPos)
@@ -370,7 +453,7 @@ public class GameManager : MonoBehaviour
     private void TransformSurpriseChest(Vector3Int pos)
     {
         PlayAudio(4);
-        SurpriseChest surpriseChest = (SurpriseChest) mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
+        SurpriseChest surpriseChest = (SurpriseChest)mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
 
         int transformTarget = 0;
         // dino steps on surprise chest
@@ -450,6 +533,6 @@ public class GameManager : MonoBehaviour
     {
         if (mAudioClips.Count < trackNumber)
             return;
-        mAudioSource.PlayOneShot(mAudioClips[trackNumber-1]);
+        mAudioSource.PlayOneShot(mAudioClips[trackNumber - 1]);
     }
 }
