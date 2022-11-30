@@ -11,10 +11,10 @@ public class GameManager : MonoBehaviour
 
     //public Grid mGrid;
     public Tilemap mTilemap;
-    public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0);
+    public Vector2Int mTilemapMiddlePoint = new Vector2Int(0, 0); // middle coordinates in tilemap
 
-    private Vector2Int mTilemapMinBounds;
-    private Vector2Int mTilemapMaxBounds;
+    private Vector2Int mTilemapMinBounds; // smallest coordinates in tilemap
+    private Vector2Int mTilemapMaxBounds; // biggest coordinates in tilemap
 
     private TileBase mSelectedTileBase;
     private Vector3Int mSelectedTileBasePosition;
@@ -49,11 +49,17 @@ public class GameManager : MonoBehaviour
 
     private bool mLastMoveWithoutDestruction = true; // true if you made a move that didnt destroy your selected tile
 
-    private float mSelectionFieldYPos = 0;
+    private float mSelectionFieldYPos = 0f;
     private Vector2Int mSelectionFieldMapPos;
 
-    public float mTimeBetweenSelectionMovement = 0.5f;
-    private float mCurrentTimeBetweenSelectionMovement = 0f;
+    public float mSelectionMovementTime = 0.5f;
+    private float mCurrentSelectionMovementTime = 0f;
+
+    public float mTimeBetweenActions = 0.3f;
+    private float mCurrentTimeBetweenActions = 0f;
+
+    private Vector3 mSelectionFieldCurrentWorldPos;
+    private Vector3 mSelectionFieldTargetWorldPos;
 
     //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
@@ -64,50 +70,50 @@ public class GameManager : MonoBehaviour
 
         InitializeTileMap();
 
-        SetSelectionFieldPos();
+        SetSelectionFieldTargetPos(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleInputs();
+        if (mCurrentSelectionMovementTime > 0)
+            SelectionGetsMoved();
+        else if (mCurrentTimeBetweenActions > 0)
+        {
+            mCurrentTimeBetweenActions -= Time.deltaTime;
+            if (mCurrentTimeBetweenActions <= 0)
+                mCurrentTimeBetweenActions = 0;
+        }
+        else
+            HandleInputs();
     }
 
     private void HandleInputs()
     {
-        //TODO set timer for movement
-        if (mCurrentTimeBetweenSelectionMovement == 0)
+
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        print(horizontal);
+        print(vertical);
+        if (horizontal > 0)
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-
-            if (horizontal > 0)
-            {
-                MoveSelection(new Vector2Int(1, 0));
-            }
-
-            else if (horizontal < 0)
-            {
-                MoveSelection(new Vector2Int(-1, 0));
-            }
-
-            else if (vertical > 0)
-            {
-                MoveSelection(new Vector2Int(0, 1));
-            }
-
-            else if (vertical < 0)
-            {
-                MoveSelection(new Vector2Int(0, -1));
-            }
-        }
-        else
-        {
-            mCurrentTimeBetweenSelectionMovement -= Time.deltaTime;
-            if (mCurrentTimeBetweenSelectionMovement < 0)
-                mCurrentTimeBetweenSelectionMovement = 0;
+            StartSelectionMovement(new Vector2Int(1, 0));
         }
 
+        else if (horizontal < 0)
+        {
+            StartSelectionMovement(new Vector2Int(-1, 0));
+        }
+
+        else if (vertical > 0)
+        {
+            StartSelectionMovement(new Vector2Int(0, 1));
+        }
+
+        else if (vertical < 0)
+        {
+            StartSelectionMovement(new Vector2Int(0, -1));
+        }
 
 
         if (Input.GetButtonDown("Select"))
@@ -131,31 +137,64 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void SetSelectionFieldPos()
+    private void SetSelectionFieldTargetPos(bool alsoSetPos)
     {
         Vector3 tilemapMiddlePointWorld = mTilemap.CellToWorld(new Vector3Int(mSelectionFieldMapPos.x, mSelectionFieldMapPos.y, 0));
-        mSelectionField.transform.position = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
+
+        mSelectionFieldTargetWorldPos = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
+
+        if (alsoSetPos)
+            mSelectionField.transform.position = mSelectionFieldTargetWorldPos;
+
+        mSelectionFieldCurrentWorldPos = mSelectionField.transform.position;
     }
 
-    private void MoveSelection(Vector2Int direction)
-    {
-        mCurrentTimeBetweenSelectionMovement = mTimeBetweenSelectionMovement;
+    private void StartSelectionMovement(Vector2Int direction)
+    {            
         Vector2Int newSelectionFieldPos = mSelectionFieldMapPos + direction;
 
         if (!IsValidMapPos(newSelectionFieldPos))
         {
             //TODO PLAY SOUND
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
             return;
         }
 
-
         mSelectionFieldMapPos = newSelectionFieldPos;
-        SetSelectionFieldPos();
+        mCurrentSelectionMovementTime = mSelectionMovementTime;
+        if(mCurrentSelectionMovementTime == 0)
+        {
+            // move selection field immediately
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
+            SetSelectionFieldTargetPos(true);
+        }
+        else
+            // move selection field smoothly
+            SetSelectionFieldTargetPos(false);
+    }
+
+    private void SelectionGetsMoved()
+    {
+        mCurrentSelectionMovementTime -= Time.deltaTime;
+        if (mCurrentSelectionMovementTime <= 0)
+        {
+            mCurrentSelectionMovementTime = 0;
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
+            SetSelectionFieldTargetPos(true);
+        }
+
+        else
+        {
+            // set selection field pos a bit closer to target pos
+            mSelectionField.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
+        }
     }
 
     private bool IsValidMapPos(Vector2Int pos)
     {
         //TODO check
+        if (pos.x < mTilemapMinBounds.x || pos.x > mTilemapMaxBounds.x || pos.y < mTilemapMinBounds.y || pos.y > mTilemapMaxBounds.y)
+            return false;
         return true;
     }
 
@@ -192,6 +231,7 @@ public class GameManager : MonoBehaviour
 
     private void SelectDown()
     {
+        mCurrentTimeBetweenActions = mTimeBetweenActions;
         if (mSelectedMode)
             Select();
 

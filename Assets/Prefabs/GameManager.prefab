@@ -308,8 +308,10 @@ MonoBehaviour:
   mBoneTileBase: {fileID: 11400000, guid: c9722c60c0366cc41845d2cceeaf8115, type: 2}
   mHoleTileBase: {fileID: 11400000, guid: 3b16859b4fa0bfe47a6c59b4f92c9d0b, type: 2}
   mNumberOfBonesText: {fileID: 0}
+  mNumberOfTurnsText: {fileID: 0}
   mWinScreen: {fileID: 0}
   mAudioSource: {fileID: 2980911751122740996}
+  mFinalScreenAudioSource: {fileID: 0}
   mAudioClips:
   - {fileID: 8300000, guid: 9899c3d93dadce14fb67ed9e8f7b18ec, type: 3}
   - {fileID: 8300000, guid: a43ee9256de2b274592f8c6d672983f0, type: 3}
@@ -323,3 +325,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d567e011810265749947c26d9c7272ae, type: 3}
   - {fileID: 8300000, guid: aa29d5f45abea724eb155f9070dab7c4, type: 3}
   - {fileID: 8300000, guid: 02527b1684611c04c8d42f89896ddf41, type: 3}
+  mSelectionField: {fileID: 0}
+  mUnselectedMaterial: {fileID: 0}
+  mSelectedMaterial: {fileID: 0}
+  mTimeBetweenSelectionMovement: 0.5
