@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private float mSelectionFieldYPos = 0f;
     private Vector2Int mSelectionFieldGridPos;
+    private Vector2Int mSelectionFieldOldGridPos; // used when tile gets moved to recognize its old position
 
     public float mSelectionMovementTime = 0.5f;
     private float mCurrentSelectionMovementTime = 0f;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
     {
         mSelectionFieldYPos = mSelectionField.transform.position.y;
         mSelectionFieldGridPos = mTilemapMiddlePoint;
+        mSelectionFieldOldGridPos = mSelectionFieldGridPos;
 
         InitializeTileMap();
 
@@ -121,18 +123,47 @@ public class GameManager : MonoBehaviour
     }
 
     // Sets the target position your selection field should move to
-    // If alsoSetPos is true, also move the selection field directly to this position (without animation)
-    private void SetSelectionFieldTargetPos(bool alsoSetPos)
+    // If directMoveToPos is true, also move the selection field directly to this position (without animation) and move the selected object to that pos if there is one
+    private void SetSelectionFieldTargetPos(bool directMoveToPos)
     {
         Vector3 tilemapMiddlePointWorld = mTilemap.CellToWorld(new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0));
 
         mSelectionFieldTargetWorldPos = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
 
-        if (alsoSetPos)
-            mSelectionField.transform.position = mSelectionFieldTargetWorldPos;
+        if (directMoveToPos)
+            DirectMoveToTargetPos();
 
         mSelectionFieldCurrentWorldPos = mSelectionField.transform.position;
     }
+
+    private void DirectMoveToTargetPos()
+    {
+        mSelectionField.transform.position = mSelectionFieldTargetWorldPos;
+
+        if (mSelectedMode)
+        {
+            Vector3Int gridPosVector3Int = new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0);
+            Vector3Int oldGridPosVector3Int = new Vector3Int(mSelectionFieldOldGridPos.x, mSelectionFieldOldGridPos.y, 0);
+
+
+            // TODO when doing it this way, the dino animation always starts anew when moving!
+
+            // move the tile
+            mTilemap.SetTile(gridPosVector3Int, mSelectedTileBase);
+            mTilemap.SetTile(oldGridPosVector3Int, null);
+
+            // set the new selected tile
+            mSelectedTileBase = mTilemap.GetTile(gridPosVector3Int);
+            mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(gridPosVector3Int).GetComponent<GridObject>();
+
+
+        }
+
+        // set the tile pos
+        mSelectionFieldOldGridPos = mSelectionFieldGridPos;
+
+    }
+
 
     private void HandleInputs()
     {
@@ -177,7 +208,7 @@ public class GameManager : MonoBehaviour
     {
         Vector2Int newSelectionFieldPos = mSelectionFieldGridPos + direction;
 
-        if (!IsValidSelectionMovement(mSelectionFieldGridPos, newSelectionFieldPos))
+        if (!IsValidSelectionMovement(newSelectionFieldPos))
         {
             //TODO SOUND
             mCurrentTimeBetweenActions = mTimeBetweenActions;
@@ -209,14 +240,17 @@ public class GameManager : MonoBehaviour
 
         else
         {
-            // set selection field pos a bit closer to target pos
+            // move selection field a bit closer to target pos
             mSelectionField.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
+            if(mSelectedMode)
+                // also move selected object if selection mode on
+                mSelectedTileBaseGridObject.gameObject.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
         }
     }
 
     // Check if you are still in the grid while moving selection
     // If a tile is selected, also check if you can move the tile in that direction
-    private bool IsValidSelectionMovement(Vector2Int currentPos, Vector2Int targetPos)
+    private bool IsValidSelectionMovement(Vector2Int targetPos)
     {
         if (targetPos.x < mTilemapMinBounds.x || targetPos.x > mTilemapMaxBounds.x || targetPos.y < mTilemapMinBounds.y || targetPos.y > mTilemapMaxBounds.y)
             // outside of grid
@@ -226,7 +260,7 @@ public class GameManager : MonoBehaviour
             Vector3Int targetPosVector3Int = new Vector3Int(targetPos.x, targetPos.y, 0);
             if (mTilemap.GetTile(targetPosVector3Int)
                 && !CanIMoveThat(mSelectedTileBaseGridObject, mTilemap.GetInstantiatedObject(targetPosVector3Int).GetComponent<GridObject>()))
-                // tile is in the way and I'm not allowed to move on that tile
+                // tile is in the way and I'm not allowed to move my selected tile to that tile
                 return false;
         }
         return true;
@@ -255,7 +289,7 @@ public class GameManager : MonoBehaviour
     {
         Vector3Int selectionGridPos = new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0);
 
-        if (!CheckIfSelectionValid(selectionGridPos))
+        if (!IsSelectionValid(selectionGridPos))
         {
             //TODO SOUND
             print("MEH");
@@ -279,7 +313,7 @@ public class GameManager : MonoBehaviour
         mSelectedTileBaseGridObject = null;
     }
 
-    private bool CheckIfSelectionValid(Vector3Int gridPos)
+    private bool IsSelectionValid(Vector3Int gridPos)
     {
         TileBase selection = mTilemap.GetTile(gridPos);
         if (!selection)
@@ -290,6 +324,8 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    /// //////////////////////////////////////////////////////////////////////////////////
+    /**
     // Called when mouse gets pressed
     private void MouseDown()
     {
@@ -614,4 +650,6 @@ public class GameManager : MonoBehaviour
             return;
         mAudioSource.PlayOneShot(mAudioClips[trackNumber - 1]);
     }
+
+    **/
 }
