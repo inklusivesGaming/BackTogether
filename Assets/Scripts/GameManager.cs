@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     private Vector3Int mSelectedTileBasePosition; // TODO REMOVE
     private GridObject mSelectedTileBaseGridObject;
 
-    private List<NormalEgg> mNormalEggs;
+    //private List<NormalEgg> mNormalEggs;
     private List<Vector3Int> mNormalEggsPositions;
 
     public TileBase mStoneTileBase;
@@ -77,17 +77,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (mCurrentSelectionMovementTime > 0)
-            // Selection is in the process of moving
+            // selection is in the process of moving
             SelectionGetsMoved();
         else if (mCurrentTimeBetweenActions > 0)
         {
-            // Short cooldown between two actions
+            // short cooldown between two actions
             mCurrentTimeBetweenActions -= Time.deltaTime;
             if (mCurrentTimeBetweenActions <= 0)
                 mCurrentTimeBetweenActions = 0;
         }
         else
-            // Listen for a new input
+            // listen for a new input
             HandleInputs();
     }
 
@@ -99,7 +99,9 @@ public class GameManager : MonoBehaviour
         mTilemapMinBounds = mTilemapMiddlePoint - new Vector2Int(2, 2);
         mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
 
-        mNormalEggs = new List<NormalEgg>();
+        // initialize egg list
+
+        //mNormalEggs = new List<NormalEgg>();
 
         mNormalEggsPositions = new List<Vector3Int>();
 
@@ -115,7 +117,7 @@ public class GameManager : MonoBehaviour
                 print(targetGridObject);
                 if (targetGridObject is NormalEgg)
                 {
-                    mNormalEggs.Add(((NormalEgg)targetGridObject));
+                    //mNormalEggs.Add(((NormalEgg)targetGridObject));
                     mNormalEggsPositions.Add(targetPos);
                 }
             }
@@ -148,8 +150,14 @@ public class GameManager : MonoBehaviour
 
             // TODO when doing it this way, the dino animation always starts anew when moving!
 
-            if(!PerformSpecialTileAction(oldGridPosVector3Int, gridPosVector3Int))
+            if (!PerformSpecialTileAction(oldGridPosVector3Int, gridPosVector3Int))
             {
+                if (mSelectedTileBaseGridObject is NormalEgg)
+                {
+                    RemoveEggFromList(oldGridPosVector3Int);
+                    AddEggToList(gridPosVector3Int);
+                }
+
                 // move the tile
                 mTilemap.SetTile(gridPosVector3Int, mSelectedTileBase);
                 mTilemap.SetTile(oldGridPosVector3Int, null);
@@ -158,6 +166,8 @@ public class GameManager : MonoBehaviour
                 mSelectedTileBase = mTilemap.GetTile(gridPosVector3Int);
                 mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(gridPosVector3Int).GetComponent<GridObject>();
             }
+
+            NextTurn();
         }
 
         // set the tile pos
@@ -170,13 +180,17 @@ public class GameManager : MonoBehaviour
     // In CanIMoveThat its already checked that selected tile and target tile are compatible (eg dino and stone while having bone)
     private bool PerformSpecialTileAction(Vector3Int oldGridPos, Vector3Int targetGridPos)
     {
-        if(!mTilemap.GetTile(targetGridPos))
+        if (!mTilemap.GetTile(targetGridPos))
             // nothing on target tile
             return false;
         GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetGridPos).GetComponent<GridObject>();
 
-        if(targetGridObject is Hole)
+        if (targetGridObject is Hole)
         {
+            if (mSelectedTileBaseGridObject is NormalEgg)
+                RemoveEggFromList(oldGridPos);
+
+
             // both items are destroyed
             Deselect();
             mTilemap.SetTile(targetGridPos, null);
@@ -184,7 +198,7 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
-        if(mSelectedTileBaseGridObject is Bone && targetGridObject is Dino)
+        if (mSelectedTileBaseGridObject is Bone && targetGridObject is Dino)
         {
             // add bone and delete selection and selected object
             ChangeNumberOfBones(true);
@@ -193,14 +207,14 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
-        if(mSelectedTileBaseGridObject is Dino && targetGridObject is Bone)
+        if (mSelectedTileBaseGridObject is Dino && targetGridObject is Bone)
         {
             // add bone and perform normal tile movement action
             ChangeNumberOfBones(true);
             return false;
         }
 
-        if(mSelectedTileBaseGridObject is Dino && targetGridObject is Stone && mNumberOfBones > 0)
+        if (mSelectedTileBaseGridObject is Dino && targetGridObject is Stone && mNumberOfBones > 0)
         {
             // remove bone and perform normal tile movement action
             ChangeNumberOfBones(false);
@@ -210,7 +224,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    private void ChangeNumberOfBones (bool addBone)
+    private void ChangeNumberOfBones(bool addBone)
     {
         if (addBone)
         {
@@ -307,7 +321,7 @@ public class GameManager : MonoBehaviour
         {
             // move selection field a bit closer to target pos
             mSelectionField.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
-            if(mSelectedMode)
+            if (mSelectedMode)
                 // also move selected object if selection mode on
                 mSelectedTileBaseGridObject.gameObject.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
         }
@@ -334,7 +348,7 @@ public class GameManager : MonoBehaviour
     // Checks if you can move your object onto the target object when there is a target object
     private bool CanIMoveThat(GridObject myObject, GridObject targetObject)
     {
-        if (myObject is Dino && targetObject is Stone && mNumberOfBones > 0 
+        if (myObject is Dino && targetObject is Stone && mNumberOfBones > 0
             || myObject is Dino && targetObject is Bone
             || myObject is Bone && targetObject is Dino
             || !(myObject is Dino) && targetObject is Hole)
@@ -390,6 +404,52 @@ public class GameManager : MonoBehaviour
         if (selectionGridObject is Stone)
             return false;
         return true;
+    }
+
+    private void NextTurn()
+    {
+        mNumberOfTurns++;
+        mNumberOfTurnsText.text = mNumberOfTurns.ToString();
+
+        if (mNumberOfTurns % 5 == 0)
+            Stonify();
+    }
+
+    private void RemoveEggFromList(Vector3Int pos)
+    {
+        int index = mNormalEggsPositions.IndexOf(pos);
+        if (index == -1)
+            return;
+        mNormalEggsPositions.RemoveAt(index);
+    }
+
+    private void AddEggToList(Vector3Int pos)
+    {
+        if (mNormalEggsPositions.Contains(pos))
+            return;
+        mNormalEggsPositions.Add(pos);
+    }
+
+    // Turn one random egg in the level into stone
+    private void Stonify()
+    {
+        if (mNormalEggsPositions.Count == 0)
+            return;
+        int randomIndex = Random.Range(0, mNormalEggsPositions.Count);
+        Vector3Int tilePos = mNormalEggsPositions[randomIndex];
+
+        mNormalEggsPositions.RemoveAt(randomIndex);
+
+        if (new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0) == tilePos)
+            // if the target egg is selected, we want to deselect it
+            Deselect();
+
+        mTilemap.SetTile(tilePos, mStoneTileBase);
+
+        // TODO SOUND
+
+        GridObject gridObject = mTilemap.GetInstantiatedObject(tilePos).GetComponent<GridObject>();
+        gridObject.Pouf();
     }
 
     /// //////////////////////////////////////////////////////////////////////////////////
