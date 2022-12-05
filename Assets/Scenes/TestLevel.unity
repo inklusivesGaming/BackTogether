@@ -9786,10 +9786,6 @@ PrefabInstance:
       propertyPath: mFinalScreenAudioSource
       value: 
       objectReference: {fileID: 1205260163}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mTimeBetweenSelectionMovement
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8932958392661991707, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: m_Name
       value: GameManager

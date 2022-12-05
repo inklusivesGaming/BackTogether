@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.VFX;
 
-public class GameManager : MonoBehaviour
+public class GameManager_OLD : MonoBehaviour
 {
 
     //public Grid mGrid;
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private GridObject mSelectedTileBaseGridObject;
 
     private List<NormalEgg> mNormalEggs;
+
     private List<Vector3Int> mNormalEggsPositions;
 
     public TileBase mStoneTileBase;
@@ -60,6 +61,7 @@ public class GameManager : MonoBehaviour
     private Vector3 mSelectionFieldCurrentWorldPos;
     private Vector3 mSelectionFieldTargetWorldPos;
 
+    //public Vector3 mMouseClickPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -91,7 +93,8 @@ public class GameManager : MonoBehaviour
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
+        print(horizontal);
+        print(vertical);
         if (horizontal > 0)
         {
             StartSelectionMovement(new Vector2Int(1, 0));
@@ -118,6 +121,17 @@ public class GameManager : MonoBehaviour
             SelectDown();
         }
 
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    MouseDown();
+        //    PlayAudio(1);
+        //}
+
+        //if (Input.GetMouseButtonUp(0))
+        //{
+        //    PlayAudio(2);
+        //}
+
         // restart button
         if (Input.GetKeyDown("r"))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -136,19 +150,19 @@ public class GameManager : MonoBehaviour
     }
 
     private void StartSelectionMovement(Vector2Int direction)
-    {
+    {            
         Vector2Int newSelectionFieldPos = mSelectionFieldMapPos + direction;
 
         if (!IsValidMapPos(newSelectionFieldPos))
         {
-            //TODO SOUND
+            //TODO PLAY SOUND
             mCurrentTimeBetweenActions = mTimeBetweenActions;
             return;
         }
 
         mSelectionFieldMapPos = newSelectionFieldPos;
         mCurrentSelectionMovementTime = mSelectionMovementTime;
-        if (mCurrentSelectionMovementTime == 0)
+        if(mCurrentSelectionMovementTime == 0)
         {
             // move selection field immediately
             mCurrentTimeBetweenActions = mTimeBetweenActions;
@@ -218,46 +232,22 @@ public class GameManager : MonoBehaviour
     {
         mCurrentTimeBetweenActions = mTimeBetweenActions;
         if (mSelectedMode)
-            Deselect();
+            Select();
 
         else
-            Select();
+            Deselect();
     }
 
-    // Select the tile under your selection field if it is selectable (no free tile and no stone)
     private void Select()
-    {
-        Vector3Int selectionGridPos = new Vector3Int(mSelectionFieldMapPos.x, mSelectionFieldMapPos.y, 0);
-
-        if (!CheckIfSelectionValid(selectionGridPos))
-        {
-            //TODO SOUND
-            print("MEH");
-            return;
-        }
-
-        mSelectedMode = true;
-        mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
-
-
-    }
-
-    // Deselect the currently selected tile
-    private void Deselect()
     {
         mSelectedMode = false;
         mSelectionField.GetComponent<MeshRenderer>().material = mUnselectedMaterial;
     }
 
-    private bool CheckIfSelectionValid(Vector3Int gridPos)
+    private void Deselect()
     {
-        TileBase selection = mTilemap.GetTile(gridPos);
-        if (!selection)
-            return false;
-        GridObject selectionGridObject = mTilemap.GetInstantiatedObject(gridPos).GetComponent<GridObject>();
-        if (selectionGridObject is Stone)
-            return false;
-        return true;
+        mSelectedMode = true;
+        mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
     }
 
     // Called when mouse gets pressed
