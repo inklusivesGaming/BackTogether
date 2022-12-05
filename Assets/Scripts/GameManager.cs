@@ -148,20 +148,85 @@ public class GameManager : MonoBehaviour
 
             // TODO when doing it this way, the dino animation always starts anew when moving!
 
-            // move the tile
-            mTilemap.SetTile(gridPosVector3Int, mSelectedTileBase);
-            mTilemap.SetTile(oldGridPosVector3Int, null);
+            if(!PerformSpecialTileAction(oldGridPosVector3Int, gridPosVector3Int))
+            {
+                // move the tile
+                mTilemap.SetTile(gridPosVector3Int, mSelectedTileBase);
+                mTilemap.SetTile(oldGridPosVector3Int, null);
 
-            // set the new selected tile
-            mSelectedTileBase = mTilemap.GetTile(gridPosVector3Int);
-            mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(gridPosVector3Int).GetComponent<GridObject>();
-
-
+                // set the new selected tile
+                mSelectedTileBase = mTilemap.GetTile(gridPosVector3Int);
+                mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(gridPosVector3Int).GetComponent<GridObject>();
+            }
         }
 
         // set the tile pos
         mSelectionFieldOldGridPos = mSelectionFieldGridPos;
 
+    }
+
+    // When moving a tile, checks if target tile has grid object and thus a special action gets performed
+    // Returns true if a special action was performed and thus the tilebase gets deselected
+    // In CanIMoveThat its already checked that selected tile and target tile are compatible (eg dino and stone while having bone)
+    private bool PerformSpecialTileAction(Vector3Int oldGridPos, Vector3Int targetGridPos)
+    {
+        if(!mTilemap.GetTile(targetGridPos))
+            // nothing on target tile
+            return false;
+        GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetGridPos).GetComponent<GridObject>();
+
+        if(targetGridObject is Hole)
+        {
+            // both items are destroyed
+            Deselect();
+            mTilemap.SetTile(targetGridPos, null);
+            mTilemap.SetTile(oldGridPos, null);
+            return true;
+        }
+
+        if(mSelectedTileBaseGridObject is Bone && targetGridObject is Dino)
+        {
+            // add bone and delete selection and selected object
+            ChangeNumberOfBones(true);
+            Deselect();
+            mTilemap.SetTile(oldGridPos, null);
+            return true;
+        }
+
+        if(mSelectedTileBaseGridObject is Dino && targetGridObject is Bone)
+        {
+            // add bone and perform normal tile movement action
+            ChangeNumberOfBones(true);
+            return false;
+        }
+
+        if(mSelectedTileBaseGridObject is Dino && targetGridObject is Stone && mNumberOfBones > 0)
+        {
+            // remove bone and perform normal tile movement action
+            ChangeNumberOfBones(false);
+            //TODO SOUND
+            return false;
+        }
+        return false;
+    }
+
+    private void ChangeNumberOfBones (bool addBone)
+    {
+        if (addBone)
+        {
+            mNumberOfBones++;
+            //TODO SOUND
+        }
+        else
+        {
+            mNumberOfBones--;
+            if (mNumberOfBones < 0)
+                // shouldnt happen
+                mNumberOfBones = 0;
+            //TODO SOUND
+        }
+
+        mNumberOfBonesText.text = mNumberOfBones.ToString();
     }
 
 
@@ -269,7 +334,10 @@ public class GameManager : MonoBehaviour
     // Checks if you can move your object onto the target object when there is a target object
     private bool CanIMoveThat(GridObject myObject, GridObject targetObject)
     {
-        if (myObject is Dino && targetObject is Stone && mNumberOfBones > 0 || !(myObject is Dino) && targetObject is Hole)
+        if (myObject is Dino && targetObject is Stone && mNumberOfBones > 0 
+            || myObject is Dino && targetObject is Bone
+            || myObject is Bone && targetObject is Dino
+            || !(myObject is Dino) && targetObject is Hole)
             return true;
         return false;
     }
