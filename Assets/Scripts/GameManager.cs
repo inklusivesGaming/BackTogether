@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     private Vector2Int mTilemapMaxBounds; // biggest coordinates in tilemap
 
     private TileBase mSelectedTileBase;
-    private Vector3Int mSelectedTileBasePosition;
+    private Vector3Int mSelectedTileBasePosition; // TODO REMOVE
     private GridObject mSelectedTileBaseGridObject;
 
     private List<NormalEgg> mNormalEggs;
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     private bool mLastMoveWithoutDestruction = true; // true if you made a move that didnt destroy your selected tile
 
     private float mSelectionFieldYPos = 0f;
-    private Vector2Int mSelectionFieldMapPos;
+    private Vector2Int mSelectionFieldGridPos;
 
     public float mSelectionMovementTime = 0.5f;
     private float mCurrentSelectionMovementTime = 0f;
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mSelectionFieldYPos = mSelectionField.transform.position.y;
-        mSelectionFieldMapPos = mTilemapMiddlePoint;
+        mSelectionFieldGridPos = mTilemapMiddlePoint;
 
         InitializeTileMap();
 
@@ -75,112 +75,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (mCurrentSelectionMovementTime > 0)
+            // Selection is in the process of moving
             SelectionGetsMoved();
         else if (mCurrentTimeBetweenActions > 0)
         {
+            // Short cooldown between two actions
             mCurrentTimeBetweenActions -= Time.deltaTime;
             if (mCurrentTimeBetweenActions <= 0)
                 mCurrentTimeBetweenActions = 0;
         }
         else
+            // Listen for a new input
             HandleInputs();
-    }
-
-    private void HandleInputs()
-    {
-
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
-
-        if (horizontal > 0)
-        {
-            StartSelectionMovement(new Vector2Int(1, 0));
-        }
-
-        else if (horizontal < 0)
-        {
-            StartSelectionMovement(new Vector2Int(-1, 0));
-        }
-
-        else if (vertical > 0)
-        {
-            StartSelectionMovement(new Vector2Int(0, 1));
-        }
-
-        else if (vertical < 0)
-        {
-            StartSelectionMovement(new Vector2Int(0, -1));
-        }
-
-
-        if (Input.GetButtonDown("Select"))
-        {
-            SelectDown();
-        }
-
-        // restart button
-        if (Input.GetKeyDown("r"))
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    private void SetSelectionFieldTargetPos(bool alsoSetPos)
-    {
-        Vector3 tilemapMiddlePointWorld = mTilemap.CellToWorld(new Vector3Int(mSelectionFieldMapPos.x, mSelectionFieldMapPos.y, 0));
-
-        mSelectionFieldTargetWorldPos = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
-
-        if (alsoSetPos)
-            mSelectionField.transform.position = mSelectionFieldTargetWorldPos;
-
-        mSelectionFieldCurrentWorldPos = mSelectionField.transform.position;
-    }
-
-    private void StartSelectionMovement(Vector2Int direction)
-    {
-        Vector2Int newSelectionFieldPos = mSelectionFieldMapPos + direction;
-
-        if (!IsValidMapPos(newSelectionFieldPos))
-        {
-            //TODO SOUND
-            mCurrentTimeBetweenActions = mTimeBetweenActions;
-            return;
-        }
-
-        mSelectionFieldMapPos = newSelectionFieldPos;
-        mCurrentSelectionMovementTime = mSelectionMovementTime;
-        if (mCurrentSelectionMovementTime == 0)
-        {
-            // move selection field immediately
-            mCurrentTimeBetweenActions = mTimeBetweenActions;
-            SetSelectionFieldTargetPos(true);
-        }
-        else
-            // move selection field smoothly
-            SetSelectionFieldTargetPos(false);
-    }
-
-    private void SelectionGetsMoved()
-    {
-        mCurrentSelectionMovementTime -= Time.deltaTime;
-        if (mCurrentSelectionMovementTime <= 0)
-        {
-            mCurrentSelectionMovementTime = 0;
-            mCurrentTimeBetweenActions = mTimeBetweenActions;
-            SetSelectionFieldTargetPos(true);
-        }
-
-        else
-        {
-            // set selection field pos a bit closer to target pos
-            mSelectionField.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
-        }
-    }
-
-    private bool IsValidMapPos(Vector2Int pos)
-    {
-        if (pos.x < mTilemapMinBounds.x || pos.x > mTilemapMaxBounds.x || pos.y < mTilemapMinBounds.y || pos.y > mTilemapMaxBounds.y)
-            return false;
-        return true;
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -214,7 +120,127 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SelectDown()
+    // Sets the target position your selection field should move to
+    // If alsoSetPos is true, also move the selection field directly to this position (without animation)
+    private void SetSelectionFieldTargetPos(bool alsoSetPos)
+    {
+        Vector3 tilemapMiddlePointWorld = mTilemap.CellToWorld(new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0));
+
+        mSelectionFieldTargetWorldPos = new Vector3(tilemapMiddlePointWorld.x + 0.5f, mSelectionFieldYPos, tilemapMiddlePointWorld.z + 0.5f);
+
+        if (alsoSetPos)
+            mSelectionField.transform.position = mSelectionFieldTargetWorldPos;
+
+        mSelectionFieldCurrentWorldPos = mSelectionField.transform.position;
+    }
+
+    private void HandleInputs()
+    {
+        // Horizontal or vertical selection movement
+
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        if (horizontal > 0)
+        {
+            StartSelectionMovement(new Vector2Int(1, 0));
+        }
+
+        else if (horizontal < 0)
+        {
+            StartSelectionMovement(new Vector2Int(-1, 0));
+        }
+
+        else if (vertical > 0)
+        {
+            StartSelectionMovement(new Vector2Int(0, 1));
+        }
+
+        else if (vertical < 0)
+        {
+            StartSelectionMovement(new Vector2Int(0, -1));
+        }
+
+        // Selection button down
+
+        if (Input.GetButtonDown("Select"))
+        {
+            SelectButtonDown();
+        }
+
+        // Restart button down
+        //if (Input.GetKeyDown("r"))
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void StartSelectionMovement(Vector2Int direction)
+    {
+        Vector2Int newSelectionFieldPos = mSelectionFieldGridPos + direction;
+
+        if (!IsValidSelectionMovement(mSelectionFieldGridPos, newSelectionFieldPos))
+        {
+            //TODO SOUND
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
+            return;
+        }
+
+        mSelectionFieldGridPos = newSelectionFieldPos;
+        mCurrentSelectionMovementTime = mSelectionMovementTime;
+        if (mCurrentSelectionMovementTime == 0)
+        {
+            // move selection field immediately
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
+            SetSelectionFieldTargetPos(true);
+        }
+        else
+            // move selection field smoothly
+            SetSelectionFieldTargetPos(false);
+    }
+
+    private void SelectionGetsMoved()
+    {
+        mCurrentSelectionMovementTime -= Time.deltaTime;
+        if (mCurrentSelectionMovementTime <= 0)
+        {
+            mCurrentSelectionMovementTime = 0;
+            mCurrentTimeBetweenActions = mTimeBetweenActions;
+            SetSelectionFieldTargetPos(true);
+        }
+
+        else
+        {
+            // set selection field pos a bit closer to target pos
+            mSelectionField.transform.position = Vector3.Lerp(mSelectionFieldCurrentWorldPos, mSelectionFieldTargetWorldPos, 1 - mCurrentSelectionMovementTime / mSelectionMovementTime);
+        }
+    }
+
+    // Check if you are still in the grid while moving selection
+    // If a tile is selected, also check if you can move the tile in that direction
+    private bool IsValidSelectionMovement(Vector2Int currentPos, Vector2Int targetPos)
+    {
+        if (targetPos.x < mTilemapMinBounds.x || targetPos.x > mTilemapMaxBounds.x || targetPos.y < mTilemapMinBounds.y || targetPos.y > mTilemapMaxBounds.y)
+            // outside of grid
+            return false;
+        if (mSelectedMode)
+        {
+            Vector3Int targetPosVector3Int = new Vector3Int(targetPos.x, targetPos.y, 0);
+            if (mTilemap.GetTile(targetPosVector3Int)
+                && !CanIMoveThat(mSelectedTileBaseGridObject, mTilemap.GetInstantiatedObject(targetPosVector3Int).GetComponent<GridObject>()))
+                // tile is in the way and I'm not allowed to move on that tile
+                return false;
+        }
+        return true;
+    }
+
+    // Checks if you can move your object onto the target object when there is a target object
+    private bool CanIMoveThat(GridObject myObject, GridObject targetObject)
+    {
+        if (myObject is Dino && targetObject is Stone && mNumberOfBones > 0 || !(myObject is Dino) && targetObject is Hole)
+            return true;
+        return false;
+    }
+
+    private void SelectButtonDown()
     {
         mCurrentTimeBetweenActions = mTimeBetweenActions;
         if (mSelectedMode)
@@ -227,7 +253,7 @@ public class GameManager : MonoBehaviour
     // Select the tile under your selection field if it is selectable (no free tile and no stone)
     private void Select()
     {
-        Vector3Int selectionGridPos = new Vector3Int(mSelectionFieldMapPos.x, mSelectionFieldMapPos.y, 0);
+        Vector3Int selectionGridPos = new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0);
 
         if (!CheckIfSelectionValid(selectionGridPos))
         {
@@ -239,7 +265,8 @@ public class GameManager : MonoBehaviour
         mSelectedMode = true;
         mSelectionField.GetComponent<MeshRenderer>().material = mSelectedMaterial;
 
-
+        mSelectedTileBase = mTilemap.GetTile(selectionGridPos);
+        mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(selectionGridPos).GetComponent<GridObject>();
     }
 
     // Deselect the currently selected tile
@@ -247,6 +274,9 @@ public class GameManager : MonoBehaviour
     {
         mSelectedMode = false;
         mSelectionField.GetComponent<MeshRenderer>().material = mUnselectedMaterial;
+
+        mSelectedTileBase = null;
+        mSelectedTileBaseGridObject = null;
     }
 
     private bool CheckIfSelectionValid(Vector3Int gridPos)
