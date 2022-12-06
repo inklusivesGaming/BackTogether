@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
     private Vector3 mSelectionFieldCurrentWorldPos;
     private Vector3 mSelectionFieldTargetWorldPos;
 
+    public GameAudioManager mGameAudioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -274,6 +276,11 @@ public class GameManager : MonoBehaviour
         // Restart button down
         //if (Input.GetKeyDown("r"))
         //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        if (Input.GetButtonDown("Info_GridPosition"))
+        {
+            TellGridPosition();
+        }
     }
 
     private void StartSelectionMovement(Vector2Int direction)
@@ -568,5 +575,70 @@ public class GameManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    // Returns speech output that tells the grid position and object at this position
+    private void TellGridPosition()
+    {
+        int xPos = mSelectionFieldGridPos.x;
+        int yPos = mSelectionFieldGridPos.y;
+        Vector3Int selectionFieldGridPosVector3Int = new Vector3Int(xPos, yPos, 0);
+
+        GameAudioManager.NavigationSounds letterSound = GameAudioManager.NavigationSounds.A;
+        if (xPos == mTilemapMinBounds.x + 1)
+            letterSound = GameAudioManager.NavigationSounds.B;
+        else if (xPos == mTilemapMinBounds.x + 2)
+            letterSound = GameAudioManager.NavigationSounds.C;
+        else if (xPos == mTilemapMinBounds.x + 3)
+            letterSound = GameAudioManager.NavigationSounds.D;
+        else if (xPos == mTilemapMinBounds.x + 4)
+            letterSound = GameAudioManager.NavigationSounds.E;
+
+        GameAudioManager.NavigationSounds numberSound = GameAudioManager.NavigationSounds.Eins;
+        if (yPos == mTilemapMinBounds.y + 1)
+            letterSound = GameAudioManager.NavigationSounds.Zwei;
+        else if (yPos == mTilemapMinBounds.y + 2)
+            letterSound = GameAudioManager.NavigationSounds.Drei;
+        else if (yPos == mTilemapMinBounds.y + 3)
+            letterSound = GameAudioManager.NavigationSounds.Vier;
+        else if (yPos == mTilemapMinBounds.y + 4)
+            letterSound = GameAudioManager.NavigationSounds.Fünf;
+
+
+        GameAudioManager.GridObjectSounds gridObjectSound = GetGridObjectSound(selectionFieldGridPosVector3Int);
+
+        mGameAudioManager.PlayAudioPositionInGrid(letterSound, numberSound, gridObjectSound);
+    }
+
+    private GameAudioManager.GridObjectSounds GetGridObjectSound(Vector3Int pos)
+    {
+        GameObject obj = mTilemap.GetInstantiatedObject(pos);
+        if (!obj)
+            return GameAudioManager.GridObjectSounds.frei;
+        GridObject gridObject = obj.GetComponent<GridObject>();
+        if (gridObject is Dino)
+        {
+            if (((Dino)gridObject).mFemale)
+                return GameAudioManager.GridObjectSounds.Dinja;
+            else
+                return GameAudioManager.GridObjectSounds.Schnuppi;
+        }
+
+        if (gridObject is Stone)
+            return GameAudioManager.GridObjectSounds.Steinhaufen;
+
+        if (gridObject is NormalEgg)
+            return GameAudioManager.GridObjectSounds.Ei;
+
+        if (gridObject is Bone)
+            return GameAudioManager.GridObjectSounds.Knochen;
+
+        if (gridObject is SurpriseChest)
+            return GameAudioManager.GridObjectSounds.Raetselkiste;
+
+        if (gridObject is Hole)
+            return GameAudioManager.GridObjectSounds.Loch;
+
+        return GameAudioManager.GridObjectSounds.frei;
+
+    }
 
 }

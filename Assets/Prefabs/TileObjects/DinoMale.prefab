@@ -441,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mMeshRenderer: {fileID: 0}
   mPoufEffect: {fileID: 0}
-  mPlane: {fileID: 8809289302649399302}
+  mFemale: 0
 --- !u!95 &5505072719903199551
 Animator:
   serializedVersion: 4
