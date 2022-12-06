@@ -33,11 +33,6 @@ public class GameManager : MonoBehaviour
 
     public GameObject mWinScreen;
 
-    public AudioSource mAudioSource;
-    public AudioSource mFinalScreenAudioSource;
-
-    public List<AudioClip> mAudioClips;
-
     public GameObject mSelectionField;
     private bool mSelectedMode = false;
 
@@ -568,16 +563,10 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         mWinScreen.SetActive(true);
-        mFinalScreenAudioSource.PlayOneShot(mAudioClips[8]);
+        //mFinalScreenAudioSource.PlayOneShot(mAudioClips[8]);
 
         gameObject.SetActive(false);
     }
 
-    // Track numbers beginning with one
-    private void PlayAudio(int trackNumber)
-    {
-        if (mAudioClips.Count < trackNumber)
-            return;
-        mAudioSource.PlayOneShot(mAudioClips[trackNumber - 1]);
-    }
+
 }
