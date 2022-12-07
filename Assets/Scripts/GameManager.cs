@@ -289,7 +289,7 @@ public class GameManager : MonoBehaviour
 
         if (!IsValidSelectionMovement(newSelectionFieldPos))
         {
-            //TODO SOUND
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.Verboten);
             mCurrentTimeBetweenActions = mTimeBetweenActions;
             return;
         }
@@ -305,6 +305,12 @@ public class GameManager : MonoBehaviour
         else
             // move selection field smoothly
             SetSelectionFieldTargetPos(false);
+
+        if (mSelectedMode)
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.ObjektBewegen);
+        else
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.AuswahlfeldBewegen);
+
     }
 
     private void SelectionGetsMoved()
@@ -373,8 +379,7 @@ public class GameManager : MonoBehaviour
 
         if (!IsSelectionValid(selectionGridPos))
         {
-            //TODO SOUND
-            print("MEH");
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.Verboten);
             return;
         }
 
@@ -383,6 +388,7 @@ public class GameManager : MonoBehaviour
 
         mSelectedTileBase = mTilemap.GetTile(selectionGridPos);
         mSelectedTileBaseGridObject = mTilemap.GetInstantiatedObject(selectionGridPos).GetComponent<GridObject>();
+        mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.AuswahlObjekt);
     }
 
     // Deselect the currently selected tile
@@ -393,6 +399,9 @@ public class GameManager : MonoBehaviour
 
         mSelectedTileBase = null;
         mSelectedTileBaseGridObject = null;
+
+        mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.AbwahlObjekt);
+
     }
 
     private bool IsSelectionValid(Vector3Int gridPos)

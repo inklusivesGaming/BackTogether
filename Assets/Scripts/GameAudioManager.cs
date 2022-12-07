@@ -78,13 +78,13 @@ public class GameAudioManager : MonoBehaviour
     }
 
     // Track numbers beginning with one
-    public void PlayAudioGridObject(GridObjectSounds sound)
+    public void PlayActionSound(ActionSounds sound)
     {
         AudioClip clip = null;
-        foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
+        foreach (AudioClipAction clipAction in mAudioClipsActions)
         {
-            if (clipGridObject.sound == sound)
-                clip = clipGridObject.audioClip;
+            if (clipAction.sound == sound)
+                clip = clipAction.audioClip;
         }
 
         if (!clip)
