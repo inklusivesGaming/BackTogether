@@ -8,6 +8,8 @@ public class GameAudioManager : MonoBehaviour
 
     public AudioClipGridObject[] mAudioClipsGridObjects;
     public AudioClipNavigation[] mAudioClipsNavigation;
+    public AudioClipEvent[] mAudioClipsEvents;
+    public AudioClipAction[] mAudioClipsActions;
 
     private Queue<AudioClip> mPositionInGridQueue;
 
@@ -56,13 +58,23 @@ public class GameAudioManager : MonoBehaviour
 
     public enum EventSounds
     {
-        EiVersteinert,
+        EiVersteinertNachricht,
         VersteinerungsSound,
         RaetselPuffSound,
         DasLochBei,
         istVerschlossen,
         DuKannstDrueberlaufen,
         WeiterMitLeertaste
+    }
+
+    public enum ActionSounds
+    {
+        AuswahlfeldBewegen,
+        AuswahlObjekt,
+        AbwahlObjekt,
+        Verboten,
+        ObjektBewegen,
+        ObjektAusgewaehltDauerhaft
     }
 
     // Track numbers beginning with one
@@ -127,6 +139,20 @@ public class GameAudioManager : MonoBehaviour
     public class AudioClipNavigation
     {
         public NavigationSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipEvent
+    {
+        public EventSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipAction
+    {
+        public ActionSounds sound;
         public AudioClip audioClip;
     }
 }
