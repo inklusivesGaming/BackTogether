@@ -594,13 +594,13 @@ public class GameManager : MonoBehaviour
 
         GameAudioManager.NavigationSounds numberSound = GameAudioManager.NavigationSounds.Eins;
         if (yPos == mTilemapMinBounds.y + 1)
-            letterSound = GameAudioManager.NavigationSounds.Zwei;
+            numberSound = GameAudioManager.NavigationSounds.Zwei;
         else if (yPos == mTilemapMinBounds.y + 2)
-            letterSound = GameAudioManager.NavigationSounds.Drei;
+            numberSound = GameAudioManager.NavigationSounds.Drei;
         else if (yPos == mTilemapMinBounds.y + 3)
-            letterSound = GameAudioManager.NavigationSounds.Vier;
+            numberSound = GameAudioManager.NavigationSounds.Vier;
         else if (yPos == mTilemapMinBounds.y + 4)
-            letterSound = GameAudioManager.NavigationSounds.Fünf;
+            numberSound = GameAudioManager.NavigationSounds.Fünf;
 
 
         GameAudioManager.GridObjectSounds gridObjectSound = GetGridObjectSound(selectionFieldGridPosVector3Int);
