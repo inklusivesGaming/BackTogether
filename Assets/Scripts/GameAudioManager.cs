@@ -85,10 +85,6 @@ public class GameAudioManager : MonoBehaviour
     {
         mPositionInGridQueue.Clear();
 
-        print(letter);
-        print(number);
-        print(gridObject);
-
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
         {

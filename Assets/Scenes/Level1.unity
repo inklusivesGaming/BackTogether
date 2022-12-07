@@ -7194,11 +7194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &1205260163 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 5970963416614650921, guid: aee4c1a170e36434e904d2b162799a8d, type: 3}
-  m_PrefabInstance: {fileID: 1205260154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1210151738
 GameObject:
   m_ObjectHideFlags: 0
@@ -9774,10 +9769,6 @@ PrefabInstance:
       propertyPath: mNumberOfTurnsText
       value: 
       objectReference: {fileID: 1205260156}
-    - target: {fileID: 8932958392661991706, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
-      propertyPath: mFinalScreenAudioSource
-      value: 
-      objectReference: {fileID: 1205260163}
     - target: {fileID: 8932958392661991707, guid: 02164eeb00ff899459f888cfd63d891d, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -11672,10 +11663,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 143992156165882741, guid: 637ff865028c8864197ae65dac9a36bf, type: 3}
-      propertyPath: mAudioClipsNavigation.Array.data[10].audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 10c24fffb00f8f741b57b16520c0e657, type: 3}
     - target: {fileID: 278423825451134162, guid: 637ff865028c8864197ae65dac9a36bf, type: 3}
       propertyPath: m_RootOrder
       value: 11

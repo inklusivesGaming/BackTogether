@@ -592,15 +592,15 @@ public class GameManager : MonoBehaviour
         else if (xPos == mTilemapMinBounds.x + 4)
             letterSound = GameAudioManager.NavigationSounds.E;
 
-        GameAudioManager.NavigationSounds numberSound = GameAudioManager.NavigationSounds.Eins;
+        GameAudioManager.NavigationSounds numberSound = GameAudioManager.NavigationSounds.Fünf;
         if (yPos == mTilemapMinBounds.y + 1)
-            numberSound = GameAudioManager.NavigationSounds.Zwei;
+            numberSound = GameAudioManager.NavigationSounds.Vier;
         else if (yPos == mTilemapMinBounds.y + 2)
             numberSound = GameAudioManager.NavigationSounds.Drei;
         else if (yPos == mTilemapMinBounds.y + 3)
-            numberSound = GameAudioManager.NavigationSounds.Vier;
+            numberSound = GameAudioManager.NavigationSounds.Zwei;
         else if (yPos == mTilemapMinBounds.y + 4)
-            numberSound = GameAudioManager.NavigationSounds.Fünf;
+            numberSound = GameAudioManager.NavigationSounds.Eins;
 
 
         GameAudioManager.GridObjectSounds gridObjectSound = GetGridObjectSound(selectionFieldGridPosVector3Int);
