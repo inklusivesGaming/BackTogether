@@ -11,17 +11,17 @@ public class GameAudioManager : MonoBehaviour
     public AudioClipEvent[] mAudioClipsEvents;
     public AudioClipAction[] mAudioClipsActions;
 
-    private Queue<AudioClip> mPositionInGridQueue;
+    private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
 
     private void Start()
     {
-        mPositionInGridQueue = new Queue<AudioClip>();
+        mAudioQueue = new Queue<AudioClip>();
     }
 
     private void Update()
     {
-        if (!(mAudioSource.isPlaying) && mPositionInGridQueue.Count > 0)
-            mAudioSource.PlayOneShot(mPositionInGridQueue.Dequeue());
+        if (!(mAudioSource.isPlaying) && mAudioQueue.Count > 0)
+            mAudioSource.PlayOneShot(mAudioQueue.Dequeue());
     }
 
     public enum GridObjectSounds
@@ -77,7 +77,6 @@ public class GameAudioManager : MonoBehaviour
         ObjektAusgewaehltDauerhaft
     }
 
-    // Track numbers beginning with one
     public void PlayActionSound(ActionSounds sound)
     {
         AudioClip clip = null;
@@ -93,9 +92,34 @@ public class GameAudioManager : MonoBehaviour
         mAudioSource.PlayOneShot(clip);
     }
 
-    public void PlayAudioPositionInGrid(NavigationSounds letter, NavigationSounds number, GridObjectSounds gridObject)
+    public void PlayEventSound(EventSounds sound)
     {
-        mPositionInGridQueue.Clear();
+        AudioClip clip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == sound)
+                clip = clipEvent.audioClip;
+        }
+
+        if (!clip)
+            return;
+
+        mAudioSource.PlayOneShot(clip);
+    }
+
+    public void PlayStonifyInformation (EventSounds generalText, NavigationSounds letter, NavigationSounds number)
+    {
+        mAudioQueue.Clear();
+
+        AudioClip generalTextClip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == generalText)
+                generalTextClip = clipEvent.audioClip;
+        }
+
+        if (generalTextClip)
+            mAudioSource.PlayOneShot(generalTextClip);
 
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -105,7 +129,7 @@ public class GameAudioManager : MonoBehaviour
         }
 
         if (letterClip)
-            mPositionInGridQueue.Enqueue(letterClip);
+            mAudioQueue.Enqueue(letterClip);
 
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -115,7 +139,34 @@ public class GameAudioManager : MonoBehaviour
         }
 
         if (numberClip)
-            mPositionInGridQueue.Enqueue(numberClip);
+            mAudioQueue.Enqueue(numberClip);
+
+
+    }
+
+    public void PlayAudioPositionInGrid(NavigationSounds letter, NavigationSounds number, GridObjectSounds gridObject)
+    {
+        mAudioQueue.Clear();
+
+        AudioClip letterClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == letter)
+                letterClip = clipNavigation.audioClip;
+        }
+
+        if (letterClip)
+            mAudioSource.PlayOneShot(letterClip);
+
+        AudioClip numberClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == number)
+                numberClip = clipNavigation.audioClip;
+        }
+
+        if (numberClip)
+            mAudioQueue.Enqueue(numberClip);
 
         AudioClip gridObjClip = null;
         foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
@@ -125,7 +176,7 @@ public class GameAudioManager : MonoBehaviour
         }
 
         if (gridObjClip)
-            mPositionInGridQueue.Enqueue(gridObjClip);
+            mAudioQueue.Enqueue(gridObjClip);
     }
 
     [System.Serializable]

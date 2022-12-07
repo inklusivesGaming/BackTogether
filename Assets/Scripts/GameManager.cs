@@ -54,12 +54,21 @@ public class GameManager : MonoBehaviour
 
     public GameAudioManager mGameAudioManager;
 
+    private bool mSurpriseChestHappened = false; // used for audio feedback at end of turn
+    private bool mStonifyHappened = false; // used for audio feedback at end of turn
+
+    private List<Vector2Int> mSurpriseChestTransformGridPositions;
+    private Vector2Int mStonifyGridPosition;
+
     // Start is called before the first frame update
     void Start()
     {
         mSelectionFieldYPos = mSelectionField.transform.position.y;
         mSelectionFieldGridPos = mTilemapMiddlePoint;
         mSelectionFieldOldGridPos = mSelectionFieldGridPos;
+
+        mSurpriseChestTransformGridPositions = new List<Vector2Int>();
+        mStonifyGridPosition = new Vector2Int(-1, -1);
 
         InitializeTileMap();
 
@@ -82,6 +91,8 @@ public class GameManager : MonoBehaviour
         else
             // listen for a new input
             HandleInputs();
+
+        TurnReport();
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -93,8 +104,6 @@ public class GameManager : MonoBehaviour
         mTilemapMaxBounds = mTilemapMiddlePoint + new Vector2Int(2, 2);
 
         // initialize egg list
-
-        //mNormalEggs = new List<NormalEgg>();
 
         mNormalEggsPositions = new List<Vector3Int>();
 
@@ -109,10 +118,7 @@ public class GameManager : MonoBehaviour
                 GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetPos).GetComponent<GridObject>();
                 print(targetGridObject);
                 if (targetGridObject is NormalEgg)
-                {
-                    //mNormalEggs.Add(((NormalEgg)targetGridObject));
                     mNormalEggsPositions.Add(targetPos);
-                }
             }
         }
     }
@@ -455,10 +461,13 @@ public class GameManager : MonoBehaviour
 
         mTilemap.SetTile(tilePos, mStoneTileBase);
 
-        // TODO SOUND
+        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.VersteinerungsSound);
+        mStonifyHappened = true;
+        mStonifyGridPosition = new Vector2Int(tilePos.x, tilePos.y);
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(tilePos).GetComponent<GridObject>();
         gridObject.Pouf();
+
     }
 
     // Check if game is won after player moved a dino and if surprise chests are activated
@@ -547,33 +556,27 @@ public class GameManager : MonoBehaviour
 
     private void TransformSurpriseChest(Vector3Int pos)
     {
-        //TODO SOUND
         SurpriseChest surpriseChest = (SurpriseChest)mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
 
         int transformTarget = 0;
         // dino steps on surprise chest
         if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM)
-        {
             transformTarget = Random.Range(0, 3);
-        }
 
         if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.HOLE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 0)
-        {
             mTilemap.SetTile(pos, mHoleTileBase);
-        }
 
         else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.STONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 1)
-        {
             mTilemap.SetTile(pos, mStoneTileBase);
-        }
 
         else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.BONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 2)
-        {
             mTilemap.SetTile(pos, mBoneTileBase);
-        }
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
         gridObject.Pouf();
+
+        mSurpriseChestHappened = true;
+        mSurpriseChestTransformGridPositions.Add(new Vector2Int(pos.x, pos.y));
     }
 
     private void Win()
@@ -591,30 +594,42 @@ public class GameManager : MonoBehaviour
         int yPos = mSelectionFieldGridPos.y;
         Vector3Int selectionFieldGridPosVector3Int = new Vector3Int(xPos, yPos, 0);
 
-        GameAudioManager.NavigationSounds letterSound = GameAudioManager.NavigationSounds.A;
-        if (xPos == mTilemapMinBounds.x + 1)
-            letterSound = GameAudioManager.NavigationSounds.B;
-        else if (xPos == mTilemapMinBounds.x + 2)
-            letterSound = GameAudioManager.NavigationSounds.C;
-        else if (xPos == mTilemapMinBounds.x + 3)
-            letterSound = GameAudioManager.NavigationSounds.D;
-        else if (xPos == mTilemapMinBounds.x + 4)
-            letterSound = GameAudioManager.NavigationSounds.E;
-
-        GameAudioManager.NavigationSounds numberSound = GameAudioManager.NavigationSounds.Fünf;
-        if (yPos == mTilemapMinBounds.y + 1)
-            numberSound = GameAudioManager.NavigationSounds.Vier;
-        else if (yPos == mTilemapMinBounds.y + 2)
-            numberSound = GameAudioManager.NavigationSounds.Drei;
-        else if (yPos == mTilemapMinBounds.y + 3)
-            numberSound = GameAudioManager.NavigationSounds.Zwei;
-        else if (yPos == mTilemapMinBounds.y + 4)
-            numberSound = GameAudioManager.NavigationSounds.Eins;
-
+        GameAudioManager.NavigationSounds letterSound = GetNavigationEnum(xPos, true);
+        GameAudioManager.NavigationSounds numberSound = GetNavigationEnum(yPos, false);
 
         GameAudioManager.GridObjectSounds gridObjectSound = GetGridObjectSound(selectionFieldGridPosVector3Int);
 
         mGameAudioManager.PlayAudioPositionInGrid(letterSound, numberSound, gridObjectSound);
+    }
+
+    // If letter==true, return letter, else return number
+    private GameAudioManager.NavigationSounds GetNavigationEnum(int pos, bool letter)
+    {
+
+        if (letter)
+        {
+            if (pos == mTilemapMinBounds.x + 1)
+                return GameAudioManager.NavigationSounds.B;
+            else if (pos == mTilemapMinBounds.x + 2)
+                return GameAudioManager.NavigationSounds.C;
+            else if (pos == mTilemapMinBounds.x + 3)
+                return GameAudioManager.NavigationSounds.D;
+            else if (pos == mTilemapMinBounds.x + 4)
+                return GameAudioManager.NavigationSounds.E;
+        }
+        else
+        {
+            if (pos == mTilemapMinBounds.y + 1)
+                return GameAudioManager.NavigationSounds.Vier;
+            else if (pos == mTilemapMinBounds.y + 2)
+                return GameAudioManager.NavigationSounds.Drei;
+            else if (pos == mTilemapMinBounds.y + 3)
+                return GameAudioManager.NavigationSounds.Zwei;
+            else if (pos == mTilemapMinBounds.y + 4)
+                return GameAudioManager.NavigationSounds.Eins;
+        }
+
+        return GameAudioManager.NavigationSounds.Null; // shouldnt happen
     }
 
     private GameAudioManager.GridObjectSounds GetGridObjectSound(Vector3Int pos)
@@ -648,6 +663,31 @@ public class GameManager : MonoBehaviour
 
         return GameAudioManager.GridObjectSounds.frei;
 
+    }
+
+
+    // Return audio output with turn report if turn happened and 
+    // surprise chest transformation or egg tranformation happened
+    private void TurnReport()
+    {
+        if (!mSurpriseChestHappened && !mStonifyHappened)
+            return;
+
+        // reset saved transformations
+        if (mStonifyHappened)
+        {
+            mGameAudioManager.PlayStonifyInformation
+                (
+                GameAudioManager.EventSounds.EiVersteinertNachricht,
+                GetNavigationEnum(mStonifyGridPosition.x, true),
+                GetNavigationEnum(mStonifyGridPosition.y, false)
+                );
+        }
+
+        mSurpriseChestHappened = false;
+        mStonifyHappened = false;
+        mSurpriseChestTransformGridPositions = new List<Vector2Int>();
+        mStonifyGridPosition = new Vector2Int(-1, -1);
     }
 
 }
