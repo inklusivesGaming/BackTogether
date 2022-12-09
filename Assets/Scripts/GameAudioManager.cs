@@ -144,6 +144,32 @@ public class GameAudioManager : MonoBehaviour
 
     }
 
+    public void PlayBoneInfo(NavigationSounds number, GridObjectSounds boneGridObject)
+    {
+        mAudioQueue.Clear();
+
+        AudioClip numberClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == number)
+                numberClip = clipNavigation.audioClip;
+        }
+
+        if (numberClip)
+            mAudioSource.PlayOneShot(numberClip);
+
+
+        AudioClip gridObjClip = null;
+        foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
+        {
+            if (clipGridObject.sound == boneGridObject)
+                gridObjClip = clipGridObject.audioClip;
+        }
+
+        if (gridObjClip)
+            mAudioQueue.Enqueue(gridObjClip);
+    }
+
     public void PlayAudioPositionInGrid(NavigationSounds letter, NavigationSounds number, GridObjectSounds gridObject)
     {
         mAudioQueue.Clear();

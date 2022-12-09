@@ -284,9 +284,10 @@ public class GameManager : MonoBehaviour
         //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         if (Input.GetButtonDown("Info_GridPosition"))
-        {
             TellGridPosition();
-        }
+
+        if (Input.GetButtonDown("Info_NumberOfBones"))
+            TellNumberOfBones();
     }
 
     private void StartSelectionMovement(Vector2Int direction)
@@ -602,6 +603,11 @@ public class GameManager : MonoBehaviour
         mGameAudioManager.PlayAudioPositionInGrid(letterSound, numberSound, gridObjectSound);
     }
 
+    private void TellNumberOfBones()
+    {
+        mGameAudioManager.PlayBoneInfo(GetNumberOFSomethingEnum(mNumberOfBones), GameAudioManager.GridObjectSounds.Knochen);
+    }
+
     // If letter==true, return letter, else return number
     private GameAudioManager.NavigationSounds GetNavigationEnum(int pos, bool letter)
     {
@@ -634,6 +640,23 @@ public class GameManager : MonoBehaviour
         }
 
         return GameAudioManager.NavigationSounds.Null; // shouldnt happen
+    }
+
+    private GameAudioManager.NavigationSounds GetNumberOFSomethingEnum(int number)
+    {
+        if (number >= 5)
+            return GameAudioManager.NavigationSounds.Fünf;
+        else if (number == 4)
+            return GameAudioManager.NavigationSounds.Vier;
+        else if (number == 3)
+            return GameAudioManager.NavigationSounds.Drei;
+        else if (number == 2)
+            return GameAudioManager.NavigationSounds.Zwei;
+        else if (number == 1)
+            return GameAudioManager.NavigationSounds.Ein;
+
+
+        return GameAudioManager.NavigationSounds.Null;
     }
 
     private GameAudioManager.GridObjectSounds GetGridObjectSound(Vector3Int pos)
