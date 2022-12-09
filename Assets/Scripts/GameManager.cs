@@ -608,7 +608,9 @@ public class GameManager : MonoBehaviour
 
         if (letter)
         {
-            if (pos == mTilemapMinBounds.x + 1)
+            if (pos == mTilemapMinBounds.x)
+                return GameAudioManager.NavigationSounds.A;
+            else if (pos == mTilemapMinBounds.x + 1)
                 return GameAudioManager.NavigationSounds.B;
             else if (pos == mTilemapMinBounds.x + 2)
                 return GameAudioManager.NavigationSounds.C;
@@ -619,7 +621,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (pos == mTilemapMinBounds.y + 1)
+            if (pos == mTilemapMinBounds.y)
+                return GameAudioManager.NavigationSounds.Fünf;
+            else if (pos == mTilemapMinBounds.y + 1)
                 return GameAudioManager.NavigationSounds.Vier;
             else if (pos == mTilemapMinBounds.y + 2)
                 return GameAudioManager.NavigationSounds.Drei;
