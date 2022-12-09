@@ -170,6 +170,22 @@ public class GameAudioManager : MonoBehaviour
             mAudioQueue.Enqueue(gridObjClip);
     }
 
+    // TODO add "noch... zuege" clip
+    public void PlayTurnsLeft(NavigationSounds number)
+    {
+        mAudioQueue.Clear();
+
+        AudioClip numberClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == number)
+                numberClip = clipNavigation.audioClip;
+        }
+
+        if (numberClip)
+            mAudioSource.PlayOneShot(numberClip);
+    }
+
     public void PlayAudioPositionInGrid(NavigationSounds letter, NavigationSounds number, GridObjectSounds gridObject)
     {
         mAudioQueue.Clear();

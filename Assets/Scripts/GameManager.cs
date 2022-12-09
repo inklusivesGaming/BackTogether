@@ -288,6 +288,10 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetButtonDown("Info_NumberOfBones"))
             TellNumberOfBones();
+
+        if (Input.GetButtonDown("Info_TurnsLeft"))
+            TellNumberOfTurnsLeft();
+
     }
 
     private void StartSelectionMovement(Vector2Int direction)
@@ -605,7 +609,12 @@ public class GameManager : MonoBehaviour
 
     private void TellNumberOfBones()
     {
-        mGameAudioManager.PlayBoneInfo(GetNumberOFSomethingEnum(mNumberOfBones), GameAudioManager.GridObjectSounds.Knochen);
+        mGameAudioManager.PlayBoneInfo(GetNumberOfSomethingEnum(mNumberOfBones), GameAudioManager.GridObjectSounds.Knochen);
+    }
+
+    private void TellNumberOfTurnsLeft()
+    {
+        mGameAudioManager.PlayTurnsLeft(GetNumberOfSomethingEnum(5 - mNumberOfTurns % 5));
     }
 
     // If letter==true, return letter, else return number
@@ -642,7 +651,7 @@ public class GameManager : MonoBehaviour
         return GameAudioManager.NavigationSounds.Null; // shouldnt happen
     }
 
-    private GameAudioManager.NavigationSounds GetNumberOFSomethingEnum(int number)
+    private GameAudioManager.NavigationSounds GetNumberOfSomethingEnum(int number)
     {
         if (number >= 5)
             return GameAudioManager.NavigationSounds.Fünf;
