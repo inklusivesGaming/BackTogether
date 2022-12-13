@@ -108,6 +108,61 @@ public class GameAudioManager : MonoBehaviour
         mAudioSource.PlayOneShot(clip);
     }
 
+    public void PlayHoleFilledEvent(EventSounds theHoleAt, NavigationSounds letter, NavigationSounds number, EventSounds isClosed, EventSounds youCanCrossIt)
+    {
+        mAudioQueue.Clear();
+
+        AudioClip theHoleAtClip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == theHoleAt)
+                theHoleAtClip = clipEvent.audioClip;
+        }
+
+        if (theHoleAtClip)
+            mAudioSource.PlayOneShot(theHoleAtClip);
+
+        AudioClip letterClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == letter)
+                letterClip = clipNavigation.audioClip;
+        }
+
+        if (letterClip)
+            mAudioQueue.Enqueue(letterClip);
+
+        AudioClip numberClip = null;
+        foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
+        {
+            if (clipNavigation.sound == number)
+                numberClip = clipNavigation.audioClip;
+        }
+
+        if (numberClip)
+            mAudioQueue.Enqueue(numberClip);
+
+        AudioClip isClosedClip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == isClosed)
+                isClosedClip = clipEvent.audioClip;
+        }
+
+        if (isClosedClip)
+            mAudioQueue.Enqueue(isClosedClip);
+
+        AudioClip youCanCrossItClip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == youCanCrossIt)
+                youCanCrossItClip = clipEvent.audioClip;
+        }
+
+        if (youCanCrossItClip)
+            mAudioQueue.Enqueue(youCanCrossItClip);
+    }
+
     public void PlayStonifyInformation (EventSounds generalText, NavigationSounds letter, NavigationSounds number)
     {
         mAudioQueue.Clear();

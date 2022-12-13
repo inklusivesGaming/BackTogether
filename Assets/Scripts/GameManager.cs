@@ -196,6 +196,12 @@ public class GameManager : MonoBehaviour
             Deselect();
             mTilemap.SetTile(targetGridPos, null);
             mTilemap.SetTile(oldGridPos, null);
+            mGameAudioManager.PlayHoleFilledEvent
+                (GameAudioManager.EventSounds.DasLochBei, 
+                GetNavigationEnum(targetGridPos.x, true), 
+                GetNavigationEnum(targetGridPos.y, false), 
+                GameAudioManager.EventSounds.istVerschlossen, 
+                GameAudioManager.EventSounds.DuKannstDrueberlaufen);
             return true;
         }
 
@@ -321,7 +327,6 @@ public class GameManager : MonoBehaviour
             mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.ObjektBewegen);
         else
             mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.AuswahlfeldBewegen);
-
     }
 
     private void SelectionGetsMoved()
@@ -412,7 +417,6 @@ public class GameManager : MonoBehaviour
         mSelectedTileBaseGridObject = null;
 
         mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.AbwahlObjekt);
-
     }
 
     private bool IsSelectionValid(Vector3Int gridPos)
