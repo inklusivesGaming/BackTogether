@@ -537,6 +537,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (mSurpriseChestHappened)
+            mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.RaetselPuffSound);
+
     }
 
     private bool CheckIfDino(Vector3Int pos)
