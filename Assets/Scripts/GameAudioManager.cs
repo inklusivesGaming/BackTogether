@@ -75,7 +75,9 @@ public class GameAudioManager : MonoBehaviour
         AbwahlObjekt,
         Verboten,
         ObjektBewegen,
-        ObjektAusgewaehltDauerhaft
+        ObjektAusgewaehltDauerhaft,
+        KnochenGesammelt,
+        SteinZerstoert
     }
 
     public void PlayActionSound(ActionSounds sound)

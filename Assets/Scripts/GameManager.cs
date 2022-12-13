@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
         {
             // remove bone and perform normal tile movement action
             ChangeNumberOfBones(false);
-            //TODO SOUND
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.SteinZerstoert);
             return false;
         }
         return false;
@@ -236,15 +236,15 @@ public class GameManager : MonoBehaviour
         if (addBone)
         {
             mNumberOfBones++;
-            //TODO SOUND
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.KnochenGesammelt);
         }
         else
         {
             mNumberOfBones--;
+            mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.KnochenGesammelt);
             if (mNumberOfBones < 0)
                 // shouldnt happen
                 mNumberOfBones = 0;
-            //TODO SOUND
         }
 
         mNumberOfBonesText.text = mNumberOfBones.ToString();
