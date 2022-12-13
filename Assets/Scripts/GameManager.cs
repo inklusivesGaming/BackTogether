@@ -587,7 +587,7 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         mWinScreen.SetActive(true);
-        //mFinalScreenAudioSource.PlayOneShot(mAudioClips[8]);
+        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
 
         gameObject.SetActive(false);
     }

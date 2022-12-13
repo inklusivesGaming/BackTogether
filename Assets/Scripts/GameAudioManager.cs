@@ -64,7 +64,8 @@ public class GameAudioManager : MonoBehaviour
         DasLochBei,
         istVerschlossen,
         DuKannstDrueberlaufen,
-        WeiterMitLeertaste
+        WeiterMitLeertaste,
+        LevelGeschafft
     }
 
     public enum ActionSounds
