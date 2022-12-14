@@ -130,6 +130,59 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 4c0008b6b9862da4b91e01865ea8ed52, type: 3}
   - sound: 7
     audioClip: {fileID: 8300000, guid: 0e6fd701c0e30d842a2c022f547b098c, type: 3}
+  mAudioClipsStartMenu:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: d07af35589dacb34da399d7bcc0e7448, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: fcb4fe96ae57135488fd930ebbdbd9a7, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 87683f9b7a5886545990e5ad03ade569, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 66911e542b53edb478e7b3dd088cfe6d, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: fe2a0ba9bf70e034d8a7f763021940f8, type: 3}
+  mAudioClipsChapterMenu:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: c06299386e2b0a242b8c64b6f4ed12fd, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: ba2225d91fe52ab46a0895d635dde05b, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 49d0c43b3bebe314d81d5ff14943495b, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 0cf7e7177e229454f96a06e507669a42, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: daf9fbcd7accba3489677a96a9b75dd9, type: 3}
+  mAudioClipsOptionsMenu:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: 5100e261b40fb00478679bbb4004e86e, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: 9aed8dd08b2c7354fbcf2385bcb50522, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: 5643bbf8f505bb846bec2506ef5bad39, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 393bb3a7924bdfd47a5dc8c5a68dc558, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: e8f377bc49891ef44bb859980b375e99, type: 3}
+  - sound: 5
+    audioClip: {fileID: 8300000, guid: a160c72cfd1bd8c4f854eba4fcd93937, type: 3}
+  - sound: 6
+    audioClip: {fileID: 8300000, guid: d9f11281ca589644d8784032154f4c36, type: 3}
+  - sound: 7
+    audioClip: {fileID: 8300000, guid: 18d5210421d2ecd4592e9e6ddfa92239, type: 3}
+  mAudioClipsCreditsMenu:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: e811a90cb6b4d944f9d1d871a273ca0f, type: 3}
+  mAudioClipsPauseMenu:
+  - sound: 0
+    audioClip: {fileID: 8300000, guid: 4f7beb26a9d912e479ce0850898d19b2, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: ff15649f39b75dc479903fe044957505, type: 3}
+  - sound: 2
+    audioClip: {fileID: 8300000, guid: e6a949a4302cd7b49bc9bef4fedde055, type: 3}
+  - sound: 3
+    audioClip: {fileID: 8300000, guid: 09fcc300b9a7aa143b71a14a5c416f72, type: 3}
+  - sound: 4
+    audioClip: {fileID: 8300000, guid: 647976ce576270e4286b83e1cb631785, type: 3}
 --- !u!82 &6
 AudioSource:
   m_ObjectHideFlags: 0

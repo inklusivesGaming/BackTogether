@@ -11,6 +11,12 @@ public class GameAudioManager : MonoBehaviour
     public AudioClipEvent[] mAudioClipsEvents;
     public AudioClipAction[] mAudioClipsActions;
 
+    public AudioClipStartMenu[] mAudioClipsStartMenu;
+    public AudioClipChapterMenu[] mAudioClipsChapterMenu;
+    public AudioClipOptionsMenu[] mAudioClipsOptionsMenu;
+    public AudioClipCreditsMenu[] mAudioClipsCreditsMenu;
+    public AudioClipPauseMenu[] mAudioClipsPauseMenu;
+
     private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
 
     private void Start()
@@ -78,6 +84,50 @@ public class GameAudioManager : MonoBehaviour
         ObjektAusgewaehltDauerhaft,
         KnochenGesammelt,
         SteinZerstoert
+    }
+
+    public enum StartMenuSounds
+    {
+        Intro,
+        Spielstart,
+        Barrierefreiheit,
+        Credits,
+        Exit
+    }
+
+    public enum ChapterMenuSounds
+    {
+        Intro,
+        Exit,
+        Kap1,
+        Kap2,
+        Kap3
+    }
+
+    public enum OptionsMenuSounds
+    {
+        Intro,
+        MusikOffOn,
+        MusikOnOff,
+        KontrastOffOn,
+        KontrastOnOff,
+        AudiobeschreibungOffOn,
+        AudiobeschreibungOnOff,
+        Exit
+    }
+
+    public enum CreditsMenuSounds
+    {
+        Mitgewirkt
+    }
+
+    public enum PauseMenuSounds
+    {
+        Intro,
+        BackGame,
+        RestartLevel,
+        Barrierefreiheitsmenue,
+        Exit
     }
 
     public void PlayActionSound(ActionSounds sound)
@@ -165,7 +215,7 @@ public class GameAudioManager : MonoBehaviour
             mAudioQueue.Enqueue(youCanCrossItClip);
     }
 
-    public void PlayStonifyInformation (EventSounds generalText, NavigationSounds letter, NavigationSounds number)
+    public void PlayStonifyInformation(EventSounds generalText, NavigationSounds letter, NavigationSounds number)
     {
         mAudioQueue.Clear();
 
@@ -231,8 +281,6 @@ public class GameAudioManager : MonoBehaviour
     // TODO add "noch... zuege" clip
     public void PlayTurnsLeft(NavigationSounds number)
     {
-        mAudioQueue.Clear();
-
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
         {
@@ -279,6 +327,72 @@ public class GameAudioManager : MonoBehaviour
             mAudioQueue.Enqueue(gridObjClip);
     }
 
+    public void PlayMenuSound(StartMenuSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipStartMenu clip in mAudioClipsStartMenu)
+        {
+            if (clip.sound == sound)
+                soundClip= clip.audioClip;
+        }
+
+        if (soundClip)
+            mAudioSource.PlayOneShot(soundClip);
+    }
+
+    public void PlayMenuSound(ChapterMenuSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipChapterMenu clip in mAudioClipsChapterMenu)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        if (soundClip)
+            mAudioSource.PlayOneShot(soundClip);
+    }
+
+    public void PlayMenuSound(OptionsMenuSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipOptionsMenu clip in mAudioClipsOptionsMenu)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        if (soundClip)
+            mAudioSource.PlayOneShot(soundClip);
+    }
+
+
+    public void PlayMenuSound(CreditsMenuSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipCreditsMenu clip in mAudioClipsCreditsMenu)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        if (soundClip)
+            mAudioSource.PlayOneShot(soundClip);
+    }
+
+    public void PlayMenuSound(PauseMenuSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipPauseMenu clip in mAudioClipsPauseMenu)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        if (soundClip)
+            mAudioSource.PlayOneShot(soundClip);
+    }
+
     [System.Serializable]
     public class AudioClipGridObject
     {
@@ -304,6 +418,41 @@ public class GameAudioManager : MonoBehaviour
     public class AudioClipAction
     {
         public ActionSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipStartMenu
+    {
+        public StartMenuSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipChapterMenu
+    {
+        public ChapterMenuSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipOptionsMenu
+    {
+        public OptionsMenuSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipCreditsMenu
+    {
+        public CreditsMenuSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipPauseMenu
+    {
+        public PauseMenuSounds sound;
         public AudioClip audioClip;
     }
 }
