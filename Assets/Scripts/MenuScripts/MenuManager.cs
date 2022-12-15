@@ -12,12 +12,12 @@ public class MenuManager : MonoBehaviour
     public string mCreditsSceneName = "Credits";
     protected GameAudioManager mGameAudioManager;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
 
-        if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager mgr))
-            mGameAudioManager = mgr;
+        if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
+            mGameAudioManager = audioMgr;
     }
 
     // Start is called before the first frame update

@@ -51,14 +51,28 @@ public class GameManager : MonoBehaviour
 
     private Vector3 mSelectionFieldCurrentWorldPos;
     private Vector3 mSelectionFieldTargetWorldPos;
-
-    public GameAudioManager mGameAudioManager;
-
+    
     private bool mSurpriseChestHappened = false; // used for audio feedback at end of turn
     private bool mStonifyHappened = false; // used for audio feedback at end of turn
 
     private List<Vector2Int> mSurpriseChestTransformGridPositions;
     private Vector2Int mStonifyGridPosition;
+    
+    private GameAudioManager mGameAudioManager;
+    private GameMenuManager mGameMenuManager;
+
+    private void Awake()
+    {
+        GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
+
+        if (gameAudioMgrObj && gameAudioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
+            mGameAudioManager = audioMgr;
+
+        GameObject gameMenuMgrObj = GameObject.FindGameObjectWithTag("GameMenuManager");
+
+        if (gameMenuMgrObj && gameMenuMgrObj.TryGetComponent(out GameMenuManager menuMgr))
+            mGameMenuManager = menuMgr;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -722,6 +736,16 @@ public class GameManager : MonoBehaviour
         mStonifyHappened = false;
         mSurpriseChestTransformGridPositions = new List<Vector2Int>();
         mStonifyGridPosition = new Vector2Int(-1, -1);
+    }
+
+    public void PauseGame()
+    {
+
+    }
+
+    public void UnPauseGame()
+    {
+
     }
 
 }
