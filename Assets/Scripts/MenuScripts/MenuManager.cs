@@ -2,9 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    public string mNextSceneName = "Level1";
+    public string mStartMenuSceneName = "StartMenu";
+    public string mOptionsSceneName = "Options";
+    public string mCreditsSceneName = "Credits";
     protected GameAudioManager mGameAudioManager;
 
     private void Awake()
@@ -25,6 +30,38 @@ public class MenuManager : MonoBehaviour
     {
         if (!mGameAudioManager)
             return;
+    }
+
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(mNextSceneName);
+    }
+
+    public void LoadStartMenuScene()
+    {
+        SceneManager.LoadScene(mStartMenuSceneName);
+    }
+
+    public void LoadOptionsScene()
+    {
+        SceneManager.LoadScene(mOptionsSceneName);
+    }
+
+    public void LoadCreditsScene()
+    {
+        SceneManager.LoadScene(mCreditsSceneName);
+    }
+
+    public void ExitGame()
+
+    {
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+
     }
 
     // Update is called once per frame
