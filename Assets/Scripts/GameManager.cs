@@ -743,7 +743,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void UnPauseGame()
+    public void ResumeGame()
     {
 
     }

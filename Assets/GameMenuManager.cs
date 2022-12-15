@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameMenuManager : MenuManager
 {
@@ -68,8 +69,13 @@ public class GameMenuManager : MenuManager
         if (mGameManager)
         {
             mGameManager.gameObject.SetActive(true);
-            mGameManager.UnPauseGame();
+            mGameManager.ResumeGame();
         }
         mPause = false;
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
