@@ -19,16 +19,15 @@ public class GameAudioManager : MonoBehaviour
 
     private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
 
-    private void Start()
+    private enum AudioSourcePlayType
     {
-        mAudioQueue = new Queue<AudioClip>();
+        JustPlay,               // just play the sound, without interfering with other sounds
+        StopAndPlay,            // stop the currently playing sound and play sound
+        StopClearQueueAndPlay, // stop the currently playing sound, delete the queue, and play sound
+        JustEnqueue,            // just enqueue the sound, without interfering with other sounds
+        ClearAndEnqueue        // delete the queue and enqueue the sound
     }
 
-    private void Update()
-    {
-        if (!(mAudioSource.isPlaying) && mAudioQueue.Count > 0)
-            mAudioSource.PlayOneShot(mAudioQueue.Dequeue());
-    }
 
     public enum GridObjectSounds
     {
@@ -130,6 +129,16 @@ public class GameAudioManager : MonoBehaviour
         Exit
     }
 
+    private void Start()
+    {
+        mAudioQueue = new Queue<AudioClip>();
+    }
+
+    private void Update()
+    {
+        if (!(mAudioSource.isPlaying) && mAudioQueue.Count > 0)
+            mAudioSource.PlayOneShot(mAudioQueue.Dequeue());
+    }
     public void PlayActionSound(ActionSounds sound)
     {
         AudioClip clip = null;
@@ -139,10 +148,7 @@ public class GameAudioManager : MonoBehaviour
                 clip = clipAction.audioClip;
         }
 
-        if (!clip)
-            return;
-
-        mAudioSource.PlayOneShot(clip);
+        AudioSourcePlay(clip, AudioSourcePlayType.JustPlay);
     }
 
     public void PlayEventSound(EventSounds sound)
@@ -154,15 +160,12 @@ public class GameAudioManager : MonoBehaviour
                 clip = clipEvent.audioClip;
         }
 
-        if (!clip)
-            return;
-
-        mAudioSource.PlayOneShot(clip);
+        AudioSourcePlay(clip, AudioSourcePlayType.JustPlay);
     }
 
     public void PlayHoleFilledEvent(EventSounds theHoleAt, NavigationSounds letter, NavigationSounds number, EventSounds isClosed, EventSounds youCanCrossIt)
     {
-        mAudioQueue.Clear();
+        StopAudio();
 
         AudioClip theHoleAtClip = null;
         foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
@@ -171,8 +174,7 @@ public class GameAudioManager : MonoBehaviour
                 theHoleAtClip = clipEvent.audioClip;
         }
 
-        if (theHoleAtClip)
-            mAudioSource.PlayOneShot(theHoleAtClip);
+        AudioSourcePlay(theHoleAtClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -181,8 +183,7 @@ public class GameAudioManager : MonoBehaviour
                 letterClip = clipNavigation.audioClip;
         }
 
-        if (letterClip)
-            mAudioQueue.Enqueue(letterClip);
+        AudioSourcePlay(letterClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -201,8 +202,7 @@ public class GameAudioManager : MonoBehaviour
                 isClosedClip = clipEvent.audioClip;
         }
 
-        if (isClosedClip)
-            mAudioQueue.Enqueue(isClosedClip);
+        AudioSourcePlay(isClosedClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip youCanCrossItClip = null;
         foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
@@ -211,13 +211,12 @@ public class GameAudioManager : MonoBehaviour
                 youCanCrossItClip = clipEvent.audioClip;
         }
 
-        if (youCanCrossItClip)
-            mAudioQueue.Enqueue(youCanCrossItClip);
+        AudioSourcePlay(youCanCrossItClip, AudioSourcePlayType.JustEnqueue);
     }
 
     public void PlayStonifyInformation(EventSounds generalText, NavigationSounds letter, NavigationSounds number)
     {
-        mAudioQueue.Clear();
+        StopAudio();
 
         AudioClip generalTextClip = null;
         foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
@@ -226,8 +225,7 @@ public class GameAudioManager : MonoBehaviour
                 generalTextClip = clipEvent.audioClip;
         }
 
-        if (generalTextClip)
-            mAudioSource.PlayOneShot(generalTextClip);
+        AudioSourcePlay(generalTextClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -236,8 +234,7 @@ public class GameAudioManager : MonoBehaviour
                 letterClip = clipNavigation.audioClip;
         }
 
-        if (letterClip)
-            mAudioQueue.Enqueue(letterClip);
+        AudioSourcePlay(letterClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -246,15 +243,12 @@ public class GameAudioManager : MonoBehaviour
                 numberClip = clipNavigation.audioClip;
         }
 
-        if (numberClip)
-            mAudioQueue.Enqueue(numberClip);
-
-
+        AudioSourcePlay(numberClip, AudioSourcePlayType.JustEnqueue);
     }
 
     public void PlayBoneInfo(NavigationSounds number, GridObjectSounds boneGridObject)
     {
-        mAudioQueue.Clear();
+        StopAudio();
 
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -263,8 +257,7 @@ public class GameAudioManager : MonoBehaviour
                 numberClip = clipNavigation.audioClip;
         }
 
-        if (numberClip)
-            mAudioSource.PlayOneShot(numberClip);
+        AudioSourcePlay(numberClip, AudioSourcePlayType.JustEnqueue);
 
 
         AudioClip gridObjClip = null;
@@ -274,13 +267,13 @@ public class GameAudioManager : MonoBehaviour
                 gridObjClip = clipGridObject.audioClip;
         }
 
-        if (gridObjClip)
-            mAudioQueue.Enqueue(gridObjClip);
+        AudioSourcePlay(gridObjClip, AudioSourcePlayType.JustEnqueue);
     }
 
     // TODO add "noch... zuege" clip
     public void PlayTurnsLeft(NavigationSounds number)
     {
+        StopAudio();
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
         {
@@ -288,13 +281,12 @@ public class GameAudioManager : MonoBehaviour
                 numberClip = clipNavigation.audioClip;
         }
 
-        if (numberClip)
-            mAudioSource.PlayOneShot(numberClip);
+        AudioSourcePlay(numberClip, AudioSourcePlayType.JustPlay);
     }
 
     public void PlayAudioPositionInGrid(NavigationSounds letter, NavigationSounds number, GridObjectSounds gridObject)
     {
-        mAudioQueue.Clear();
+        StopAudio();
 
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -303,8 +295,7 @@ public class GameAudioManager : MonoBehaviour
                 letterClip = clipNavigation.audioClip;
         }
 
-        if (letterClip)
-            mAudioSource.PlayOneShot(letterClip);
+        AudioSourcePlay(letterClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip numberClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
@@ -313,8 +304,7 @@ public class GameAudioManager : MonoBehaviour
                 numberClip = clipNavigation.audioClip;
         }
 
-        if (numberClip)
-            mAudioQueue.Enqueue(numberClip);
+        AudioSourcePlay(numberClip, AudioSourcePlayType.JustEnqueue);
 
         AudioClip gridObjClip = null;
         foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
@@ -323,8 +313,7 @@ public class GameAudioManager : MonoBehaviour
                 gridObjClip = clipGridObject.audioClip;
         }
 
-        if (gridObjClip)
-            mAudioQueue.Enqueue(gridObjClip);
+        AudioSourcePlay(gridObjClip, AudioSourcePlayType.JustEnqueue);
     }
 
     public void PlayMenuSound(StartMenuSounds sound)
@@ -333,11 +322,10 @@ public class GameAudioManager : MonoBehaviour
         foreach (AudioClipStartMenu clip in mAudioClipsStartMenu)
         {
             if (clip.sound == sound)
-                soundClip= clip.audioClip;
+                soundClip = clip.audioClip;
         }
 
-        if (soundClip)
-            mAudioSource.PlayOneShot(soundClip);
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
     public void PlayMenuSound(ChapterMenuSounds sound)
@@ -349,8 +337,7 @@ public class GameAudioManager : MonoBehaviour
                 soundClip = clip.audioClip;
         }
 
-        if (soundClip)
-            mAudioSource.PlayOneShot(soundClip);
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
     public void PlayMenuSound(OptionsMenuSounds sound)
@@ -362,10 +349,8 @@ public class GameAudioManager : MonoBehaviour
                 soundClip = clip.audioClip;
         }
 
-        if (soundClip)
-            mAudioSource.PlayOneShot(soundClip);
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
-
 
     public void PlayMenuSound(CreditsMenuSounds sound)
     {
@@ -376,8 +361,7 @@ public class GameAudioManager : MonoBehaviour
                 soundClip = clip.audioClip;
         }
 
-        if (soundClip)
-            mAudioSource.PlayOneShot(soundClip);
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
     public void PlayMenuSound(PauseMenuSounds sound)
@@ -389,8 +373,49 @@ public class GameAudioManager : MonoBehaviour
                 soundClip = clip.audioClip;
         }
 
-        if (soundClip)
-            mAudioSource.PlayOneShot(soundClip);
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+    }
+
+
+    // play clip in audio source, acting depending on the given AudioSourcePlayType
+    private void AudioSourcePlay(AudioClip soundClip, AudioSourcePlayType playType)
+    {
+        if (!soundClip)
+            return;
+
+        switch (playType)
+        {
+            case AudioSourcePlayType.JustPlay:
+                mAudioSource.PlayOneShot(soundClip);
+                break;
+            case AudioSourcePlayType.StopAndPlay:
+                mAudioSource.Stop();
+                mAudioSource.PlayOneShot(soundClip);
+                break;
+            case AudioSourcePlayType.StopClearQueueAndPlay:
+                mAudioSource.Stop();
+                mAudioQueue.Clear();
+                mAudioSource.PlayOneShot(soundClip);
+                break;
+            case AudioSourcePlayType.JustEnqueue:
+                mAudioQueue.Enqueue(soundClip);
+                break;
+            case AudioSourcePlayType.ClearAndEnqueue:
+                mAudioQueue.Clear();
+                mAudioQueue.Enqueue(soundClip);
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void StopAudio(bool stopSource = true, bool clearQueue = true)
+    {
+        if (stopSource)
+            mAudioSource.Stop();
+        if (clearQueue)
+            mAudioQueue.Clear();
     }
 
     [System.Serializable]

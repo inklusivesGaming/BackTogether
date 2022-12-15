@@ -90,7 +90,9 @@ public class GameManager : MonoBehaviour
         }
         else
             // listen for a new input
-            HandleInputs();
+            HandleActionInputs();
+
+        HandleInfoInputs(); // can be fired without cooldown
 
         TurnReport();
     }
@@ -197,10 +199,10 @@ public class GameManager : MonoBehaviour
             mTilemap.SetTile(targetGridPos, null);
             mTilemap.SetTile(oldGridPos, null);
             mGameAudioManager.PlayHoleFilledEvent
-                (GameAudioManager.EventSounds.DasLochBei, 
-                GetNavigationEnum(targetGridPos.x, true), 
-                GetNavigationEnum(targetGridPos.y, false), 
-                GameAudioManager.EventSounds.istVerschlossen, 
+                (GameAudioManager.EventSounds.DasLochBei,
+                GetNavigationEnum(targetGridPos.x, true),
+                GetNavigationEnum(targetGridPos.y, false),
+                GameAudioManager.EventSounds.istVerschlossen,
                 GameAudioManager.EventSounds.DuKannstDrueberlaufen);
             return true;
         }
@@ -251,7 +253,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void HandleInputs()
+    private void HandleActionInputs()
     {
         // Horizontal or vertical selection movement
 
@@ -259,36 +261,25 @@ public class GameManager : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         if (horizontal > 0)
-        {
             StartSelectionMovement(new Vector2Int(1, 0));
-        }
 
         else if (horizontal < 0)
-        {
             StartSelectionMovement(new Vector2Int(-1, 0));
-        }
 
         else if (vertical > 0)
-        {
             StartSelectionMovement(new Vector2Int(0, 1));
-        }
 
         else if (vertical < 0)
-        {
             StartSelectionMovement(new Vector2Int(0, -1));
-        }
 
         // Selection button down
 
         if (Input.GetButtonDown("Select"))
-        {
             SelectButtonDown();
-        }
+    }
 
-        // Restart button down
-        //if (Input.GetKeyDown("r"))
-        //    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
+    private void HandleInfoInputs()
+    {
         if (Input.GetButtonDown("Info_GridPosition"))
             TellGridPosition();
 
@@ -297,8 +288,8 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetButtonDown("Info_TurnsLeft"))
             TellNumberOfTurnsLeft();
-
     }
+
 
     private void StartSelectionMovement(Vector2Int direction)
     {

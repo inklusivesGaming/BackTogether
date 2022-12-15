@@ -6,11 +6,22 @@ using UnityEngine.EventSystems;
 
 public class ButtonSoundStartMenu : MonoBehaviour, ISelectHandler
 {
-    public GameAudioManager mGameAudioManager;
+    private GameAudioManager mGameAudioManager = null;
     public GameAudioManager.StartMenuSounds mStartMenuSound;
+
+    private void Awake()
+    {
+
+        GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
+
+        if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager mgr))
+            mGameAudioManager = mgr;
+    }
 
     public void OnSelect(BaseEventData eventData)
     {
+        if (!mGameAudioManager)
+            return;
         mGameAudioManager.PlayMenuSound(mStartMenuSound);
     }
 }
