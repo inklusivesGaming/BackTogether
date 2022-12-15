@@ -11,7 +11,6 @@ public class ButtonSoundStartMenu : MonoBehaviour, ISelectHandler
 
     private void Awake()
     {
-
         GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
 
         if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager mgr))
