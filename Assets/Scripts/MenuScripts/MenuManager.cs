@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class StartMenuManager : MonoBehaviour
+public class MenuManager : MonoBehaviour
 {
-    private GameAudioManager mGameAudioManager;
+    protected GameAudioManager mGameAudioManager;
 
     private void Awake()
     {
@@ -18,7 +18,18 @@ public class StartMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(mGameAudioManager)
-            mGameAudioManager.PlayMenuSound(GameAudioManager.StartMenuSounds.Intro);
+        PlayIntroSound();
+    }
+
+    protected virtual void PlayIntroSound()
+    {
+        if (!mGameAudioManager)
+            return;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 }
