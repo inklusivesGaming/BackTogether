@@ -9,12 +9,6 @@ public class ChapterMenuManager : MenuManager
     public string mChapterTwoName = "Level2";
     public string mChapterThreeName = "Level3";
 
-    protected override void Start()
-    {
-        base.Start();
-
-    }
-
     protected override void PlayIntroSound()
     {
         if (!mGameAudioManager)

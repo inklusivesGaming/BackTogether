@@ -10,8 +10,8 @@ public class MenuManager : MonoBehaviour
 {
     public string mNextSceneName = "Level1";
     public string mStartMenuSceneName = "StartMenu";
-    public string mOptionsSceneName = "Options";
-    public string mCreditsSceneName = "Credits";
+    public string mOptionsSceneName = "OptionsMenu";
+    public string mCreditsSceneName = "CreditsMenu";
     protected GameAudioManager mGameAudioManager;
     protected EventSystem mEventSystem;
     protected GameObject mSelectedUIObject = null;
