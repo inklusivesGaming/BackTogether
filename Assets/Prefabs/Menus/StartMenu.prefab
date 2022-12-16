@@ -125,7 +125,6 @@ GameObject:
   - component: {fileID: 5959650070743915094}
   - component: {fileID: 5698945404148136863}
   - component: {fileID: 7865619227973057754}
-  - component: {fileID: 8032650760064086013}
   m_Layer: 5
   m_Name: ArrowButton
   m_TagString: Untagged
@@ -236,18 +235,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8032650760064086013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415845826607447959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c224874c71480dc4a93e3d011388137b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1854104675702211488
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,9 +2277,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mNextSceneName: Level1
-  mMainMenuSceneName: MainMenu
+  mStartMenuSceneName: StartMenu
   mOptionsSceneName: Options
   mCreditsSceneName: Credits
+  mMenuHeadButton: {fileID: 7865619227973057754}
 --- !u!1 &8474628479475078841
 GameObject:
   m_ObjectHideFlags: 0

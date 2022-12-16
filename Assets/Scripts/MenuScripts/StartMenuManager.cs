@@ -1,12 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StartMenuManager : MenuManager
 {
+    protected override void Start()
+    {
+        base.Start();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
-protected override void PlayIntroSound()
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void PlayIntroSound()
     {
         if (!mGameAudioManager)
             return;
