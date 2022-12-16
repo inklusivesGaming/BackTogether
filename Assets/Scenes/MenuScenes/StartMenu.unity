@@ -898,6 +898,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1692373977496203095, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1692373977496203095, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1692373977496203095, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3372462642143725984, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -930,6 +942,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: MenuManager, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 5985565784939770549, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -5.0000305
+      objectReference: {fileID: 0}
     - target: {fileID: 7144990082912444288, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -949,6 +965,14 @@ PrefabInstance:
     - target: {fileID: 8333149847606888080, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
       propertyPath: m_Name
       value: StartMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931185736609948490, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8931185736609948490, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 741fe99d8e56d6b4ea52f9a4203215e4, type: 3}
