@@ -2276,7 +2276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bb88b0f4517654fb6904773d2783e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mNextSceneName: Level1
+  mNextSceneName: ChapterMenu
   mStartMenuSceneName: StartMenu
   mOptionsSceneName: Options
   mCreditsSceneName: Credits

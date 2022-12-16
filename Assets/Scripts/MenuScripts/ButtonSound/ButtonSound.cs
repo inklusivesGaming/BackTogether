@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonSoundStartMenu : MonoBehaviour, ISelectHandler
+public class ButtonSound : MonoBehaviour, ISelectHandler
 {
-    private GameAudioManager mGameAudioManager = null;
-    public GameAudioManager.StartMenuSounds mStartMenuSound;
+    protected GameAudioManager mGameAudioManager = null;
+    // define your menu sound enum
 
-    private void Awake()
+
+    protected virtual void Awake()
     {
         GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
 
@@ -17,10 +17,10 @@ public class ButtonSoundStartMenu : MonoBehaviour, ISelectHandler
             mGameAudioManager = mgr;
     }
 
-    public void OnSelect(BaseEventData eventData)
+    public virtual void OnSelect(BaseEventData eventData)
     {
         if (!mGameAudioManager)
             return;
-        mGameAudioManager.PlayMenuSound(mStartMenuSound);
+        // mGameAudioManager.PlayMenuSound(yourmenusoundenum);
     }
 }

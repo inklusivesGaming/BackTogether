@@ -11,11 +11,6 @@ public class StartMenuManager : MenuManager
         Cursor.visible = false;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     protected override void PlayIntroSound()
     {
         if (!mGameAudioManager)
