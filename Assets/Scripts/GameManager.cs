@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
     private Vector2Int mStonifyGridPosition;
     
     private GameAudioManager mGameAudioManager;
-    private GameMenuManager mGameMenuManager;
 
     private void Awake()
     {
@@ -67,11 +66,6 @@ public class GameManager : MonoBehaviour
 
         if (gameAudioMgrObj && gameAudioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
             mGameAudioManager = audioMgr;
-
-        GameObject gameMenuMgrObj = GameObject.FindGameObjectWithTag("GameMenuManager");
-
-        if (gameMenuMgrObj && gameMenuMgrObj.TryGetComponent(out GameMenuManager menuMgr))
-            mGameMenuManager = menuMgr;
     }
 
     // Start is called before the first frame update
