@@ -171,9 +171,9 @@ RectTransform:
   m_Father: {fileID: 4143720749073182487}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.35, y: -193.30045}
   m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &348903489
@@ -258,8 +258,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
+      - m_Target: {fileID: 5996078744910328002}
+        m_TargetAssemblyTypeName: IngameMenusManager, Assembly-CSharp
         m_MethodName: ReloadScene
         m_Mode: 1
         m_Arguments:
@@ -761,9 +761,9 @@ RectTransform:
   m_Father: {fileID: 4143720749073182487}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.35, y: -138.07175}
   m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1799610117
@@ -848,17 +848,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadNextScene
-        m_Mode: 1
+      - m_Target: {fileID: 5996078744910328002}
+        m_TargetAssemblyTypeName: IngameMenusManager, Assembly-CSharp
+        m_MethodName: SwitchMenu
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Level1
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &5888941428215744969
 MonoBehaviour:
@@ -1177,9 +1177,9 @@ RectTransform:
   m_Father: {fileID: 4143720749073182487}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.35, y: -248.52914}
   m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2058626446
@@ -1264,7 +1264,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2086701250405225235}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadStartMenuScene
         m_Mode: 1
@@ -1325,9 +1325,9 @@ RectTransform:
   m_Father: {fileID: 4143720749073182487}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.35, y: -82.84305}
   m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2135486766
@@ -1412,8 +1412,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameMenuManager, Assembly-CSharp
+      - m_Target: {fileID: 5996078744910328002}
+        m_TargetAssemblyTypeName: IngameMenusManager, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -2558,7 +2558,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a8e0e6f0d02a46ab07c320840d355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 2626050714226102484}
+  mPauseMenu: {fileID: 2626050714226102484}
+  mOptionsMenu: {fileID: 4281299426835019369}
+  mPauseMenuHeadButton: {fileID: 8319783700359603303}
+  mOptionsMenuHeadButton: {fileID: 6215455903207334790}
 --- !u!1 &2626050714226102484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2570,13 +2573,14 @@ GameObject:
   - component: {fileID: 2626050714226102485}
   - component: {fileID: 2626050714226102487}
   - component: {fileID: 2626050714226102486}
+  - component: {fileID: 2086701250405225235}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2626050714226102485
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2637,6 +2641,23 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2086701250405225235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626050714226102484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59dc6a7596b51754f8809956f309d606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mNextSceneName: Level1
+  mStartMenuSceneName: StartMenu
+  mOptionsSceneName: OptionsMenu
+  mCreditsSceneName: CreditsMenu
+  mMenuHeadButton: {fileID: 0}
 --- !u!1 &2666561656824576820
 GameObject:
   m_ObjectHideFlags: 0
@@ -2884,9 +2905,9 @@ RectTransform:
   m_Father: {fileID: 4143720749073182487}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 233.35, y: -27.61435}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8506138169980941192
@@ -3268,6 +3289,7 @@ GameObject:
   - component: {fileID: 7151976131463353205}
   - component: {fileID: 9163613570952947343}
   - component: {fileID: 1143496791752329075}
+  - component: {fileID: 7871200626579711206}
   m_Layer: 5
   m_Name: OptionsMenu
   m_TagString: Untagged
@@ -3335,6 +3357,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7871200626579711206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4281299426835019369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a618471c81693439b23f512ec9496a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mNextSceneName: Level1
+  mStartMenuSceneName: StartMenu
+  mOptionsSceneName: OptionsMenu
+  mCreditsSceneName: CreditsMenu
+  mMenuHeadButton: {fileID: 6215455903207334790}
+  mMusicButton: {fileID: 6430843890388726772}
+  mAudioDescriptionButton: {fileID: 4912289923573006824}
+  mContrastButton: {fileID: 8278478196922075420}
+  mIsIngame: 1
+  mAudioDescriptionOnText: 'Audiobeschreibung: Ein'
+  mAudioDescriptionOffText: 'Audiobeschreibung: Aus'
+  mContrastOnText: "Kontrastverst\xE4rkung: Ein"
+  mContrastOffText: "Kontrastverst\xE4rkung: Aus"
 --- !u!1 &4494641290346675204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4118,7 +4165,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7871200626579711206}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: MusicButton
         m_Mode: 1
@@ -4400,7 +4447,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7871200626579711206}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadStartMenuScene
         m_Mode: 1
@@ -4685,7 +4732,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7871200626579711206}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: ContrastButton
         m_Mode: 1
@@ -4913,10 +4960,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadStartMenuScene
-        m_Mode: 1
+      - m_Target: {fileID: 5996078744910328002}
+        m_TargetAssemblyTypeName: IngameMenusManager, Assembly-CSharp
+        m_MethodName: SwitchMenu
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5063,7 +5110,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7871200626579711206}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: AudioDescriptionButton
         m_Mode: 1

@@ -48,6 +48,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!mEventSystem)
             return;
+
         GameObject selectedObj = mEventSystem.currentSelectedGameObject;
         if (selectedObj != mSelectedUIObject)
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))

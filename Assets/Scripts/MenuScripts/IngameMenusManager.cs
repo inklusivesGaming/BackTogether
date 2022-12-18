@@ -17,11 +17,14 @@ public class IngameMenusManager : MonoBehaviour
     public Button mOptionsMenuHeadButton;
 
     private EventSystem mEventSystem;
-
+    private GameAudioManager mGameAudioManager;
     private void Awake()
     {
-        GameObject gameMgrObj = GameObject.FindGameObjectWithTag("GameManager");
+        GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
+        if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
+            mGameAudioManager = audioMgr;
 
+        GameObject gameMgrObj = GameObject.FindGameObjectWithTag("GameManager");
         if (gameMgrObj && gameMgrObj.TryGetComponent(out GameManager gameMgr))
             mGameManager = gameMgr;
 
@@ -44,7 +47,10 @@ public class IngameMenusManager : MonoBehaviour
     public void Pause()
     {
         mPauseMenu.SetActive(true);
-        //TODO play  intro sound
+
+        if (mGameAudioManager)
+            mGameAudioManager.PlayMenuSound(GameAudioManager.PauseMenuSounds.Intro);
+
 
         Time.timeScale = 0f;
 
@@ -61,7 +67,11 @@ public class IngameMenusManager : MonoBehaviour
     public void Resume()
     {
         mPauseMenuHeadButton.interactable = true;
+        mOptionsMenuHeadButton.interactable = true;
+        if (mEventSystem)
+            mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
         mPauseMenu.SetActive(false);
+        mOptionsMenu.SetActive(false);
         Time.timeScale = 1f;
 
         if (mGameManager)
@@ -75,21 +85,27 @@ public class IngameMenusManager : MonoBehaviour
     // If true, switch from pause menu to options, else from options to pause menu
     public void SwitchMenu(bool pauseToOptions)
     {
-        if(pauseToOptions)
+        if (pauseToOptions)
         {
             mPauseMenuHeadButton.interactable = true;
             mPauseMenu.SetActive(false);
             mOptionsMenu.SetActive(true);
-            mEventSystem.SetSelectedGameObject(mOptionsMenuHeadButton.gameObject);
-            //TODO play intro sound
+            if (mOptionsMenu.TryGetComponent(out OptionsMenuManager optionsMenuMgr))
+                optionsMenuMgr.SetOptionsButtons();
+            if (mEventSystem)
+                mEventSystem.SetSelectedGameObject(mOptionsMenuHeadButton.gameObject);
+            if (mGameAudioManager)
+                mGameAudioManager.PlayMenuSound(GameAudioManager.OptionsMenuSounds.Intro);
         }
         else
         {
             mOptionsMenuHeadButton.interactable = true;
             mOptionsMenu.SetActive(false);
             mPauseMenu.SetActive(true);
-            mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
-            //TODO play  intro sound
+            if (mEventSystem)
+                mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
+            if (mGameAudioManager)
+                mGameAudioManager.PlayMenuSound(GameAudioManager.PauseMenuSounds.Intro);
         }
     }
 

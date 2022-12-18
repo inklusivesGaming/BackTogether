@@ -11,6 +11,9 @@ public class OptionsMenuManager : MenuManager
     public Button mAudioDescriptionButton;
     public Button mContrastButton;
 
+    [Tooltip("Set to true if this is the ingame options menu")]
+    public bool mIsIngame = false;
+
     public static bool mMusicOn = true;
     public static bool mAudioDescriptionOn = true;
     public static bool mContrastOn = false;
@@ -28,7 +31,7 @@ public class OptionsMenuManager : MenuManager
         SetOptionsButtons();
     }
 
-    private void SetOptionsButtons()
+    public void SetOptionsButtons()
     {
         SetButton(mMusicButton, mMusicOn, false, mMusicOnText, mMusicOffText);
         SetButton(mAudioDescriptionButton, mAudioDescriptionOn, false, mAudioDescriptionOnText, mAudioDescriptionOffText);
@@ -37,7 +40,7 @@ public class OptionsMenuManager : MenuManager
 
     protected override void PlayIntroSound()
     {
-        if (!mGameAudioManager)
+        if (!mGameAudioManager || mIsIngame)
             return;
 
         mGameAudioManager.PlayMenuSound(GameAudioManager.OptionsMenuSounds.Intro);

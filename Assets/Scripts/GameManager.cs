@@ -126,7 +126,6 @@ public class GameManager : MonoBehaviour
                 if (!targetTileBase)
                     continue;
                 GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetPos).GetComponent<GridObject>();
-                print(targetGridObject);
                 if (targetGridObject is NormalEgg)
                     mNormalEggsPositions.Add(targetPos);
             }
