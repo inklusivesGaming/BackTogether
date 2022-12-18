@@ -2235,7 +2235,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Zur\xFCck zum Spiel"
+  m_text: "Zur\xFCck zum Pausenmen\xFC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 659f921197150e046ac403f7d5d440e7, type: 2}
   m_sharedMaterial: {fileID: 9185331120835630292, guid: 659f921197150e046ac403f7d5d440e7, type: 2}
@@ -2657,7 +2657,7 @@ MonoBehaviour:
   mStartMenuSceneName: StartMenu
   mOptionsSceneName: OptionsMenu
   mCreditsSceneName: CreditsMenu
-  mMenuHeadButton: {fileID: 0}
+  mMenuHeadButton: {fileID: 8319783700359603303}
 --- !u!1 &2666561656824576820
 GameObject:
   m_ObjectHideFlags: 0

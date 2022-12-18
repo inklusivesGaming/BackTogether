@@ -57,6 +57,7 @@ public class MenuManager : MonoBehaviour
                 // menu head button can only be selected once
                 mMenuHeadButton.interactable = false;
 
+   
         mSelectedUIObject = mEventSystem.currentSelectedGameObject;
     }
 
