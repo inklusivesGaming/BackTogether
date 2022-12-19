@@ -13,18 +13,11 @@ public class GlobalVariables
     // Chapters that can be loaded in chapter menu
     //public static readonly string[] ChapterSceneNames = {"Level1", "Level2", "Level3" };
 
-    //public static readonly string[][] mSceneNames =
-    //    {
-    //    new string[] { "Chapter1Level1", "Chapter1Level2", "Chapter1Level3" },
-    //    new string[] { "Chapter2Level1", "Chapter2Level2", "Chapter2Level3" },
-    //    new string[] { "Chapter3Level1", "Chapter3Level2", "Chapter3Level3" }
-    //};
-
     public static readonly string[][] mSceneNames =
-    {
-        new string[] { "Chapter1Level1"},
-        new string[] { "Chapter2Level1"},
-        new string[] { "Chapter3Level1"}
+        {
+        new string[] { "Chapter1Level1", "Chapter1Level2", "Chapter1Level3" },
+        new string[] { "Chapter2Level1", "Chapter2Level2", "Chapter2Level3" },
+        new string[] { "Chapter3Level1", "Chapter3Level2", "Chapter3Level3" }
     };
 
     public static string GetNextScene(string currentScene)
