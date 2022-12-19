@@ -54,6 +54,12 @@ public class IngameMenusManager : OptionsMenuManager
     // Don't want to play intro sound at start
     protected override void PlayIntroSound() { }
 
+    public override void LoadStartMenuScene()
+    {
+        Time.timeScale = 1f;
+        base.LoadStartMenuScene();
+    }
+
     // Update is called once per frame
     protected override void Update()
     {
@@ -156,6 +162,7 @@ public class IngameMenusManager : OptionsMenuManager
 
     public void ReloadScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -187,6 +194,7 @@ public class IngameMenusManager : OptionsMenuManager
     {
         if (!mGameManager)
             return;
+        Time.timeScale = 1f;
         mGameManager.LoadNextScene();
     }
 

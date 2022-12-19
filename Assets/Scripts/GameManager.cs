@@ -44,13 +44,13 @@ public class GameManager : MonoBehaviour
 
     private Vector3 mSelectionFieldCurrentWorldPos;
     private Vector3 mSelectionFieldTargetWorldPos;
-    
+
     private bool mSurpriseChestHappened = false; // used for audio feedback at end of turn
     private bool mStonifyHappened = false; // used for audio feedback at end of turn
 
     private List<Vector2Int> mSurpriseChestTransformGridPositions;
     private Vector2Int mStonifyGridPosition;
-    
+
     private GameAudioManager mGameAudioManager;
 
     private IngameMenusManager mIngameMenusManager; // registers itself
@@ -107,8 +107,10 @@ public class GameManager : MonoBehaviour
     public void RegisterIngameMenusManager(IngameMenusManager ingameMenusManager)
     {
         mIngameMenusManager = ingameMenusManager;
-        if (mIngameMenusManager)
-            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
+        mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
+
+        if (mIsLastLevel)
+            mIngameMenusManager.SetLastLevel();
     }
 
     // Check where your map is and what kinds of objects are in there

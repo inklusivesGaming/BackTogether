@@ -62,22 +62,22 @@ public class MenuManager : MonoBehaviour
             return;
     }
 
-    public void LoadStartMenuScene()
+    public virtual void LoadStartMenuScene()
     {
         SceneManager.LoadScene(GlobalVariables.mStartMenuSceneName);
     }
 
-    public void LoadChapterMenuScene()
+    public virtual void LoadChapterMenuScene()
     {
         SceneManager.LoadScene(GlobalVariables.mChapterMenuSceneName);
     }
 
-    public void LoadOptionsMenuScene()
+    public virtual void LoadOptionsMenuScene()
     {
         SceneManager.LoadScene(GlobalVariables.mOptionsMenuSceneName);
     }
 
-    public void LoadCreditsMenuScene()
+    public virtual void LoadCreditsMenuScene()
     {
         SceneManager.LoadScene(GlobalVariables.mCreditsMenuSceneName);
     }
