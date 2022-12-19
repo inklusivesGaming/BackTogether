@@ -17,21 +17,12 @@ public class ChapterMenuManager : MenuManager
         mGameAudioManager.PlayMenuSound(GameAudioManager.ChapterMenuSounds.Intro);
     }
 
+    // Starting with 1
     public void LoadChapter(int number)
     {
-        switch (number)
-        {
-            default:
-                break;
-            case 1:
-                SceneManager.LoadScene(mChapterOneName);
-                break;
-            case 2:
-                SceneManager.LoadScene(mChapterTwoName);
-                break;
-            case 3:
-                SceneManager.LoadScene(mChapterThreeName);
-                break;
-        }
+        if (number > GlobalVariables.ChapterSceneNames.Length)
+            return;
+
+        SceneManager.LoadScene(GlobalVariables.ChapterSceneNames[number]);
     }
 }

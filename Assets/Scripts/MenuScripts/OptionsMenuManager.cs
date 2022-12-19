@@ -7,23 +7,11 @@ using System;
 
 public class OptionsMenuManager : MenuManager
 {
-    public Button mMusicButton;
-    public Button mAudioDescriptionButton;
-    public Button mContrastButton;
+    public Button mOptionsMusicButton;
+    public Button mOptionsAudioDescriptionButton;
+    public Button mOptionsContrastButton;
 
-    [Tooltip("Set to true if this is the ingame options menu")]
-    public bool mIsIngame = false;
 
-    public static bool mMusicOn = true;
-    public static bool mAudioDescriptionOn = true;
-    public static bool mContrastOn = false;
-
-    public const string mMusicOnText = "Musik: Ein";
-    public const string mMusicOffText = "Musik: Aus";
-    public string mAudioDescriptionOnText = "Audiobeschreibung: Ein";
-    public string mAudioDescriptionOffText = "Audiobeschreibung: Aus";
-    public string mContrastOnText = "Kontrastverstärkung: Ein";
-    public string mContrastOffText = "Kontrastverstärkung: Aus";
 
     protected override void Start()
     {
@@ -33,14 +21,14 @@ public class OptionsMenuManager : MenuManager
 
     public void SetOptionsButtons()
     {
-        SetButton(mMusicButton, mMusicOn, false, mMusicOnText, mMusicOffText);
-        SetButton(mAudioDescriptionButton, mAudioDescriptionOn, false, mAudioDescriptionOnText, mAudioDescriptionOffText);
-        SetButton(mContrastButton, mContrastOn, false, mContrastOnText, mContrastOffText);
+        SetButton(mOptionsMusicButton, GlobalVariables.mOptionMusicOn, false, GlobalVariables.mOptionMusicOnText, GlobalVariables.mOptionMusicOffText);
+        SetButton(mOptionsAudioDescriptionButton, GlobalVariables.mOptionAudioDescriptionOn, false, GlobalVariables.mOptionAudioDescriptionOnText, GlobalVariables.mOptionAudioDescriptionOffText);
+        SetButton(mOptionsContrastButton, GlobalVariables.mOptionContrastOn, false, GlobalVariables.mOptionContrastOnText, GlobalVariables.mOptionContrastOffText);
     }
 
     protected override void PlayIntroSound()
     {
-        if (!mGameAudioManager || mIsIngame)
+        if (!mGameAudioManager)
             return;
 
         mGameAudioManager.PlayMenuSound(GameAudioManager.OptionsMenuSounds.Intro);
@@ -48,20 +36,20 @@ public class OptionsMenuManager : MenuManager
 
     public void MusicButton()
     {
-        mMusicOn = !mMusicOn;
-        SetButton(mMusicButton, mMusicOn, true, mMusicOnText, mMusicOffText);
+        GlobalVariables.mOptionMusicOn = !GlobalVariables.mOptionMusicOn;
+        SetButton(mOptionsMusicButton, GlobalVariables.mOptionMusicOn, true, GlobalVariables.mOptionMusicOnText, GlobalVariables.mOptionMusicOffText);
     }
 
     public void AudioDescriptionButton()
     {
-        mAudioDescriptionOn = !mAudioDescriptionOn;
-        SetButton(mAudioDescriptionButton, mAudioDescriptionOn, true, mAudioDescriptionOnText, mAudioDescriptionOffText);
+        GlobalVariables.mOptionAudioDescriptionOn = !GlobalVariables.mOptionAudioDescriptionOn;
+        SetButton(mOptionsAudioDescriptionButton, GlobalVariables.mOptionAudioDescriptionOn, true, GlobalVariables.mOptionAudioDescriptionOnText, GlobalVariables.mOptionAudioDescriptionOffText);
     }
 
     public void ContrastButton()
     {
-        mContrastOn = !mContrastOn;
-        SetButton(mContrastButton, mContrastOn, true, mContrastOnText, mContrastOffText);
+        GlobalVariables.mOptionContrastOn = !GlobalVariables.mOptionContrastOn;
+        SetButton(mOptionsContrastButton, GlobalVariables.mOptionContrastOn, true, GlobalVariables.mOptionContrastOnText, GlobalVariables.mOptionContrastOffText);
     }
 
     public void SetButton(Button button, bool buttonOn, bool playSound, string buttonOnText, string buttonOffText)

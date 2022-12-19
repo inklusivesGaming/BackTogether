@@ -15,7 +15,7 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
         mAlreadyExists = true;
         DontDestroyOnLoad(gameObject);
-        mIsOn = OptionsMenuManager.mMusicOn;
+        mIsOn = GlobalVariables.mOptionMusicOn;
         if (TryGetComponent(out AudioSource audioSource))
         {
             mAudioSource = audioSource;
@@ -26,9 +26,9 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OptionsMenuManager.mMusicOn != mIsOn)
+        if (GlobalVariables.mOptionMusicOn != mIsOn)
         {
-            mIsOn = OptionsMenuManager.mMusicOn;
+            mIsOn = GlobalVariables.mOptionMusicOn;
             if (mAudioSource)
                 mAudioSource.volume = mIsOn ? 1 : 0;
         }

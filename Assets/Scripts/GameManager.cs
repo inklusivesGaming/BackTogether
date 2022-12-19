@@ -8,6 +8,7 @@ using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
+    public string mNextSceneName = "LevelX";
 
     //public Grid mGrid;
     public Tilemap mTilemap;
@@ -744,6 +745,11 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
 
+    }
+
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(mNextSceneName);
     }
 
 }

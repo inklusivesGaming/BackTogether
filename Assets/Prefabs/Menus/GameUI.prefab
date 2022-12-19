@@ -430,7 +430,6 @@ GameObject:
   - component: {fileID: 1781340551}
   - component: {fileID: 1781340550}
   - component: {fileID: 5970963416614650921}
-  - component: {fileID: 740682937460349873}
   m_Layer: 5
   m_Name: WinMenu
   m_TagString: Untagged
@@ -594,23 +593,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &740682937460349873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1781340548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f4186f85d402dd4cb32f8cfdca34898, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mNextSceneName: Level1
-  mStartMenuSceneName: StartMenu
-  mOptionsSceneName: OptionsMenu
-  mCreditsSceneName: CreditsMenu
-  mMenuHeadButton: {fileID: 7496097032242403002}
 --- !u!1 &1799610112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,7 +999,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2086701250405225235}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadStartMenuScene
         m_Mode: 1
@@ -2271,6 +2253,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243a8e0e6f0d02a46ab07c320840d355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMenuHeadButton: {fileID: 0}
+  mOptionsMusicButton: {fileID: 6430843890388726772}
+  mOptionsAudioDescriptionButton: {fileID: 4912289923573006824}
+  mOptionsContrastButton: {fileID: 8278478196922075420}
+  mOptionAudioDescriptionOnText: 'Audiobeschreibung: Ein'
+  mOptionAudioDescriptionOffText: 'Audiobeschreibung: Aus'
+  mOptionContrastOnText: "Kontrastverst\xE4rkung: Ein"
+  mOptionContrastOffText: "Kontrastverst\xE4rkung: Aus"
   mPauseMenu: {fileID: 2626050714226102484}
   mOptionsMenu: {fileID: 4281299426835019369}
   mWinMenu: {fileID: 1781340548}
@@ -2288,7 +2278,6 @@ GameObject:
   - component: {fileID: 2626050714226102485}
   - component: {fileID: 2626050714226102487}
   - component: {fileID: 2626050714226102486}
-  - component: {fileID: 2086701250405225235}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -2356,23 +2345,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2086701250405225235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2626050714226102484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59dc6a7596b51754f8809956f309d606, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mNextSceneName: Level1
-  mStartMenuSceneName: StartMenu
-  mOptionsSceneName: OptionsMenu
-  mCreditsSceneName: CreditsMenu
-  mMenuHeadButton: {fileID: 8319783700359603303}
 --- !u!1 &2636074278207615674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3028,7 +3000,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 740682937460349873}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadNextScene
         m_Mode: 1
@@ -3066,7 +3038,6 @@ GameObject:
   - component: {fileID: 7151976131463353205}
   - component: {fileID: 9163613570952947343}
   - component: {fileID: 1143496791752329075}
-  - component: {fileID: 7871200626579711206}
   m_Layer: 5
   m_Name: OptionsMenu
   m_TagString: Untagged
@@ -3134,31 +3105,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7871200626579711206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4281299426835019369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07a618471c81693439b23f512ec9496a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mNextSceneName: Level1
-  mStartMenuSceneName: StartMenu
-  mOptionsSceneName: OptionsMenu
-  mCreditsSceneName: CreditsMenu
-  mMenuHeadButton: {fileID: 6215455903207334790}
-  mMusicButton: {fileID: 6430843890388726772}
-  mAudioDescriptionButton: {fileID: 4912289923573006824}
-  mContrastButton: {fileID: 8278478196922075420}
-  mIsIngame: 1
-  mAudioDescriptionOnText: 'Audiobeschreibung: Ein'
-  mAudioDescriptionOffText: 'Audiobeschreibung: Aus'
-  mContrastOnText: "Kontrastverst\xE4rkung: Ein"
-  mContrastOffText: "Kontrastverst\xE4rkung: Aus"
 --- !u!1 &4494641290346675204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4072,7 +4018,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7871200626579711206}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: MusicButton
         m_Mode: 1
@@ -4489,7 +4435,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7871200626579711206}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadStartMenuScene
         m_Mode: 1
@@ -4774,7 +4720,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 740682937460349873}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
         m_MethodName: LoadStartMenuScene
         m_Mode: 1
@@ -4924,7 +4870,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7871200626579711206}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: ContrastButton
         m_Mode: 1
@@ -5435,7 +5381,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7871200626579711206}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: OptionsMenuManager, Assembly-CSharp
         m_MethodName: AudioDescriptionButton
         m_Mode: 1

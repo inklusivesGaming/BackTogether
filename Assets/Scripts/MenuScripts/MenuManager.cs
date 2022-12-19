@@ -8,10 +8,6 @@ using UnityEngine.EventSystems;
 
 public class MenuManager : MonoBehaviour
 {
-    public string mNextSceneName = "Level1";
-    public string mStartMenuSceneName = "StartMenu";
-    public string mOptionsSceneName = "OptionsMenu";
-    public string mCreditsSceneName = "CreditsMenu";
     protected GameAudioManager mGameAudioManager;
     protected EventSystem mEventSystem;
     protected GameObject mSelectedUIObject = null;
@@ -22,7 +18,6 @@ public class MenuManager : MonoBehaviour
     protected virtual void Awake()
     {
         GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
-
         if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
             mGameAudioManager = audioMgr;
 
@@ -67,24 +62,19 @@ public class MenuManager : MonoBehaviour
             return;
     }
 
-    public void LoadNextScene()
-    {
-        SceneManager.LoadScene(mNextSceneName);
-    }
-
     public void LoadStartMenuScene()
     {
-        SceneManager.LoadScene(mStartMenuSceneName);
+        SceneManager.LoadScene(GlobalVariables.mStartMenuSceneName);
     }
 
     public void LoadOptionsScene()
     {
-        SceneManager.LoadScene(mOptionsSceneName);
+        SceneManager.LoadScene(GlobalVariables.mOptionsSceneName);
     }
 
     public void LoadCreditsScene()
     {
-        SceneManager.LoadScene(mCreditsSceneName);
+        SceneManager.LoadScene(GlobalVariables.mCreditsSceneName);
     }
 
     public void ExitGame()

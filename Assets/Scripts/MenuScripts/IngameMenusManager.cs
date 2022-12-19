@@ -5,10 +5,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class IngameMenusManager : MonoBehaviour
+public class IngameMenusManager : OptionsMenuManager
 {
+    private enum CurrentGameMenuState
+    {
+        Ingame,
+        PauseMenu,
+        OptionsMenu,
+        WinMenu
+    }
+
+    private CurrentGameMenuState mCurrentGameMenuState = CurrentGameMenuState.Ingame;
+
     private GameManager mGameManager;
-    private bool mPause = false;
 
     public GameObject mPauseMenu;
     public GameObject mOptionsMenu;
@@ -18,49 +27,58 @@ public class IngameMenusManager : MonoBehaviour
     public Button mOptionsMenuHeadButton;
     public Button mWinMenuHeadButton;
 
-    private EventSystem mEventSystem;
-    private GameAudioManager mGameAudioManager;
-
-    private bool mWon = false;
-
-    private void Awake()
+    protected override void Awake()
     {
-        GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
-        if (audioMgrObj && audioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
-            mGameAudioManager = audioMgr;
+        base.Awake();
 
         GameObject gameMgrObj = GameObject.FindGameObjectWithTag("GameManager");
         if (gameMgrObj && gameMgrObj.TryGetComponent(out GameManager gameMgr))
             mGameManager = gameMgr;
 
-        GameObject eventSystemObj = GameObject.Find("EventSystem");
-        if (eventSystemObj && eventSystemObj.TryGetComponent(out EventSystem eventSystem))
-            mEventSystem = eventSystem;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (mGameManager)
             mGameManager.RegisterIngameMenusManager(this);
     }
 
+    // Don't want to play intro sound at start
+    protected override void PlayIntroSound() { }
+
     // Update is called once per frame
-    private void Update()
+    protected override void Update()
     {
-        if (mWon)
+        base.Update();
+
+        if (mCurrentGameMenuState == CurrentGameMenuState.WinMenu)
             return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
-            if (mPause)
-                Resume();
+            if (mCurrentGameMenuState == CurrentGameMenuState.PauseMenu
+                || mCurrentGameMenuState == CurrentGameMenuState.OptionsMenu)
+            {
 
-            else
+                Resume();
+            }
+
+            else if (mCurrentGameMenuState == CurrentGameMenuState.Ingame)
                 Pause();
+    }
+
+    // Don't want to do this while ingame
+    protected override void HandleEventSystemSelection()
+    {
+        if (mCurrentGameMenuState == CurrentGameMenuState.Ingame)
+            return;
+        base.HandleEventSystemSelection();
     }
 
     public void Pause()
     {
         mPauseMenu.SetActive(true);
+        mMenuHeadButton = mPauseMenuHeadButton;
 
         if (mGameAudioManager)
             mGameAudioManager.PlayMenuSound(GameAudioManager.PauseMenuSounds.Intro);
@@ -72,7 +90,7 @@ public class IngameMenusManager : MonoBehaviour
             mGameManager.PauseGame();
             mGameManager.gameObject.SetActive(false);
         }
-        mPause = true;
+        mCurrentGameMenuState = CurrentGameMenuState.PauseMenu;
 
         mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
     }
@@ -92,7 +110,7 @@ public class IngameMenusManager : MonoBehaviour
             mGameManager.gameObject.SetActive(true);
             mGameManager.ResumeGame();
         }
-        mPause = false;
+        mCurrentGameMenuState = CurrentGameMenuState.Ingame;
     }
 
     // If true, switch from pause menu to options, else from options to pause menu
@@ -103,22 +121,28 @@ public class IngameMenusManager : MonoBehaviour
             mPauseMenuHeadButton.interactable = true;
             mPauseMenu.SetActive(false);
             mOptionsMenu.SetActive(true);
-            if (mOptionsMenu.TryGetComponent(out OptionsMenuManager optionsMenuMgr))
-                optionsMenuMgr.SetOptionsButtons();
+            mMenuHeadButton = mOptionsMenuHeadButton;
+
             if (mEventSystem)
                 mEventSystem.SetSelectedGameObject(mOptionsMenuHeadButton.gameObject);
             if (mGameAudioManager)
                 mGameAudioManager.PlayMenuSound(GameAudioManager.OptionsMenuSounds.Intro);
+
+            mCurrentGameMenuState = CurrentGameMenuState.OptionsMenu;
         }
         else
         {
             mOptionsMenuHeadButton.interactable = true;
             mOptionsMenu.SetActive(false);
             mPauseMenu.SetActive(true);
+            mMenuHeadButton = mPauseMenuHeadButton;
+
             if (mEventSystem)
                 mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
             if (mGameAudioManager)
                 mGameAudioManager.PlayMenuSound(GameAudioManager.PauseMenuSounds.Intro);
+
+            mCurrentGameMenuState = CurrentGameMenuState.PauseMenu;
         }
     }
 
@@ -129,10 +153,22 @@ public class IngameMenusManager : MonoBehaviour
 
     public void Win()
     {
-        mWon = true;
-        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
+        mCurrentGameMenuState = CurrentGameMenuState.WinMenu;
+
+        if (mGameAudioManager)
+            mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
+
         mWinMenu.SetActive(true);
+        mMenuHeadButton = mWinMenuHeadButton;
         mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
+
         Time.timeScale = 0f;
+    }
+
+    public void LoadNextScene()
+    {
+        if (!mGameManager)
+            return;
+        mGameManager.LoadNextScene();
     }
 }
