@@ -7,7 +7,6 @@ using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
-    public string mNextSceneName = "LevelX";
     public bool mIsLastLevel = false; // true if this is the last level
 
     //public Grid mGrid;
@@ -737,19 +736,9 @@ public class GameManager : MonoBehaviour
         mStonifyGridPosition = new Vector2Int(-1, -1);
     }
 
-    public void PauseGame()
-    {
-
-    }
-
-    public void ResumeGame()
-    {
-
-    }
-
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(mNextSceneName);
+        SceneManager.LoadScene(GlobalVariables.GetNextScene(SceneManager.GetActiveScene().name));
     }
 
 }

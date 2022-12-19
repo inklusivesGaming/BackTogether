@@ -16,9 +16,9 @@ public class ChapterMenuManager : MenuManager
     // Starting with 1
     public void LoadChapter(int number)
     {
-        if (number <= 0 || number > GlobalVariables.ChapterSceneNames.Length)
+        if (number <= 0 || number > GlobalVariables.mSceneNames.Length)
             return;
 
-        SceneManager.LoadScene(GlobalVariables.ChapterSceneNames[number - 1]);
+        SceneManager.LoadScene(GlobalVariables.mSceneNames[number - 1][0]);
     }
 }

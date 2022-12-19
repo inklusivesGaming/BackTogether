@@ -99,10 +99,8 @@ public class IngameMenusManager : OptionsMenuManager
         Time.timeScale = 0f;
 
         if (mGameManager)
-        {
-            mGameManager.PauseGame();
             mGameManager.gameObject.SetActive(false);
-        }
+
         mCurrentGameMenuState = CurrentGameMenuState.PauseMenu;
 
         mEventSystem.SetSelectedGameObject(mPauseMenuHeadButton.gameObject);
@@ -119,10 +117,8 @@ public class IngameMenusManager : OptionsMenuManager
         Time.timeScale = 1f;
 
         if (mGameManager)
-        {
             mGameManager.gameObject.SetActive(true);
-            mGameManager.ResumeGame();
-        }
+
         mCurrentGameMenuState = CurrentGameMenuState.Ingame;
         mGameAudioManager.StopAudio();
     }
