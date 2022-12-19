@@ -3057,7 +3057,6 @@ GameObject:
   - component: {fileID: 7223375340138929895}
   - component: {fileID: 3899636567263473874}
   - component: {fileID: 7556512468282486999}
-  - component: {fileID: 55717303442004029}
   m_Layer: 5
   m_Name: NextButton
   m_TagString: Untagged
@@ -3180,21 +3179,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &55717303442004029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3259215682121203108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a6a443248840c4bb7e1e97461b04b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mOptionsMenuSoundOnOff: 7
-  mOptionsMenuSoundOffOn: 7
-  mIsOn: 1
 --- !u!1 &4281299426835019369
 GameObject:
   m_ObjectHideFlags: 0
@@ -5065,7 +5049,7 @@ GameObject:
   - component: {fileID: 6697133137930673852}
   - component: {fileID: 6884844640101266995}
   - component: {fileID: 6426594131655906295}
-  - component: {fileID: 3239066668594057018}
+  - component: {fileID: 8280498743952841839}
   m_Layer: 5
   m_Name: StartMenuButton
   m_TagString: Untagged
@@ -5188,7 +5172,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3239066668594057018
+--- !u!114 &8280498743952841839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5197,12 +5181,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7890827458053623622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a6a443248840c4bb7e1e97461b04b8, type: 3}
+  m_Script: {fileID: 11500000, guid: d77f6774ec08a6c449cd544f14b61a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mOptionsMenuSoundOnOff: 7
-  mOptionsMenuSoundOffOn: 7
-  mIsOn: 1
+  mPauseMenuSound: 4
 --- !u!1 &7911173753536627917
 GameObject:
   m_ObjectHideFlags: 0
@@ -5500,7 +5482,7 @@ GameObject:
   - component: {fileID: 4731265488613046946}
   - component: {fileID: 8769831633072831189}
   - component: {fileID: 6503992143572283109}
-  - component: {fileID: 5187312760222715840}
+  - component: {fileID: 4053504304287885627}
   m_Layer: 5
   m_Name: StartMenuButton
   m_TagString: Untagged
@@ -5623,7 +5605,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5187312760222715840
+--- !u!114 &4053504304287885627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5632,12 +5614,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8493236854980390375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a6a443248840c4bb7e1e97461b04b8, type: 3}
+  m_Script: {fileID: 11500000, guid: d77f6774ec08a6c449cd544f14b61a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mOptionsMenuSoundOnOff: 7
-  mOptionsMenuSoundOffOn: 7
-  mIsOn: 1
+  mPauseMenuSound: 4
 --- !u!1 &8655718495610773068
 GameObject:
   m_ObjectHideFlags: 0
