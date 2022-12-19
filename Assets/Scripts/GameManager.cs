@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
     
     private GameAudioManager mGameAudioManager;
 
+    private IngameMenusManager mIngameMenusManager; // registers itself
+
     private void Awake()
     {
         GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
@@ -103,6 +105,12 @@ public class GameManager : MonoBehaviour
         HandleInfoInputs(); // can be fired without cooldown
 
         TurnReport();
+    }
+
+    // Ingame menus manager registers itself
+    public void RegisterIngameMenusManager(IngameMenusManager ingameMenusManager)
+    {
+        mIngameMenusManager = ingameMenusManager;
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -591,10 +599,7 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
-        mWinScreen.SetActive(true);
-        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
-
-        gameObject.SetActive(false);
+        mIngameMenusManager.Win();
     }
 
     // Returns speech output that tells the grid position and object at this position

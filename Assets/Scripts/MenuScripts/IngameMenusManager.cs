@@ -12,12 +12,17 @@ public class IngameMenusManager : MonoBehaviour
 
     public GameObject mPauseMenu;
     public GameObject mOptionsMenu;
+    public GameObject mWinMenu;
 
     public Button mPauseMenuHeadButton;
     public Button mOptionsMenuHeadButton;
+    public Button mWinMenuHeadButton;
 
     private EventSystem mEventSystem;
     private GameAudioManager mGameAudioManager;
+
+    private bool mWon = false;
+
     private void Awake()
     {
         GameObject audioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
@@ -33,9 +38,18 @@ public class IngameMenusManager : MonoBehaviour
             mEventSystem = eventSystem;
     }
 
+    private void Start()
+    {
+        if (mGameManager)
+            mGameManager.RegisterIngameMenusManager(this);
+    }
+
     // Update is called once per frame
     private void Update()
     {
+        if (mWon)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
             if (mPause)
                 Resume();
@@ -50,7 +64,6 @@ public class IngameMenusManager : MonoBehaviour
 
         if (mGameAudioManager)
             mGameAudioManager.PlayMenuSound(GameAudioManager.PauseMenuSounds.Intro);
-
 
         Time.timeScale = 0f;
 
@@ -112,5 +125,14 @@ public class IngameMenusManager : MonoBehaviour
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Win()
+    {
+        mWon = true;
+        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
+        mWinMenu.SetActive(true);
+        mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
+        Time.timeScale = 0f;
     }
 }
