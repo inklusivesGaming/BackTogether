@@ -67,14 +67,19 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(GlobalVariables.mStartMenuSceneName);
     }
 
-    public void LoadOptionsScene()
+    public void LoadChapterMenuScene()
     {
-        SceneManager.LoadScene(GlobalVariables.mOptionsSceneName);
+        SceneManager.LoadScene(GlobalVariables.mChapterMenuSceneName);
     }
 
-    public void LoadCreditsScene()
+    public void LoadOptionsMenuScene()
     {
-        SceneManager.LoadScene(GlobalVariables.mCreditsSceneName);
+        SceneManager.LoadScene(GlobalVariables.mOptionsMenuSceneName);
+    }
+
+    public void LoadCreditsMenuScene()
+    {
+        SceneManager.LoadScene(GlobalVariables.mCreditsMenuSceneName);
     }
 
     public void ExitGame()

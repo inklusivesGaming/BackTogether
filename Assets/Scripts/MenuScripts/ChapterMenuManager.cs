@@ -5,10 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ChapterMenuManager : MenuManager
 {
-    public string mChapterOneName = "Level1";
-    public string mChapterTwoName = "Level2";
-    public string mChapterThreeName = "Level3";
-
     protected override void PlayIntroSound()
     {
         if (!mGameAudioManager)
@@ -20,9 +16,9 @@ public class ChapterMenuManager : MenuManager
     // Starting with 1
     public void LoadChapter(int number)
     {
-        if (number > GlobalVariables.ChapterSceneNames.Length)
+        if (number <= 0 || number > GlobalVariables.ChapterSceneNames.Length)
             return;
 
-        SceneManager.LoadScene(GlobalVariables.ChapterSceneNames[number]);
+        SceneManager.LoadScene(GlobalVariables.ChapterSceneNames[number - 1]);
     }
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
+using TMPro;
+
 
 public class IngameMenusManager : OptionsMenuManager
 {
@@ -15,6 +16,11 @@ public class IngameMenusManager : OptionsMenuManager
         WinMenu
     }
 
+    public TMP_Text mNumberOfBonesText;
+    public TMP_Text mNumberOfTurnsText;
+
+    private bool mIsLastLevel = false; // true if this is the last level
+
     private CurrentGameMenuState mCurrentGameMenuState = CurrentGameMenuState.Ingame;
 
     private GameManager mGameManager;
@@ -22,10 +28,12 @@ public class IngameMenusManager : OptionsMenuManager
     public GameObject mPauseMenu;
     public GameObject mOptionsMenu;
     public GameObject mWinMenu;
+    public GameObject mFinalWinMenu;
 
     public Button mPauseMenuHeadButton;
     public Button mOptionsMenuHeadButton;
     public Button mWinMenuHeadButton;
+    public Button mFinalWinMenuHeadButton;
 
     protected override void Awake()
     {
@@ -34,7 +42,6 @@ public class IngameMenusManager : OptionsMenuManager
         GameObject gameMgrObj = GameObject.FindGameObjectWithTag("GameManager");
         if (gameMgrObj && gameMgrObj.TryGetComponent(out GameManager gameMgr))
             mGameManager = gameMgr;
-
     }
 
     protected override void Start()
@@ -111,6 +118,7 @@ public class IngameMenusManager : OptionsMenuManager
             mGameManager.ResumeGame();
         }
         mCurrentGameMenuState = CurrentGameMenuState.Ingame;
+        mGameAudioManager.StopAudio();
     }
 
     // If true, switch from pause menu to options, else from options to pause menu
@@ -158,9 +166,19 @@ public class IngameMenusManager : OptionsMenuManager
         if (mGameAudioManager)
             mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
 
-        mWinMenu.SetActive(true);
-        mMenuHeadButton = mWinMenuHeadButton;
-        mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
+        if (mIsLastLevel)
+        {
+            mFinalWinMenu.SetActive(true);
+            mMenuHeadButton = mFinalWinMenuHeadButton;
+            mEventSystem.SetSelectedGameObject(mFinalWinMenuHeadButton.gameObject);
+        }
+
+        else
+        {
+            mWinMenu.SetActive(true);
+            mMenuHeadButton = mWinMenuHeadButton;
+            mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
+        }
 
         Time.timeScale = 0f;
     }
@@ -170,5 +188,18 @@ public class IngameMenusManager : OptionsMenuManager
         if (!mGameManager)
             return;
         mGameManager.LoadNextScene();
+    }
+
+
+    public void SetUITexts(int numberOfBones, int numberOfTurns)
+    {
+        mNumberOfBonesText.text = numberOfBones.ToString();
+        mNumberOfTurnsText.text = numberOfTurns.ToString();
+    }
+
+    // Activated if this is the last level
+    public void SetLastLevel()
+    {
+        mIsLastLevel = true;
     }
 }

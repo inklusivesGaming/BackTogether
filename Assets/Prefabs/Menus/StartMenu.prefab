@@ -380,10 +380,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 5531784988178561952}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: LoadOptionsMenuScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -948,7 +948,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5531784988178561952}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadCreditsScene
+        m_MethodName: LoadCreditsMenuScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1307,7 +1307,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5531784988178561952}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadNextScene
+        m_MethodName: LoadChapterMenuScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1445,10 +1445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bb88b0f4517654fb6904773d2783e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mNextSceneName: ChapterMenu
-  mStartMenuSceneName: StartMenu
-  mOptionsSceneName: OptionsMenu
-  mCreditsSceneName: CreditsMenu
   mMenuHeadButton: {fileID: 7865619227973057754}
 --- !u!1 &8474628479475078841
 GameObject:

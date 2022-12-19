@@ -410,7 +410,7 @@ public class GameAudioManager : MonoBehaviour
         }
     }
 
-    private void StopAudio(bool stopSource = true, bool clearQueue = true)
+    public void StopAudio(bool stopSource = true, bool clearQueue = true)
     {
         if (stopSource)
             mAudioSource.Stop();

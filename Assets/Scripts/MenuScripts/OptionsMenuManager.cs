@@ -11,8 +11,6 @@ public class OptionsMenuManager : MenuManager
     public Button mOptionsAudioDescriptionButton;
     public Button mOptionsContrastButton;
 
-
-
     protected override void Start()
     {
         base.Start();
@@ -34,19 +32,19 @@ public class OptionsMenuManager : MenuManager
         mGameAudioManager.PlayMenuSound(GameAudioManager.OptionsMenuSounds.Intro);
     }
 
-    public void MusicButton()
+    public void OptionsMusicButton()
     {
         GlobalVariables.mOptionMusicOn = !GlobalVariables.mOptionMusicOn;
         SetButton(mOptionsMusicButton, GlobalVariables.mOptionMusicOn, true, GlobalVariables.mOptionMusicOnText, GlobalVariables.mOptionMusicOffText);
     }
 
-    public void AudioDescriptionButton()
+    public void OptionsAudioDescriptionButton()
     {
         GlobalVariables.mOptionAudioDescriptionOn = !GlobalVariables.mOptionAudioDescriptionOn;
         SetButton(mOptionsAudioDescriptionButton, GlobalVariables.mOptionAudioDescriptionOn, true, GlobalVariables.mOptionAudioDescriptionOnText, GlobalVariables.mOptionAudioDescriptionOffText);
     }
 
-    public void ContrastButton()
+    public void OptionsContrastButton()
     {
         GlobalVariables.mOptionContrastOn = !GlobalVariables.mOptionContrastOn;
         SetButton(mOptionsContrastButton, GlobalVariables.mOptionContrastOn, true, GlobalVariables.mOptionContrastOnText, GlobalVariables.mOptionContrastOffText);

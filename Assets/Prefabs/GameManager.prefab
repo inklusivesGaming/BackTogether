@@ -401,16 +401,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe65597c0f0a5a48a27c6248a959e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mNextSceneName: LevelX
   mTilemap: {fileID: 0}
   mTilemapMiddlePoint: {x: 0, y: 0}
   mStoneTileBase: {fileID: 11400000, guid: c30ef028788a0b44d83a37205c66f9bd, type: 2}
   mBoneTileBase: {fileID: 11400000, guid: c9722c60c0366cc41845d2cceeaf8115, type: 2}
   mHoleTileBase: {fileID: 11400000, guid: 3b16859b4fa0bfe47a6c59b4f92c9d0b, type: 2}
-  mNumberOfBonesText: {fileID: 0}
-  mNumberOfTurnsText: {fileID: 0}
-  mWinScreen: {fileID: 0}
   mSelectionField: {fileID: 1977228524}
   mUnselectedMaterial: {fileID: 2100000, guid: 7a0e09b2a9857a74c90d7f70ee902169, type: 2}
   mSelectedMaterial: {fileID: 2100000, guid: afc79d1c635c3af45b4ffb713920d2c9, type: 2}
-  mSelectionMovementTime: 0.5
-  mTimeBetweenActions: 0.3
+  mSelectionMovementTime: 0.3
+  mTimeBetweenActions: 0.2

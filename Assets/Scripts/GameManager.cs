@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using TMPro;
 using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
     public string mNextSceneName = "LevelX";
+    public bool mIsLastLevel = false; // true if this is the last level
 
     //public Grid mGrid;
     public Tilemap mTilemap;
@@ -25,14 +25,6 @@ public class GameManager : MonoBehaviour
     public TileBase mStoneTileBase;
     public TileBase mBoneTileBase;
     public TileBase mHoleTileBase;
-
-    private int mNumberOfBones = 0;
-    public TMP_Text mNumberOfBonesText;
-
-    private int mNumberOfTurns = 0;
-    public TMP_Text mNumberOfTurnsText;
-
-    public GameObject mWinScreen;
 
     public GameObject mSelectionField;
     private bool mSelectedMode = false;
@@ -62,6 +54,9 @@ public class GameManager : MonoBehaviour
     private GameAudioManager mGameAudioManager;
 
     private IngameMenusManager mIngameMenusManager; // registers itself
+
+    private int mNumberOfBones = 0;
+    private int mNumberOfTurns = 0;
 
     private void Awake()
     {
@@ -112,6 +107,8 @@ public class GameManager : MonoBehaviour
     public void RegisterIngameMenusManager(IngameMenusManager ingameMenusManager)
     {
         mIngameMenusManager = ingameMenusManager;
+        if (mIngameMenusManager)
+            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -265,7 +262,8 @@ public class GameManager : MonoBehaviour
                 mNumberOfBones = 0;
         }
 
-        mNumberOfBonesText.text = mNumberOfBones.ToString();
+        if (mIngameMenusManager)
+            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
     }
 
 
@@ -305,7 +303,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Info_TurnsLeft"))
             TellNumberOfTurnsLeft();
     }
-
 
     private void StartSelectionMovement(Vector2Int direction)
     {
@@ -440,7 +437,8 @@ public class GameManager : MonoBehaviour
     private void NextTurn()
     {
         mNumberOfTurns++;
-        mNumberOfTurnsText.text = mNumberOfTurns.ToString();
+        if (mIngameMenusManager)
+            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
 
         if (mNumberOfTurns % 5 == 0)
             Stonify();

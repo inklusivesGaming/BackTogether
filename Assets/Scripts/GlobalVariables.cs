@@ -6,8 +6,9 @@ public class GlobalVariables
 {
     // Scene names for scenes that we will switch to
     public const string mStartMenuSceneName = "StartMenu";
-    public const string mOptionsSceneName = "OptionsMenu";
-    public const string mCreditsSceneName = "CreditsMenu";
+    public const string mChapterMenuSceneName = "ChapterMenu";
+    public const string mOptionsMenuSceneName = "OptionsMenu";
+    public const string mCreditsMenuSceneName = "CreditsMenu";
 
     // Chapters that can be loaded in chapter menu
     public static readonly string[] ChapterSceneNames = {"Level1", "Level2", "Level3" };
