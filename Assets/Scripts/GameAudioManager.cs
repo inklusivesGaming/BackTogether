@@ -22,6 +22,8 @@ public class GameAudioManager : MonoBehaviour
 
     private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
 
+    public bool mSwitchGridAndObjectOutput = true; // for testing purposes
+
     private enum AudioSourcePlayType
     {
         JustPlay,               // just play the sound, without interfering with other sounds
@@ -175,6 +177,9 @@ public class GameAudioManager : MonoBehaviour
     {
         if (!(mAudioSource.isPlaying) && mAudioQueue.Count > 0)
             mAudioSource.PlayOneShot(mAudioQueue.Dequeue());
+
+        if (Input.GetKeyDown(KeyCode.X))
+            mSwitchGridAndObjectOutput = !mSwitchGridAndObjectOutput;
     }
     public void PlayActionSound(ActionSounds sound)
     {
@@ -325,6 +330,18 @@ public class GameAudioManager : MonoBehaviour
     {
         StopAudio();
 
+        if (mSwitchGridAndObjectOutput)
+        {
+            AudioClip gridObjClip = null;
+            foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
+            {
+                if (clipGridObject.sound == gridObject)
+                    gridObjClip = clipGridObject.audioClip;
+            }
+
+            AudioSourcePlay(gridObjClip, AudioSourcePlayType.JustEnqueue);
+        }
+
         AudioClip letterClip = null;
         foreach (AudioClipNavigation clipNavigation in mAudioClipsNavigation)
         {
@@ -343,14 +360,18 @@ public class GameAudioManager : MonoBehaviour
 
         AudioSourcePlay(numberClip, AudioSourcePlayType.JustEnqueue);
 
-        AudioClip gridObjClip = null;
-        foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
+        if (!mSwitchGridAndObjectOutput)
         {
-            if (clipGridObject.sound == gridObject)
-                gridObjClip = clipGridObject.audioClip;
+            AudioClip gridObjClip = null;
+            foreach (AudioClipGridObject clipGridObject in mAudioClipsGridObjects)
+            {
+                if (clipGridObject.sound == gridObject)
+                    gridObjClip = clipGridObject.audioClip;
+            }
+
+            AudioSourcePlay(gridObjClip, AudioSourcePlayType.JustEnqueue);
         }
 
-        AudioSourcePlay(gridObjClip, AudioSourcePlayType.JustEnqueue);
     }
 
     public void PlayMenuSound(StartMenuSounds sound)

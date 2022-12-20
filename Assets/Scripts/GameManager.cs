@@ -69,6 +69,15 @@ public class GameManager : MonoBehaviour
     private bool mTutorial_1_1_DinjaFound = false;
     private bool mTutorial_1_1_SchnuppiFound = false;
 
+    private bool mTutorial_1_3_FirstStonify = false;
+
+    private bool mTutorial_2_2_FirstBone = false;
+    private bool mTutorial_2_2_FirstStoneDestroyed = false;
+
+    private bool mTutorial_3_1_FirstSurpriseChest = false;
+    private bool mTutorial_3_1_SecondSurpriseChest = false;
+    private bool mTutorial_3_1_FirstHoleFilled = false;
+
 
     private void Awake()
     {
@@ -149,24 +158,68 @@ public class GameManager : MonoBehaviour
             return true;
         }
 
+        if (chapter == 1 && level == 3 && mTutorialStage == 1 && mTutorial_1_3_FirstStonify)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C1L3_1, false);
+            mTutorialStage++;
+            return true;
+        }
 
+        if (chapter == 2 && level == 2 && mTutorialStage == 1 && mTutorial_2_2_FirstBone)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C2L2_1, false);
+            mTutorialStage++;
+            return true;
+        }
 
+        if (chapter == 2 && level == 2 && mTutorialStage == 2 && mTutorial_2_2_FirstStoneDestroyed)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C2L2_2, false);
+            mTutorialStage++;
+            return true;
+        }
+
+        if (chapter == 3 && level == 1 && mTutorialStage == 1 && mTutorial_3_1_FirstSurpriseChest)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C3L1_1, false);
+            mTutorialStage++;
+            return true;
+        }
+
+        if (chapter == 3 && level == 1 && mTutorialStage == 2 && mTutorial_3_1_SecondSurpriseChest)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C3L1_2, false);
+            mTutorialStage++;
+            return true;
+        }
+
+        if (chapter == 3 && level == 1 && mTutorialStage == 3 && mTutorial_3_1_FirstHoleFilled)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C3L1_3, false);
+            mTutorialStage++;
+            return true;
+        }
         return false;
     }
 
     // if you are in chapter 1 lvl 1 and havent found Dinja and Schnuppi yet, selecting isnt unlocked
     private bool SelectionUnlocked()
     {
-        return (GlobalVariables.mCurrentChapter != 1 || GlobalVariables.mCurrentLevel != 1 || mTutorial_1_1_DinjaFound && mTutorial_1_1_SchnuppiFound);
+        return GlobalVariables.mCurrentChapter != 1 || GlobalVariables.mCurrentLevel != 1 || mTutorial_1_1_DinjaFound && mTutorial_1_1_SchnuppiFound;
+    }
+
+    private bool StonifyUnlocked()
+    {
+        return GlobalVariables.mCurrentChapter > 1 || GlobalVariables.mCurrentLevel >= 3;
     }
 
     private bool TurnInfoUnlocked()
     {
-        return GlobalVariables.mCurrentChapter >= 2 || GlobalVariables.mCurrentLevel >= 3;
+        return GlobalVariables.mCurrentChapter >= 2 || GlobalVariables.mCurrentChapter == 1 && (GlobalVariables.mCurrentLevel >= 4 || GlobalVariables.mCurrentLevel == 3 && mTutorialStage >= 2);
     }
     private bool BoneInfoUnlocked()
     {
-        return GlobalVariables.mCurrentChapter >= 2;
+        return GlobalVariables.mCurrentChapter >= 3 || GlobalVariables.mCurrentChapter == 2 && GlobalVariables.mCurrentLevel >= 2;
     }
 
     private void PlayTutorialIntroOutroSound(bool intro)
@@ -302,7 +355,6 @@ public class GameManager : MonoBehaviour
             }
 
             CheckNeighbours();
-
             NextTurn();
         }
 
@@ -323,6 +375,7 @@ public class GameManager : MonoBehaviour
 
         if (targetGridObject is Hole)
         {
+            mTutorial_3_1_FirstHoleFilled = true;
             if (mSelectedTileBaseGridObject is NormalEgg)
                 RemoveEggFromList(oldGridPos);
 
@@ -344,6 +397,7 @@ public class GameManager : MonoBehaviour
         {
             // add bone and delete selection and selected object
             ChangeNumberOfBones(true);
+            mTutorial_2_2_FirstBone = true;
             Deselect();
             mTilemap.SetTile(oldGridPos, null);
             return true;
@@ -353,12 +407,14 @@ public class GameManager : MonoBehaviour
         {
             // add bone and perform normal tile movement action
             ChangeNumberOfBones(true);
+            mTutorial_2_2_FirstBone = true;
             return false;
         }
 
         if (mSelectedTileBaseGridObject is Dino && targetGridObject is Stone && mNumberOfBones > 0)
         {
             // remove bone and perform normal tile movement action
+            mTutorial_2_2_FirstStoneDestroyed = true;
             ChangeNumberOfBones(false);
             mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.SteinZerstoert);
             return false;
@@ -559,7 +615,8 @@ public class GameManager : MonoBehaviour
         mNumberOfTurns++;
         if (mIngameMenusManager)
             mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
-
+        if (mWon)
+            return;
         if (mNumberOfTurns % 5 == 0)
             Stonify();
     }
@@ -582,8 +639,9 @@ public class GameManager : MonoBehaviour
     // Turn one random egg in the level into stone
     private void Stonify()
     {
-        if (mNormalEggsPositions.Count == 0)
+        if (mNormalEggsPositions.Count == 0 || !StonifyUnlocked())
             return;
+        mTutorial_1_3_FirstStonify = true;
         int randomIndex = Random.Range(0, mNormalEggsPositions.Count);
         Vector3Int tilePos = mNormalEggsPositions[randomIndex];
 
@@ -633,7 +691,10 @@ public class GameManager : MonoBehaviour
                 || CheckIfDino(neighbourDownPos);
 
             if (win)
+            {
                 Win();
+                return;
+            }
 
             if (CheckIfSurpriseChest(neighbourLeftPos))
                 TransformSurpriseChest(neighbourLeftPos);
@@ -701,7 +762,11 @@ public class GameManager : MonoBehaviour
             transformTarget = Random.Range(0, 3);
 
         if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.HOLE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 0)
+        {
             mTilemap.SetTile(pos, mHoleTileBase);
+            if (mTutorial_3_1_FirstSurpriseChest)
+                mTutorial_3_1_SecondSurpriseChest = true;
+        }
 
         else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.STONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 1)
             mTilemap.SetTile(pos, mStoneTileBase);
@@ -711,6 +776,8 @@ public class GameManager : MonoBehaviour
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
         gridObject.Pouf();
+
+        mTutorial_3_1_FirstSurpriseChest = true;
 
         mSurpriseChestHappened = true;
         mSurpriseChestTransformGridPositions.Add(new Vector2Int(pos.x, pos.y));
