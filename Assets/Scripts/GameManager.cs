@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
-using UnityEngine.VFX;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,14 +57,22 @@ public class GameManager : MonoBehaviour
     private int mNumberOfBones = 0;
     private int mNumberOfTurns = 0;
 
-    private bool mPauseForTutorial = false; // if true, you can't move until tutorial sound is over or you click escape
+    float mTutorialWaitTime = 0f;
+    bool mWaitForTutorial = false; // gets false shortly after wait time becomes 0 so that you don't open menu by clicking esc
+
+    private EventSystem mEventSystem;
+
+    private bool mWon = false;
 
     private void Awake()
     {
         GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
-
         if (gameAudioMgrObj && gameAudioMgrObj.TryGetComponent(out GameAudioManager audioMgr))
             mGameAudioManager = audioMgr;
+
+        GameObject eventSystemObj = GameObject.Find("EventSystem");
+        if (eventSystemObj && eventSystemObj.TryGetComponent(out EventSystem eventSystem))
+            mEventSystem = eventSystem;
     }
 
     // Start is called before the first frame update
@@ -78,26 +86,27 @@ public class GameManager : MonoBehaviour
         mStonifyGridPosition = new Vector2Int(-1, -1);
 
         InitializeTileMap();
-
         SetSelectionFieldTargetPos(true);
-
-        GameAudioManager.TutorialIntroOutroSounds introSound = GlobalVariables.GetTutorialSound(true);
-        if(introSound != GameAudioManager.TutorialIntroOutroSounds.None)
-        {
-            mGameAudioManager.PlayTutorialIntroOutroSound(introSound);
-            // TODO stop while intro plays
-        }
+        PlayIntroOutroSound(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (NeedToWaitForTutorial())
+        {
+            WaitForTutorialSound();
+            return;
+        }
+
+        if (mWon)
+            return;
+
         if (Input.GetButtonDown("DebugSuperSecretWinButton"))
         {
             Win();
             return;
         }
-
 
         if (mCurrentSelectionMovementTime > 0)
             // selection is in the process of moving
@@ -116,6 +125,49 @@ public class GameManager : MonoBehaviour
         HandleInfoInputs(); // can be fired without cooldown
 
         TurnReport();
+    }
+
+    private void PlayIntroOutroSound(bool intro)
+    {
+        GameAudioManager.TutorialIntroOutroSounds sound = GlobalVariables.GetTutorialSound(intro);
+        if (sound != GameAudioManager.TutorialIntroOutroSounds.None)
+        {
+            mWaitForTutorial = true;
+            mTutorialWaitTime = mGameAudioManager.PlayTutorialIntroOutroSound(sound);
+            if (mEventSystem)
+                mEventSystem.enabled = false;
+        }
+    }
+
+    private void WaitForTutorialSound()
+    {
+        if (mTutorialWaitTime <= 0f)
+        {
+            // one update step later than tutorial wait time becoming 0
+            mWaitForTutorial = false;
+            mEventSystem.enabled = true;
+
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // interrupt tutorial output by clicking esc
+            mTutorialWaitTime = 0f;
+            mGameAudioManager.StopAudio();
+            // TODO add sound for skipping
+        }
+        else
+        {
+            mTutorialWaitTime -= Time.deltaTime;
+
+            if (mTutorialWaitTime < 0f)
+                mTutorialWaitTime = 0f;
+        }
+    }
+
+    public bool NeedToWaitForTutorial()
+    {
+        return mWaitForTutorial;
     }
 
     // Ingame menus manager registers itself
@@ -615,13 +667,8 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
-        GameAudioManager.TutorialIntroOutroSounds outroSound = GlobalVariables.GetTutorialSound(false);
-        if (outroSound != GameAudioManager.TutorialIntroOutroSounds.None)
-        {
-            mGameAudioManager.PlayTutorialIntroOutroSound(outroSound);
-            //TODO stop while outro plays
-
-        }
+        mWon = true;
+        PlayIntroOutroSound(false);
         mIngameMenusManager.Win();
     }
 

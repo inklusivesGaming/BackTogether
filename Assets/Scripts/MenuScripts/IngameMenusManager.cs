@@ -66,16 +66,13 @@ public class IngameMenusManager : OptionsMenuManager
     {
         base.Update();
 
-        if (mCurrentGameMenuState == CurrentGameMenuState.WinMenu)
+        if (mCurrentGameMenuState == CurrentGameMenuState.WinMenu || mGameManager && mGameManager.NeedToWaitForTutorial())
             return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
             if (mCurrentGameMenuState == CurrentGameMenuState.PauseMenu
                 || mCurrentGameMenuState == CurrentGameMenuState.OptionsMenu)
-            {
-
                 Resume();
-            }
 
             else if (mCurrentGameMenuState == CurrentGameMenuState.Ingame)
                 Pause();
@@ -185,7 +182,7 @@ public class IngameMenusManager : OptionsMenuManager
             mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
         }
 
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 
     public void LoadNextScene()

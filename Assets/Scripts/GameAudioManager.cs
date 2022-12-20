@@ -413,28 +413,38 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
-    public void PlayTutorialIntroOutroSound(TutorialIntroOutroSounds sound)
+    public float PlayTutorialIntroOutroSound(TutorialIntroOutroSounds sound)
     {
+        float soundLength = -1;
         AudioClip soundClip = null;
         foreach (AudioClipTutorialIntroOutro clip in mAudioClipsTutorialIntroOutro)
         {
             if (clip.sound == sound)
+            {
                 soundClip = clip.audioClip;
+                soundLength = soundClip.length;
+            }
         }
 
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+        return soundLength;
     }
 
-    public void PlayTutorialIngameSound(TutorialIngameSounds sound)
+    public float PlayTutorialIngameSound(TutorialIngameSounds sound)
     {
+        float soundLength = -1;
         AudioClip soundClip = null;
         foreach (AudioClipTutorialIngame clip in mAudioClipsTutorialIngame)
         {
             if (clip.sound == sound)
+            {
                 soundClip = clip.audioClip;
+                soundLength = soundClip.length;
+            }
         }
 
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+        return soundLength;
     }
 
 
