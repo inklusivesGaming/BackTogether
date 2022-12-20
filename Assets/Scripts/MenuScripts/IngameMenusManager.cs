@@ -160,6 +160,7 @@ public class IngameMenusManager : OptionsMenuManager
     public void ReloadScene()
     {
         Time.timeScale = 1f;
+        GlobalVariables.OnSceneReload();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

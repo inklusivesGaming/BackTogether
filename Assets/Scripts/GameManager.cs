@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
         if(introSound != GameAudioManager.TutorialIntroOutroSounds.None)
         {
             mGameAudioManager.PlayTutorialIntroOutroSound(introSound);
-
+            // TODO stop while intro plays
         }
     }
 
@@ -619,6 +619,7 @@ public class GameManager : MonoBehaviour
         if (outroSound != GameAudioManager.TutorialIntroOutroSounds.None)
         {
             mGameAudioManager.PlayTutorialIntroOutroSound(outroSound);
+            //TODO stop while outro plays
 
         }
         mIngameMenusManager.Win();

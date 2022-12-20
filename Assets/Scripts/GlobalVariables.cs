@@ -39,6 +39,8 @@ public class GlobalVariables
     public static int mCurrentChapter = 0; // 0 means start menu
     public static int mCurrentLevel = 0; // 0 means start menu
 
+    public static bool mCurrentSceneReloaded = false; // set true if the current scene already got reloaded (no new intro)
+
     private const string mFinishedSceneString = "FINISHED"; // gets returned if there is no next scene; shouldnt happen normally
 
     public static string GetNextScene()
@@ -67,47 +69,9 @@ public class GlobalVariables
         return mSceneNames[mCurrentChapter - 1][mCurrentLevel - 1];
     }
 
-    // obsolete
-    public static string GetNextScene(string currentScene)
+    public static void OnSceneReload()
     {
-        for (int i = 0; i < mSceneNames.Length; i++)
-        {
-            string[] currentChapter = mSceneNames[i];
-            int lvl = -1;
-            for (int j = 0; j < currentChapter.Length; j++)
-            {
-                if (currentChapter[j] == currentScene)
-                {
-                    lvl = j;
-                    break;
-                }
-            }
-            if (lvl != -1)
-            // scene found in array
-            {
-                if (currentChapter.Length > lvl + 1)
-                {
-                    // next scene in same chapter
-                    mCurrentLevel++;
-                    return currentChapter[lvl + 1];
-                }
-
-
-                else if (mSceneNames.Length > i + 1)
-                {
-                    // next scene in next chapter
-                    mCurrentLevel = 1;
-                    mCurrentChapter++;
-                    return mSceneNames[i + 1][0];
-                }
-
-                else
-                    // no next scene
-                    return mFinishedSceneString;
-            }
-        }
-        //scene doesn't exist
-        return currentScene;
+        mCurrentSceneReloaded = true;
     }
 
     public static string GetCurrentScene()
@@ -120,8 +84,11 @@ public class GlobalVariables
     // if intro == true, return intro for current level; else return outro for current level
     public static GameAudioManager.TutorialIntroOutroSounds GetTutorialSound(bool intro)
     {
-        Debug.Log(mCurrentChapter);
-        Debug.Log(mCurrentLevel);
+        if (intro && mCurrentSceneReloaded)
+            // don't want to play intro again when scene gets reloaded
+            // TODO insert special reload sound or vo!
+            return GameAudioManager.TutorialIntroOutroSounds.None;
+
         if (intro)
         {
             if (mCurrentChapter > mTutorialIntros.Length || mCurrentLevel > mTutorialIntros[mCurrentChapter - 1].Length)
@@ -141,6 +108,7 @@ public class GlobalVariables
     {
         mCurrentChapter = chapter;
         mCurrentLevel = level;
+        mCurrentSceneReloaded = false;
     }
 
 
