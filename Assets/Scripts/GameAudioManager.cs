@@ -17,6 +17,9 @@ public class GameAudioManager : MonoBehaviour
     public AudioClipCreditsMenu[] mAudioClipsCreditsMenu;
     public AudioClipPauseMenu[] mAudioClipsPauseMenu;
 
+    public AudioClipTutorialIntroOutro[] mAudioClipsTutorialIntroOutro;
+    public AudioClipTutorialIngame[] mAudioClipsTutorialIngame;
+
     private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
 
     private enum AudioSourcePlayType
@@ -127,6 +130,39 @@ public class GameAudioManager : MonoBehaviour
         RestartLevel,
         Barrierefreiheitsmenue,
         Exit
+    }
+
+    public enum TutorialIntroOutroSounds
+    {
+        C1L1_Intro,
+        C1L1_Outro,
+        C1L2_Intro,
+        C1L2_Outro,
+        C1L3_Intro,
+        C1L3_Outro,
+        C2L1_Intro,
+        C2L1_Outro,
+        C2L2_Intro,
+        C2L2_Outro,
+        C2L3_Intro,
+        C2L3_Outro,
+        C3L1_Intro,
+        C3L1_Outro,
+        C3L2_Intro,
+        C3L2_Outro,
+        C3L3_Intro,
+        C3L3_Outro,
+    }
+
+    public enum TutorialIngameSounds
+    {
+        C1L1_1,
+        C1L3_1,
+        C2L2_1,
+        C2L2_2,
+        C3L1_1,
+        C3L1_2,
+        C3L1_3
     }
 
     private void Start()
@@ -376,6 +412,30 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
+    public void PlayTutorialIntroOutroSound(TutorialIntroOutroSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipTutorialIntroOutro clip in mAudioClipsTutorialIntroOutro)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+    }
+
+    public void PlayTutorialIngameSound(TutorialIngameSounds sound)
+    {
+        AudioClip soundClip = null;
+        foreach (AudioClipTutorialIngame clip in mAudioClipsTutorialIngame)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+    }
+
 
     // play clip in audio source, acting depending on the given AudioSourcePlayType
     private void AudioSourcePlay(AudioClip soundClip, AudioSourcePlayType playType)
@@ -406,7 +466,6 @@ public class GameAudioManager : MonoBehaviour
                 break;
             default:
                 break;
-
         }
     }
 
@@ -478,6 +537,20 @@ public class GameAudioManager : MonoBehaviour
     public class AudioClipPauseMenu
     {
         public PauseMenuSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipTutorialIntroOutro
+    {
+        public TutorialIntroOutroSounds sound;
+        public AudioClip audioClip;
+    }
+
+    [System.Serializable]
+    public class AudioClipTutorialIngame
+    {
+        public TutorialIngameSounds sound;
         public AudioClip audioClip;
     }
 }
