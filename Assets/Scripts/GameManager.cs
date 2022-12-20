@@ -64,6 +64,12 @@ public class GameManager : MonoBehaviour
 
     private bool mWon = false;
 
+    private int mTutorialStage = 1; // stage of the current tutorial for this level
+
+    private bool mTutorial_1_1_DinjaFound = false;
+    private bool mTutorial_1_1_SchnuppiFound = false;
+
+
     private void Awake()
     {
         GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
@@ -87,7 +93,7 @@ public class GameManager : MonoBehaviour
 
         InitializeTileMap();
         SetSelectionFieldTargetPos(true);
-        PlayIntroOutroSound(true);
+        PlayTutorialIntroOutroSound(true);
     }
 
     // Update is called once per frame
@@ -100,6 +106,9 @@ public class GameManager : MonoBehaviour
         }
 
         if (mWon)
+            return;
+
+        if (CheckTutorialConditions())
             return;
 
         if (Input.GetButtonDown("DebugSuperSecretWinButton"))
@@ -127,7 +136,40 @@ public class GameManager : MonoBehaviour
         TurnReport();
     }
 
-    private void PlayIntroOutroSound(bool intro)
+    // returns true and plays tutorial sound when a new condition is met
+    private bool CheckTutorialConditions()
+    {
+        int chapter = GlobalVariables.mCurrentChapter;
+        int level = GlobalVariables.mCurrentLevel;
+
+        if (chapter == 1 && level == 1 && mTutorialStage == 1 && mTutorial_1_1_DinjaFound && mTutorial_1_1_SchnuppiFound)
+        {
+            PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds.C1L1_1, false);
+            mTutorialStage++;
+            return true;
+        }
+
+
+
+        return false;
+    }
+
+    // if you are in chapter 1 lvl 1 and havent found Dinja and Schnuppi yet, selecting isnt unlocked
+    private bool SelectionUnlocked()
+    {
+        return (GlobalVariables.mCurrentChapter != 1 || GlobalVariables.mCurrentLevel != 1 || mTutorial_1_1_DinjaFound && mTutorial_1_1_SchnuppiFound);
+    }
+
+    private bool TurnInfoUnlocked()
+    {
+        return GlobalVariables.mCurrentChapter >= 2 || GlobalVariables.mCurrentLevel >= 3;
+    }
+    private bool BoneInfoUnlocked()
+    {
+        return GlobalVariables.mCurrentChapter >= 2;
+    }
+
+    private void PlayTutorialIntroOutroSound(bool intro)
     {
         GameAudioManager.TutorialIntroOutroSounds sound = GlobalVariables.GetTutorialSound(intro);
         if (sound != GameAudioManager.TutorialIntroOutroSounds.None)
@@ -137,6 +179,15 @@ public class GameManager : MonoBehaviour
             if (mEventSystem)
                 mEventSystem.enabled = false;
         }
+    }
+
+    // if stopAndPlay is false, it just gets played instead
+    private void PlayTutorialIngameSound(GameAudioManager.TutorialIngameSounds sound, bool stopAndPlay = true)
+    {
+        mWaitForTutorial = true;
+        mTutorialWaitTime = mGameAudioManager.PlayTutorialIngameSound(sound, stopAndPlay);
+        if (mEventSystem)
+            mEventSystem.enabled = false;
     }
 
     private void WaitForTutorialSound()
@@ -357,7 +408,7 @@ public class GameManager : MonoBehaviour
 
         // Selection button down
 
-        if (Input.GetButtonDown("Select"))
+        if (Input.GetButtonDown("Select") && SelectionUnlocked())
             SelectButtonDown();
     }
 
@@ -366,10 +417,10 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Info_GridPosition"))
             TellGridPosition();
 
-        if (Input.GetButtonDown("Info_NumberOfBones"))
+        if (Input.GetButtonDown("Info_NumberOfBones") && BoneInfoUnlocked())
             TellNumberOfBones();
 
-        if (Input.GetButtonDown("Info_TurnsLeft"))
+        if (Input.GetButtonDown("Info_TurnsLeft") && TurnInfoUnlocked())
             TellNumberOfTurnsLeft();
     }
 
@@ -668,7 +719,7 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         mWon = true;
-        PlayIntroOutroSound(false);
+        PlayTutorialIntroOutroSound(false);
         mIngameMenusManager.Win();
     }
 
@@ -683,6 +734,19 @@ public class GameManager : MonoBehaviour
         GameAudioManager.NavigationSounds numberSound = GetNavigationEnum(yPos, false);
 
         GameAudioManager.GridObjectSounds gridObjectSound = GetGridObjectSound(selectionFieldGridPosVector3Int);
+
+        if (gridObjectSound == GameAudioManager.GridObjectSounds.Dinja)
+        {
+            // for first tutorial
+            mTutorial_1_1_DinjaFound = true;
+        }
+
+        if (gridObjectSound == GameAudioManager.GridObjectSounds.Schnuppi)
+        {
+            // for first tutorial
+            mTutorial_1_1_SchnuppiFound = true;
+        }
+
 
         mGameAudioManager.PlayAudioPositionInGrid(letterSound, numberSound, gridObjectSound);
     }

@@ -430,7 +430,8 @@ public class GameAudioManager : MonoBehaviour
         return soundLength;
     }
 
-    public float PlayTutorialIngameSound(TutorialIngameSounds sound)
+    // if stopAndPlay is false, it just gets played instead
+    public float PlayTutorialIngameSound(TutorialIngameSounds sound, bool stopAndPlay = true)
     {
         float soundLength = -1;
         AudioClip soundClip = null;
@@ -442,8 +443,10 @@ public class GameAudioManager : MonoBehaviour
                 soundLength = soundClip.length;
             }
         }
-
-        AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+        if (stopAndPlay)
+            AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
+        else
+            AudioSourcePlay(soundClip, AudioSourcePlayType.JustEnqueue);
         return soundLength;
     }
 
