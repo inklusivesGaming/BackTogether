@@ -313,41 +313,41 @@ MonoBehaviour:
   - sound: 4
     audioClip: {fileID: 8300000, guid: 647976ce576270e4286b83e1cb631785, type: 3}
   mAudioClipsTutorialIntroOutro:
-  - sound: 0
-    audioClip: {fileID: 8300000, guid: 788b328a64d2c54499fe78e59835d8ce, type: 3}
   - sound: 1
-    audioClip: {fileID: 8300000, guid: b92f041e8cda1d44db300e0ba1a214f5, type: 3}
+    audioClip: {fileID: 8300000, guid: 788b328a64d2c54499fe78e59835d8ce, type: 3}
   - sound: 2
-    audioClip: {fileID: 8300000, guid: 2fd2eb7ac12f83d46bcb6f88b3f5caa3, type: 3}
+    audioClip: {fileID: 8300000, guid: b92f041e8cda1d44db300e0ba1a214f5, type: 3}
   - sound: 3
-    audioClip: {fileID: 8300000, guid: 7ac46de776976c348881678ed9a56997, type: 3}
+    audioClip: {fileID: 8300000, guid: 2fd2eb7ac12f83d46bcb6f88b3f5caa3, type: 3}
   - sound: 4
-    audioClip: {fileID: 8300000, guid: 568ea3b729be0b94fa774f5fefe191c9, type: 3}
+    audioClip: {fileID: 8300000, guid: 7ac46de776976c348881678ed9a56997, type: 3}
   - sound: 5
-    audioClip: {fileID: 8300000, guid: 34e2d2a45f4046a48b89a1d9ea024806, type: 3}
+    audioClip: {fileID: 8300000, guid: 568ea3b729be0b94fa774f5fefe191c9, type: 3}
   - sound: 6
-    audioClip: {fileID: 8300000, guid: d43889ee2fd9dcb43b02815905f138be, type: 3}
+    audioClip: {fileID: 8300000, guid: 34e2d2a45f4046a48b89a1d9ea024806, type: 3}
   - sound: 7
-    audioClip: {fileID: 8300000, guid: 378ccb7fd5734aa4a87e1645edbc809d, type: 3}
+    audioClip: {fileID: 8300000, guid: d43889ee2fd9dcb43b02815905f138be, type: 3}
   - sound: 8
-    audioClip: {fileID: 8300000, guid: b16770f46a161854cb4085b15f8ff792, type: 3}
+    audioClip: {fileID: 8300000, guid: 378ccb7fd5734aa4a87e1645edbc809d, type: 3}
   - sound: 9
-    audioClip: {fileID: 8300000, guid: 1360d14249d1977439a50823ecea3d53, type: 3}
+    audioClip: {fileID: 8300000, guid: b16770f46a161854cb4085b15f8ff792, type: 3}
   - sound: 10
-    audioClip: {fileID: 8300000, guid: b815a9ddbfc867d4fa0fe9d148e7e2be, type: 3}
+    audioClip: {fileID: 8300000, guid: 1360d14249d1977439a50823ecea3d53, type: 3}
   - sound: 11
-    audioClip: {fileID: 8300000, guid: 05b027568bb625b42803b189ab72509c, type: 3}
+    audioClip: {fileID: 8300000, guid: b815a9ddbfc867d4fa0fe9d148e7e2be, type: 3}
   - sound: 12
-    audioClip: {fileID: 8300000, guid: fe00a1d6070da0149b5d1441a3958683, type: 3}
+    audioClip: {fileID: 8300000, guid: 05b027568bb625b42803b189ab72509c, type: 3}
   - sound: 13
-    audioClip: {fileID: 8300000, guid: ea5584343ad052e4ba7ae9ebb39a4ace, type: 3}
+    audioClip: {fileID: 8300000, guid: fe00a1d6070da0149b5d1441a3958683, type: 3}
   - sound: 14
-    audioClip: {fileID: 8300000, guid: 48264172f012ceb4ead5aa613f212888, type: 3}
+    audioClip: {fileID: 8300000, guid: ea5584343ad052e4ba7ae9ebb39a4ace, type: 3}
   - sound: 15
-    audioClip: {fileID: 8300000, guid: 0d45488178771874596be39b1823c519, type: 3}
+    audioClip: {fileID: 8300000, guid: 48264172f012ceb4ead5aa613f212888, type: 3}
   - sound: 16
-    audioClip: {fileID: 8300000, guid: eaa4e66d3035773439715441c03517d5, type: 3}
+    audioClip: {fileID: 8300000, guid: 0d45488178771874596be39b1823c519, type: 3}
   - sound: 17
+    audioClip: {fileID: 8300000, guid: eaa4e66d3035773439715441c03517d5, type: 3}
+  - sound: 18
     audioClip: {fileID: 8300000, guid: 3eaf1b747bbe55e4ba7e2efee38da4a6, type: 3}
   mAudioClipsTutorialIngame:
   - sound: 0

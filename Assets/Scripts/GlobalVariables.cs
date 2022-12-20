@@ -110,6 +110,32 @@ public class GlobalVariables
         return currentScene;
     }
 
+    public static string GetCurrentScene()
+    {
+        if (mCurrentChapter > mSceneNames.Length || mCurrentLevel > mSceneNames[mCurrentChapter].Length)
+            return "";
+        return mSceneNames[mCurrentChapter - 1][mCurrentLevel - 1];
+    }
+
+    // if intro == true, return intro for current level; else return outro for current level
+    public static GameAudioManager.TutorialIntroOutroSounds GetTutorialSound(bool intro)
+    {
+        Debug.Log(mCurrentChapter);
+        Debug.Log(mCurrentLevel);
+        if (intro)
+        {
+            if (mCurrentChapter > mTutorialIntros.Length || mCurrentLevel > mTutorialIntros[mCurrentChapter - 1].Length)
+                return GameAudioManager.TutorialIntroOutroSounds.None;
+            return mTutorialIntros[mCurrentChapter - 1][mCurrentLevel - 1];
+        }
+        else
+        {
+            if (mCurrentChapter > mTutorialOutros.Length || mCurrentLevel > mTutorialOutros[mCurrentChapter - 1].Length)
+                return GameAudioManager.TutorialIntroOutroSounds.None;
+            return mTutorialOutros[mCurrentChapter - 1][mCurrentLevel - 1];
+        }
+    }
+
     // 0,0 for start menu
     public static void SetLevel(int chapter, int level)
     {

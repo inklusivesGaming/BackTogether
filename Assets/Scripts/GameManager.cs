@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
     private int mNumberOfBones = 0;
     private int mNumberOfTurns = 0;
 
+    private bool mPauseForTutorial = false; // if true, you can't move until tutorial sound is over or you click escape
+
     private void Awake()
     {
         GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
@@ -78,6 +80,13 @@ public class GameManager : MonoBehaviour
         InitializeTileMap();
 
         SetSelectionFieldTargetPos(true);
+
+        GameAudioManager.TutorialIntroOutroSounds introSound = GlobalVariables.GetTutorialSound(true);
+        if(introSound != GameAudioManager.TutorialIntroOutroSounds.None)
+        {
+            mGameAudioManager.PlayTutorialIntroOutroSound(introSound);
+
+        }
     }
 
     // Update is called once per frame

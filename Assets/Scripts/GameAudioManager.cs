@@ -134,6 +134,7 @@ public class GameAudioManager : MonoBehaviour
 
     public enum TutorialIntroOutroSounds
     {
+        None,
         C1L1_Intro,
         C1L1_Outro,
         C1L2_Intro,
@@ -151,7 +152,7 @@ public class GameAudioManager : MonoBehaviour
         C3L2_Intro,
         C3L2_Outro,
         C3L3_Intro,
-        C3L3_Outro,
+        C3L3_Outro
     }
 
     public enum TutorialIngameSounds
