@@ -615,6 +615,12 @@ public class GameManager : MonoBehaviour
 
     private void Win()
     {
+        GameAudioManager.TutorialIntroOutroSounds outroSound = GlobalVariables.GetTutorialSound(false);
+        if (outroSound != GameAudioManager.TutorialIntroOutroSounds.None)
+        {
+            mGameAudioManager.PlayTutorialIntroOutroSound(outroSound);
+
+        }
         mIngameMenusManager.Win();
     }
 
