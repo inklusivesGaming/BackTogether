@@ -207,6 +207,8 @@ public class GameAudioManager : MonoBehaviour
 
     public void PlayHoleFilledEvent(EventSounds theHoleAt, NavigationSounds letter, NavigationSounds number, EventSounds isClosed, EventSounds youCanCrossIt)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         StopAudio();
 
         AudioClip theHoleAtClip = null;
@@ -258,6 +260,8 @@ public class GameAudioManager : MonoBehaviour
 
     public void PlayStonifyInformation(EventSounds generalText, NavigationSounds letter, NavigationSounds number)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         StopAudio();
 
         AudioClip generalTextClip = null;
