@@ -83,6 +83,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButtonDown("DebugSuperSecretWinButton"))
+        {
+            Win();
+            return;
+        }
+
+
         if (mCurrentSelectionMovementTime > 0)
             // selection is in the process of moving
             SelectionGetsMoved();
@@ -738,7 +745,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(GlobalVariables.GetNextScene(SceneManager.GetActiveScene().name));
+        //SceneManager.LoadScene(GlobalVariables.GetNextScene(SceneManager.GetActiveScene().name));
+        SceneManager.LoadScene(GlobalVariables.GetNextScene());
     }
 
 }

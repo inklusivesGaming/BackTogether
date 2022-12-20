@@ -19,6 +19,10 @@ public class ChapterMenuManager : MenuManager
         if (number <= 0 || number > GlobalVariables.mSceneNames.Length)
             return;
 
+        GlobalVariables.SetLevel(number, 1);
+        GlobalVariables.mCurrentChapter = number;
+        GlobalVariables.mCurrentLevel = 1;
+
         SceneManager.LoadScene(GlobalVariables.mSceneNames[number - 1][0]);
     }
 }

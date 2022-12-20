@@ -57,6 +57,7 @@ public class IngameMenusManager : OptionsMenuManager
     public override void LoadStartMenuScene()
     {
         Time.timeScale = 1f;
+        GlobalVariables.SetLevel(0, 0);
         base.LoadStartMenuScene();
     }
 
