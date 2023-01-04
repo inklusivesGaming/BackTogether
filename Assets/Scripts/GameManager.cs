@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour
     private bool mTutorial_3_1_SecondSurpriseChest = false;
     private bool mTutorial_3_1_FirstHoleFilled = false;
 
+    private bool mContrastMode = false;
+
     public Material mDecoMaterial;
     public Material mDecoMaterialAccessible;
 
@@ -104,6 +106,7 @@ public class GameManager : MonoBehaviour
 
         InitializeTileMap();
 
+        mContrastMode = GlobalVariables.mOptionContrastOn;
         ContrastMode(GlobalVariables.mOptionContrastOn);
 
         SetSelectionFieldTargetPos(true);
@@ -113,6 +116,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(mContrastMode != GlobalVariables.mOptionContrastOn)
+        {
+            mContrastMode = GlobalVariables.mOptionContrastOn;
+            ContrastMode(mContrastMode);
+        }
+
         if (NeedToWaitForTutorial())
         {
             WaitForTutorialSound();
