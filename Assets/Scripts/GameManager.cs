@@ -78,6 +78,10 @@ public class GameManager : MonoBehaviour
     private bool mTutorial_3_1_SecondSurpriseChest = false;
     private bool mTutorial_3_1_FirstHoleFilled = false;
 
+    public GameObject mDecoration;
+
+    public Material mDecoMaterial;
+    public Material mDecoMaterialAccessible;
 
     private void Awake()
     {
@@ -101,6 +105,9 @@ public class GameManager : MonoBehaviour
         mStonifyGridPosition = new Vector2Int(-1, -1);
 
         InitializeTileMap();
+
+        ContrastMode(GlobalVariables.mOptionContrastOn);
+
         SetSelectionFieldTargetPos(true);
         PlayTutorialIntroOutroSound(true);
     }
@@ -941,6 +948,13 @@ public class GameManager : MonoBehaviour
     {
         //SceneManager.LoadScene(GlobalVariables.GetNextScene(SceneManager.GetActiveScene().name));
         SceneManager.LoadScene(GlobalVariables.GetNextScene());
+    }
+
+    public void ContrastMode(bool turnOn)
+    {
+        if (mDecoration && mDecoMaterialAccessible && mDecoMaterial)
+            foreach (Renderer renderer in mDecoration.GetComponentsInChildren<Renderer>())
+                renderer.material = turnOn ? mDecoMaterialAccessible : mDecoMaterial;
     }
 
 }

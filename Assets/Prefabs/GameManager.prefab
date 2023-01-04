@@ -154,3 +154,6 @@ MonoBehaviour:
   mSelectedMaterial: {fileID: 2100000, guid: afc79d1c635c3af45b4ffb713920d2c9, type: 2}
   mSelectionMovementTime: 0.3
   mTimeBetweenActions: 0.2
+  mDecoration: {fileID: 0}
+  mDecoMaterial: {fileID: 2100000, guid: 3c72e26ce90013e44b383737ac18f59f, type: 2}
+  mDecoMaterialAccessible: {fileID: 2100000, guid: 19b0e79b72d84da4981693ab695ed6b3, type: 2}
