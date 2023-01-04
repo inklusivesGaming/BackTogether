@@ -1007,7 +1007,12 @@ public class GameManager : MonoBehaviour
     {
         Renderer targetRenderer = targetGridObject.gameObject.GetComponentInChildren<Renderer>();
         if (targetGridObject is Dino)
-            targetRenderer.material = mContrastMode ? mDinoMaterialAccessible : mDinoMaterial;
+        {
+            SkinnedMeshRenderer skinnedMeshRenderer = (SkinnedMeshRenderer)targetRenderer;
+            Material[] mats = skinnedMeshRenderer.materials;
+            mats[mats.Length-1] = mContrastMode ? mDinoMaterialAccessible : mDinoMaterial; // last material is material for the body
+            skinnedMeshRenderer.materials = mats;
+        }
         else if (targetGridObject is Hole)
             targetRenderer.material = mContrastMode ? mHoleMaterialAccessible : mHoleMaterial;
         else
