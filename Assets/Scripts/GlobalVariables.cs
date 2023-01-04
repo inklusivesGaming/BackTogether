@@ -41,7 +41,9 @@ public class GlobalVariables
 
     public static bool mCurrentSceneReloaded = false; // set true if the current scene already got reloaded (no new intro)
 
-    private const string mFinishedSceneString = "FINISHED"; // gets returned if there is no next scene; shouldnt happen normally
+    private const string FINISHED_SCENE_STRING = "FINISHED"; // gets returned if there is no next scene; shouldnt happen normally
+
+    public const string TAG_DECOCONTAINER = "DecoContainer"; // tag for the deco container objects
 
     public static string GetNextScene()
     {
@@ -55,7 +57,7 @@ public class GlobalVariables
         {
             if (mCurrentChapter == mSceneNames.Length)
                 // if there is no other scene; shouldnt happen
-                return mFinishedSceneString;
+                return FINISHED_SCENE_STRING;
             else
             {
                 // next chapter, first level

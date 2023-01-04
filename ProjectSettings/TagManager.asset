@@ -7,6 +7,8 @@ TagManager:
   - AudioManager
   - GameManager
   - GameMenuManager
+  - DecoContainer
+  - DecoGroundsContainer
   layers:
   - Default
   - TransparentFX

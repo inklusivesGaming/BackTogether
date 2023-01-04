@@ -78,8 +78,6 @@ public class GameManager : MonoBehaviour
     private bool mTutorial_3_1_SecondSurpriseChest = false;
     private bool mTutorial_3_1_FirstHoleFilled = false;
 
-    public GameObject mDecoration;
-
     public Material mDecoMaterial;
     public Material mDecoMaterialAccessible;
 
@@ -952,9 +950,10 @@ public class GameManager : MonoBehaviour
 
     public void ContrastMode(bool turnOn)
     {
-        if (mDecoration && mDecoMaterialAccessible && mDecoMaterial)
-            foreach (Renderer renderer in mDecoration.GetComponentsInChildren<Renderer>())
-                renderer.material = turnOn ? mDecoMaterialAccessible : mDecoMaterial;
+        if (mDecoMaterialAccessible && mDecoMaterial)
+            foreach (GameObject decoContainer in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_DECOCONTAINER))
+                foreach (Renderer renderer in decoContainer.GetComponentsInChildren<Renderer>())
+                    renderer.material = turnOn ? mDecoMaterialAccessible : mDecoMaterial;
     }
 
 }
