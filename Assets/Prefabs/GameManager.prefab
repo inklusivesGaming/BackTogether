@@ -161,6 +161,8 @@ MonoBehaviour:
   mHoleMaterial: {fileID: 2100000, guid: 02f66a47de3c9b448851d1d6d65bdb42, type: 2}
   mHoleMaterialAccessible: {fileID: 2100000, guid: 8971e2e50fe9b0647892361f5193e0a9, type: 2}
   mGroundMaterial: {fileID: 2100000, guid: 2eae95a5f1350084d820031e5db25eea, type: 2}
-  mGroundMaterialAccessible: {fileID: 0}
+  mGroundMaterialAccessible: {fileID: 2100000, guid: 1238f6a8271128948bf9460deed6393b, type: 2}
   mDecoMaterial: {fileID: 2100000, guid: 3c72e26ce90013e44b383737ac18f59f, type: 2}
   mDecoMaterialAccessible: {fileID: 2100000, guid: 19b0e79b72d84da4981693ab695ed6b3, type: 2}
+  mDecoGroundMaterial: {fileID: 2100000, guid: 09b21da631deb354bb32dd9859a46c8d, type: 2}
+  mDecoGroundMaterialAccessible: {fileID: 2100000, guid: 1238f6a8271128948bf9460deed6393b, type: 2}

@@ -9,6 +9,7 @@ TagManager:
   - GameMenuManager
   - DecoContainer
   - DecoGroundsContainer
+  - Ground
   layers:
   - Default
   - TransparentFX

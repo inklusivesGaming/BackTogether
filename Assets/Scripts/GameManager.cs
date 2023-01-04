@@ -95,6 +95,9 @@ public class GameManager : MonoBehaviour
     public Material mDecoMaterial;
     public Material mDecoMaterialAccessible;
 
+    public Material mDecoGroundMaterial;
+    public Material mDecoGroundMaterialAccessible;
+
     private void Awake()
     {
         GameObject gameAudioMgrObj = GameObject.FindGameObjectWithTag("AudioManager");
@@ -1001,6 +1004,18 @@ public class GameManager : MonoBehaviour
         foreach (GameObject decoContainer in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_DECOCONTAINER))
             foreach (Renderer renderer in decoContainer.GetComponentsInChildren<Renderer>())
                 renderer.material = mContrastMode ? mDecoMaterialAccessible : mDecoMaterial;
+
+        foreach (GameObject decoGroundContainer in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_DECOGROUNDCONTAINER))
+            foreach (Renderer renderer in decoGroundContainer.GetComponentsInChildren<Renderer>())
+                renderer.material = mContrastMode ? mDecoGroundMaterialAccessible : mDecoGroundMaterial;
+
+        foreach (GameObject ground in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_GROUND))
+        {
+            Renderer renderer = ground.GetComponent<Renderer>();
+            renderer.material = mContrastMode ? mGroundMaterialAccessible : mGroundMaterial;
+
+        }
+
     }
 
     private void SetContrast(GridObject targetGridObject)
@@ -1010,7 +1025,7 @@ public class GameManager : MonoBehaviour
         {
             SkinnedMeshRenderer skinnedMeshRenderer = (SkinnedMeshRenderer)targetRenderer;
             Material[] mats = skinnedMeshRenderer.materials;
-            mats[mats.Length-1] = mContrastMode ? mDinoMaterialAccessible : mDinoMaterial; // last material is material for the body
+            mats[mats.Length - 1] = mContrastMode ? mDinoMaterialAccessible : mDinoMaterial; // last material is material for the body
             skinnedMeshRenderer.materials = mats;
         }
         else if (targetGridObject is Hole)

@@ -43,7 +43,9 @@ public class GlobalVariables
 
     private const string FINISHED_SCENE_STRING = "FINISHED"; // gets returned if there is no next scene; shouldnt happen normally
 
+    public const string TAG_GROUND = "Ground"; // tag for the ground object
     public const string TAG_DECOCONTAINER = "DecoContainer"; // tag for the deco container objects
+    public const string TAG_DECOGROUNDCONTAINER = "DecoGroundsContainer"; // tag for the deco ground container objects
 
     public static string GetNextScene()
     {
