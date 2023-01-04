@@ -80,6 +80,18 @@ public class GameManager : MonoBehaviour
 
     private bool mContrastMode = false;
 
+    public Material mDinoMaterial;
+    public Material mDinoMaterialAccessible;
+
+    public Material mObjectMaterial;
+    public Material mObjectMaterialAccessible;
+
+    public Material mHoleMaterial;
+    public Material mHoleMaterialAccessible;
+
+    public Material mGroundMaterial;
+    public Material mGroundMaterialAccessible;
+
     public Material mDecoMaterial;
     public Material mDecoMaterialAccessible;
 
@@ -107,7 +119,7 @@ public class GameManager : MonoBehaviour
         InitializeTileMap();
 
         mContrastMode = GlobalVariables.mOptionContrastOn;
-        ContrastMode(GlobalVariables.mOptionContrastOn);
+        SetContrasts();
 
         SetSelectionFieldTargetPos(true);
         PlayTutorialIntroOutroSound(true);
@@ -116,10 +128,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(mContrastMode != GlobalVariables.mOptionContrastOn)
+        if (mContrastMode != GlobalVariables.mOptionContrastOn)
         {
             mContrastMode = GlobalVariables.mOptionContrastOn;
-            ContrastMode(mContrastMode);
+            SetContrasts();
         }
 
         if (NeedToWaitForTutorial())
@@ -360,8 +372,8 @@ public class GameManager : MonoBehaviour
                 }
 
                 // move the tile
-                mTilemap.SetTile(gridPosVector3Int, mSelectedTileBase);
-                mTilemap.SetTile(oldGridPosVector3Int, null);
+                SetTileOnMap(gridPosVector3Int, mSelectedTileBase);
+                SetTileOnMap(oldGridPosVector3Int, null);
 
                 // set the new selected tile
                 mSelectedTileBase = mTilemap.GetTile(gridPosVector3Int);
@@ -396,8 +408,8 @@ public class GameManager : MonoBehaviour
 
             // both items are destroyed
             Deselect();
-            mTilemap.SetTile(targetGridPos, null);
-            mTilemap.SetTile(oldGridPos, null);
+            SetTileOnMap(targetGridPos, null);
+            SetTileOnMap(oldGridPos, null);
             mGameAudioManager.PlayHoleFilledEvent
                 (GameAudioManager.EventSounds.DasLochBei,
                 GetNavigationEnum(targetGridPos.x, true),
@@ -413,7 +425,7 @@ public class GameManager : MonoBehaviour
             ChangeNumberOfBones(true);
             mTutorial_2_2_FirstBone = true;
             Deselect();
-            mTilemap.SetTile(oldGridPos, null);
+            SetTileOnMap(oldGridPos, null);
             return true;
         }
 
@@ -665,7 +677,7 @@ public class GameManager : MonoBehaviour
             // if the target egg is selected, we want to deselect it
             Deselect();
 
-        mTilemap.SetTile(tilePos, mStoneTileBase);
+        SetTileOnMap(tilePos, mStoneTileBase);
 
         mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.VersteinerungsSound);
         mStonifyHappened = true;
@@ -673,7 +685,6 @@ public class GameManager : MonoBehaviour
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(tilePos).GetComponent<GridObject>();
         gridObject.Pouf();
-
     }
 
     // Check if game is won after player moved a dino and if surprise chests are activated
@@ -777,16 +788,16 @@ public class GameManager : MonoBehaviour
 
         if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.HOLE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 0)
         {
-            mTilemap.SetTile(pos, mHoleTileBase);
+            SetTileOnMap(pos, mHoleTileBase);
             if (mTutorial_3_1_FirstSurpriseChest)
                 mTutorial_3_1_SecondSurpriseChest = true;
         }
 
         else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.STONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 1)
-            mTilemap.SetTile(pos, mStoneTileBase);
+            SetTileOnMap(pos, mStoneTileBase);
 
         else if (surpriseChest.mTargetItem == SurpriseChest.eTargetItem.BONE || surpriseChest.mTargetItem == SurpriseChest.eTargetItem.RANDOM && transformTarget == 2)
-            mTilemap.SetTile(pos, mBoneTileBase);
+            SetTileOnMap(pos, mBoneTileBase);
 
         GridObject gridObject = mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
         gridObject.Pouf();
@@ -795,6 +806,19 @@ public class GameManager : MonoBehaviour
 
         mSurpriseChestHappened = true;
         mSurpriseChestTransformGridPositions.Add(new Vector2Int(pos.x, pos.y));
+    }
+
+    // Set tile on map and adapt it to contrast settings
+    private void SetTileOnMap(Vector3Int pos, TileBase tileBase)
+    {
+        mTilemap.SetTile(pos, tileBase);
+
+        if (!tileBase)
+            return;
+
+        // change texture if contrast mode is on
+        GridObject targetGridObject = mTilemap.GetInstantiatedObject(pos).GetComponent<GridObject>();
+        SetContrast(targetGridObject);
     }
 
     private void Win()
@@ -957,12 +981,36 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(GlobalVariables.GetNextScene());
     }
 
-    public void ContrastMode(bool turnOn)
+    public void SetContrasts()
     {
-        if (mDecoMaterialAccessible && mDecoMaterial)
-            foreach (GameObject decoContainer in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_DECOCONTAINER))
-                foreach (Renderer renderer in decoContainer.GetComponentsInChildren<Renderer>())
-                    renderer.material = turnOn ? mDecoMaterialAccessible : mDecoMaterial;
+        // change colors of objects and dinos
+        for (int x = mTilemapMinBounds.x; x <= mTilemapMaxBounds.x; x++)
+        {
+            for (int y = mTilemapMinBounds.y; y <= mTilemapMaxBounds.y; y++)
+            {
+                Vector3Int targetPos = new Vector3Int(x, y, 0);
+                TileBase targetTileBase = mTilemap.GetTile(targetPos);
+                if (!targetTileBase)
+                    continue;
+                GridObject targetGridObject = mTilemap.GetInstantiatedObject(targetPos).GetComponent<GridObject>();
+                SetContrast(targetGridObject);
+            }
+        }
+
+        // change colors of deco objects
+        foreach (GameObject decoContainer in GameObject.FindGameObjectsWithTag(GlobalVariables.TAG_DECOCONTAINER))
+            foreach (Renderer renderer in decoContainer.GetComponentsInChildren<Renderer>())
+                renderer.material = mContrastMode ? mDecoMaterialAccessible : mDecoMaterial;
     }
 
+    private void SetContrast(GridObject targetGridObject)
+    {
+        Renderer targetRenderer = targetGridObject.gameObject.GetComponentInChildren<Renderer>();
+        if (targetGridObject is Dino)
+            targetRenderer.material = mContrastMode ? mDinoMaterialAccessible : mDinoMaterial;
+        else if (targetGridObject is Hole)
+            targetRenderer.material = mContrastMode ? mHoleMaterialAccessible : mHoleMaterial;
+        else
+            targetRenderer.material = mContrastMode ? mObjectMaterialAccessible : mObjectMaterial;
+    }
 }

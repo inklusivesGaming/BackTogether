@@ -154,6 +154,13 @@ MonoBehaviour:
   mSelectedMaterial: {fileID: 2100000, guid: afc79d1c635c3af45b4ffb713920d2c9, type: 2}
   mSelectionMovementTime: 0.3
   mTimeBetweenActions: 0.2
-  mDecoration: {fileID: 0}
+  mDinoMaterial: {fileID: 2100000, guid: 3c72e26ce90013e44b383737ac18f59f, type: 2}
+  mDinoMaterialAccessible: {fileID: 2100000, guid: 57ca3e88fb20b204c9712a7a4e05c791, type: 2}
+  mObjectMaterial: {fileID: 2100000, guid: 3c72e26ce90013e44b383737ac18f59f, type: 2}
+  mObjectMaterialAccessible: {fileID: 2100000, guid: cea7536f6ca2de74a84cc36fb10d17af, type: 2}
+  mHoleMaterial: {fileID: 2100000, guid: 02f66a47de3c9b448851d1d6d65bdb42, type: 2}
+  mHoleMaterialAccessible: {fileID: 2100000, guid: 8971e2e50fe9b0647892361f5193e0a9, type: 2}
+  mGroundMaterial: {fileID: 2100000, guid: 2eae95a5f1350084d820031e5db25eea, type: 2}
+  mGroundMaterialAccessible: {fileID: 0}
   mDecoMaterial: {fileID: 2100000, guid: 3c72e26ce90013e44b383737ac18f59f, type: 2}
   mDecoMaterialAccessible: {fileID: 2100000, guid: 19b0e79b72d84da4981693ab695ed6b3, type: 2}
