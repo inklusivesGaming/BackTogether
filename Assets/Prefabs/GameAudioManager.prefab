@@ -301,6 +301,8 @@ MonoBehaviour:
   mAudioClipsCreditsMenu:
   - sound: 0
     audioClip: {fileID: 8300000, guid: e811a90cb6b4d944f9d1d871a273ca0f, type: 3}
+  - sound: 1
+    audioClip: {fileID: 8300000, guid: 68fddfd31e06c1c43b816281bc698689, type: 3}
   mAudioClipsPauseMenu:
   - sound: 0
     audioClip: {fileID: 8300000, guid: 4f7beb26a9d912e479ce0850898d19b2, type: 3}
@@ -364,6 +366,7 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 02094147c44bdfe4e939622b449bb5b6, type: 3}
   - sound: 6
     audioClip: {fileID: 8300000, guid: 497758f779219684898c6968758e895b, type: 3}
+  mSwitchGridAndObjectOutput: 1
 --- !u!82 &6
 AudioSource:
   m_ObjectHideFlags: 0

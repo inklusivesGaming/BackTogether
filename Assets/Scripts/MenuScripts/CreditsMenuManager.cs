@@ -10,6 +10,6 @@ public class CreditsMenuManager : MenuManager
             return;
 
         mGameAudioManager.PlayMenuSound(GameAudioManager.CreditsMenuSounds.Mitgewirkt);
-        mGameAudioManager.EnqueueEventSound(GameAudioManager.EventSounds.WeiterMitLeertaste);
+        mGameAudioManager.EnqueueMenuSound(GameAudioManager.CreditsMenuSounds.ZurueckMitLeertaste);
     }
 }

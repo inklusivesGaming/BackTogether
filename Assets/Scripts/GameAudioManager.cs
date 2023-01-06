@@ -122,7 +122,8 @@ public class GameAudioManager : MonoBehaviour
 
     public enum CreditsMenuSounds
     {
-        Mitgewirkt
+        Mitgewirkt,
+        ZurueckMitLeertaste
     }
 
     public enum PauseMenuSounds
@@ -385,8 +386,11 @@ public class GameAudioManager : MonoBehaviour
 
     }
 
+    // vo sounds for menu
     public void PlayMenuSound(StartMenuSounds sound)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         AudioClip soundClip = null;
         foreach (AudioClipStartMenu clip in mAudioClipsStartMenu)
         {
@@ -397,8 +401,11 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
+    // vo sounds for chapter menu
     public void PlayMenuSound(ChapterMenuSounds sound)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         AudioClip soundClip = null;
         foreach (AudioClipChapterMenu clip in mAudioClipsChapterMenu)
         {
@@ -409,8 +416,11 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
+    // vo sounds for options menu
     public void PlayMenuSound(OptionsMenuSounds sound)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         AudioClip soundClip = null;
         foreach (AudioClipOptionsMenu clip in mAudioClipsOptionsMenu)
         {
@@ -423,6 +433,8 @@ public class GameAudioManager : MonoBehaviour
 
     public void PlayMenuSound(CreditsMenuSounds sound)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         AudioClip soundClip = null;
         foreach (AudioClipCreditsMenu clip in mAudioClipsCreditsMenu)
         {
@@ -433,8 +445,24 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(soundClip, AudioSourcePlayType.StopAndPlay);
     }
 
+    public void EnqueueMenuSound(CreditsMenuSounds sound)
+    {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
+        AudioClip soundClip = null;
+        foreach (AudioClipCreditsMenu clip in mAudioClipsCreditsMenu)
+        {
+            if (clip.sound == sound)
+                soundClip = clip.audioClip;
+        }
+
+        AudioSourcePlay(soundClip, AudioSourcePlayType.JustEnqueue);
+    }
+
     public void PlayMenuSound(PauseMenuSounds sound)
     {
+        if (!GlobalVariables.mOptionAudioDescriptionOn)
+            return;
         AudioClip soundClip = null;
         foreach (AudioClipPauseMenu clip in mAudioClipsPauseMenu)
         {
