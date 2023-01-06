@@ -539,6 +539,9 @@ public class GameManager : MonoBehaviour
             // move selection field smoothly
             SetSelectionFieldTargetPos(false);
 
+        // want to stop audio when we successfully move the cursor
+        mGameAudioManager.StopAudio();
+
         if (mSelectedMode)
             mGameAudioManager.PlayActionSound(GameAudioManager.ActionSounds.ObjektBewegen);
         else
