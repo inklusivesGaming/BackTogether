@@ -35,6 +35,8 @@ public class MenuManager : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            mGameAudioManager.StopAudio();
         HandleEventSystemSelection();
     }
 
