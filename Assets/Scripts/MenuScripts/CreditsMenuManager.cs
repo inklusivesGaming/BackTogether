@@ -9,7 +9,7 @@ public class CreditsMenuManager : MenuManager
         if (!mGameAudioManager)
             return;
 
-        // TODO we need a "press ... to go back"
         mGameAudioManager.PlayMenuSound(GameAudioManager.CreditsMenuSounds.Mitgewirkt);
+        mGameAudioManager.EnqueueEventSound(GameAudioManager.EventSounds.WeiterMitLeertaste);
     }
 }

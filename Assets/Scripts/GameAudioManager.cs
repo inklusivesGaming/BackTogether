@@ -20,7 +20,7 @@ public class GameAudioManager : MonoBehaviour
     public AudioClipTutorialIntroOutro[] mAudioClipsTutorialIntroOutro;
     public AudioClipTutorialIngame[] mAudioClipsTutorialIngame;
 
-    private Queue<AudioClip> mAudioQueue; // for playing multiple sounds one after another
+    private Queue<AudioClip> mAudioQueue = new Queue<AudioClip>(); // for playing multiple sounds one after another
 
     public bool mSwitchGridAndObjectOutput = true; // for testing purposes
 
@@ -168,11 +168,6 @@ public class GameAudioManager : MonoBehaviour
         C3L1_3
     }
 
-    private void Start()
-    {
-        mAudioQueue = new Queue<AudioClip>();
-    }
-
     private void Update()
     {
         if (!(mAudioSource.isPlaying) && mAudioQueue.Count > 0)
@@ -212,7 +207,7 @@ public class GameAudioManager : MonoBehaviour
         {
             if (clipEvent.sound == sound)
                 clip = clipEvent.audioClip;
-        }
+        }  
 
         AudioSourcePlay(clip, AudioSourcePlayType.JustEnqueue);
     }
