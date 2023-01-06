@@ -205,6 +205,18 @@ public class GameAudioManager : MonoBehaviour
         AudioSourcePlay(clip, AudioSourcePlayType.JustPlay);
     }
 
+    public void EnqueueEventSound(EventSounds sound)
+    {
+        AudioClip clip = null;
+        foreach (AudioClipEvent clipEvent in mAudioClipsEvents)
+        {
+            if (clipEvent.sound == sound)
+                clip = clipEvent.audioClip;
+        }
+
+        AudioSourcePlay(clip, AudioSourcePlayType.JustEnqueue);
+    }
+
     public void PlayHoleFilledEvent(EventSounds theHoleAt, NavigationSounds letter, NavigationSounds number, EventSounds isClosed, EventSounds youCanCrossIt)
     {
         if (!GlobalVariables.mOptionAudioDescriptionOn)

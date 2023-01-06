@@ -19,8 +19,6 @@ public class IngameMenusManager : OptionsMenuManager
     public TMP_Text mNumberOfBonesText;
     public TMP_Text mNumberOfTurnsText;
 
-    private bool mIsLastLevel = false; // true if this is the last level
-
     private CurrentGameMenuState mCurrentGameMenuState = CurrentGameMenuState.Ingame;
 
     private GameManager mGameManager;
@@ -34,6 +32,8 @@ public class IngameMenusManager : OptionsMenuManager
     public Button mOptionsMenuHeadButton;
     public Button mWinMenuHeadButton;
     public Button mFinalWinMenuHeadButton;
+
+    private bool mWon = false;
 
     protected override void Awake()
     {
@@ -66,7 +66,7 @@ public class IngameMenusManager : OptionsMenuManager
     {
         base.Update();
 
-        if (mCurrentGameMenuState == CurrentGameMenuState.WinMenu || mGameManager && mGameManager.NeedToWaitForTutorial())
+        if (mCurrentGameMenuState == CurrentGameMenuState.WinMenu || mGameManager && mGameManager.NeedToWaitForTutorial() || mWon)
             return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -163,26 +163,7 @@ public class IngameMenusManager : OptionsMenuManager
 
     public void Win()
     {
-        mCurrentGameMenuState = CurrentGameMenuState.WinMenu;
-
-        if (mGameAudioManager)
-            mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
-
-        if (mIsLastLevel)
-        {
-            mFinalWinMenu.SetActive(true);
-            mMenuHeadButton = mFinalWinMenuHeadButton;
-            mEventSystem.SetSelectedGameObject(mFinalWinMenuHeadButton.gameObject);
-        }
-
-        else
-        {
-            mWinMenu.SetActive(true);
-            mMenuHeadButton = mWinMenuHeadButton;
-            mEventSystem.SetSelectedGameObject(mWinMenuHeadButton.gameObject);
-        }
-
-        //Time.timeScale = 0f;
+        mWon = true;
     }
 
     public void LoadNextScene()
@@ -198,11 +179,5 @@ public class IngameMenusManager : OptionsMenuManager
     {
         mNumberOfBonesText.text = numberOfBones.ToString();
         mNumberOfTurnsText.text = numberOfTurns.ToString();
-    }
-
-    // Activated if this is the last level
-    public void SetLastLevel()
-    {
-        mIsLastLevel = true;
     }
 }

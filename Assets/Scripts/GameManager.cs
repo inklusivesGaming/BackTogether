@@ -144,7 +144,17 @@ public class GameManager : MonoBehaviour
         }
 
         if (mWon)
+        {
+            if (Input.GetButtonDown("Select"))
+            {
+                if (mIsLastLevel)
+                    LoadStartMenu();
+                else
+                    LoadNextScene();
+            }
+
             return;
+        }
 
         if (CheckTutorialConditions())
             return;
@@ -308,9 +318,6 @@ public class GameManager : MonoBehaviour
     {
         mIngameMenusManager = ingameMenusManager;
         mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
-
-        if (mIsLastLevel)
-            mIngameMenusManager.SetLastLevel();
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -827,7 +834,11 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         mWon = true;
+        
         PlayTutorialIntroOutroSound(false);
+        mGameAudioManager.EnqueueEventSound(GameAudioManager.EventSounds.WeiterMitLeertaste);
+        mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
+        
         mIngameMenusManager.Win();
     }
 
@@ -980,8 +991,12 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextScene()
     {
-        //SceneManager.LoadScene(GlobalVariables.GetNextScene(SceneManager.GetActiveScene().name));
         SceneManager.LoadScene(GlobalVariables.GetNextScene());
+    }
+
+    public void LoadStartMenu()
+    {
+        SceneManager.LoadScene(GlobalVariables.mStartMenuSceneName);
     }
 
     public void SetContrasts()
