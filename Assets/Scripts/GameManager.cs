@@ -641,7 +641,7 @@ public class GameManager : MonoBehaviour
         if (!selection)
             return false;
         GridObject selectionGridObject = mTilemap.GetInstantiatedObject(gridPos).GetComponent<GridObject>();
-        if (selectionGridObject is Stone || selectionGridObject is Hole)
+        if (selectionGridObject is Stone || selectionGridObject is Hole || selectionGridObject is SurpriseChest)
             return false;
         return true;
     }
@@ -701,14 +701,19 @@ public class GameManager : MonoBehaviour
     // bool dino is true if you moved a dino and false if you moved a surprisechest
     private void CheckNeighbours()
     {
-        if (!mSelectedTileBaseGridObject)
+        if (!mSelectedTileBaseGridObject || !(mSelectedTileBaseGridObject is Dino))
             return;
 
-        bool dino = false;
-        if (mSelectedTileBaseGridObject is Dino)
-            dino = true;
-        else if (!(mSelectedTileBaseGridObject is SurpriseChest))
-            return;
+
+
+        //bool dino = false;
+
+        // SurpriseChest no longer movable
+
+        //if (mSelectedTileBaseGridObject is Dino)
+        //    dino = true;
+        //else if (!(mSelectedTileBaseGridObject is SurpriseChest))
+        //    return;
 
         Vector3Int selectionFieldGridPosVector3Int = new Vector3Int(mSelectionFieldGridPos.x, mSelectionFieldGridPos.y, 0);
 
@@ -717,46 +722,45 @@ public class GameManager : MonoBehaviour
         Vector3Int neighbourUpPos = selectionFieldGridPosVector3Int + new Vector3Int(0, 1);
         Vector3Int neighbourDownPos = selectionFieldGridPosVector3Int + new Vector3Int(0, -1);
 
-        if (dino)
+        // check win condition
+        bool win = CheckIfDino(neighbourLeftPos)
+            || CheckIfDino(neighbourRightPos)
+            || CheckIfDino(neighbourUpPos)
+            || CheckIfDino(neighbourDownPos);
+
+        if (win)
         {
-            // check win condition
-            bool win = CheckIfDino(neighbourLeftPos)
-                || CheckIfDino(neighbourRightPos)
-                || CheckIfDino(neighbourUpPos)
-                || CheckIfDino(neighbourDownPos);
-
-            if (win)
-            {
-                Win();
-                return;
-            }
-
-            if (CheckIfSurpriseChest(neighbourLeftPos))
-                TransformSurpriseChest(neighbourLeftPos);
-
-            if (CheckIfSurpriseChest(neighbourRightPos))
-                TransformSurpriseChest(neighbourRightPos);
-
-            if (CheckIfSurpriseChest(neighbourUpPos))
-                TransformSurpriseChest(neighbourUpPos);
-
-            if (CheckIfSurpriseChest(neighbourDownPos))
-                TransformSurpriseChest(neighbourDownPos);
+            Win();
+            return;
         }
 
-        else
-        {
-            if (CheckIfDino(neighbourLeftPos)
-                || CheckIfDino(neighbourRightPos)
-                || CheckIfDino(neighbourUpPos)
-                || CheckIfDino(neighbourDownPos))
+        if (CheckIfSurpriseChest(neighbourLeftPos))
+            TransformSurpriseChest(neighbourLeftPos);
 
-            {
-                // transform currently selected surprise chest
-                Deselect();
-                TransformSurpriseChest(selectionFieldGridPosVector3Int);
-            }
-        }
+        if (CheckIfSurpriseChest(neighbourRightPos))
+            TransformSurpriseChest(neighbourRightPos);
+
+        if (CheckIfSurpriseChest(neighbourUpPos))
+            TransformSurpriseChest(neighbourUpPos);
+
+        if (CheckIfSurpriseChest(neighbourDownPos))
+            TransformSurpriseChest(neighbourDownPos);
+
+
+        // SurpriseChest no longer movable
+        //else
+        //{
+        //    if (CheckIfDino(neighbourLeftPos)
+        //        || CheckIfDino(neighbourRightPos)
+        //        || CheckIfDino(neighbourUpPos)
+        //        || CheckIfDino(neighbourDownPos))
+
+        //    {
+        //        // transform currently selected surprise chest
+        //        Deselect();
+        //        TransformSurpriseChest(selectionFieldGridPosVector3Int);
+        //    }
+        //}
 
         if (mSurpriseChestHappened)
             mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.RaetselPuffSound);
@@ -834,11 +838,11 @@ public class GameManager : MonoBehaviour
     private void Win()
     {
         mWon = true;
-        
+
         PlayTutorialIntroOutroSound(false);
         mGameAudioManager.EnqueueEventSound(GameAudioManager.EventSounds.WeiterMitLeertaste);
         mGameAudioManager.PlayEventSound(GameAudioManager.EventSounds.LevelGeschafft);
-        
+
         mIngameMenusManager.Win();
     }
 
