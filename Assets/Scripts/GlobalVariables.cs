@@ -88,10 +88,9 @@ public class GlobalVariables
     // if intro == true, return intro for current level; else return outro for current level
     public static GameAudioManager.TutorialIntroOutroSounds GetTutorialSound(bool intro)
     {
-        if (intro && mCurrentSceneReloaded)
-            // don't want to play intro again when scene gets reloaded
+        //if (intro && mCurrentSceneReloaded)
             // TODO insert special reload sound or vo!
-            return GameAudioManager.TutorialIntroOutroSounds.None;
+            //return GameAudioManager.TutorialIntroOutroSounds.None;
 
         if (intro)
         {
