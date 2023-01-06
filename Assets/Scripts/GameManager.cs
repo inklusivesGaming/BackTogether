@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
     public void RegisterIngameMenusManager(IngameMenusManager ingameMenusManager)
     {
         mIngameMenusManager = ingameMenusManager;
-        mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
+        mIngameMenusManager.SetUITexts(mNumberOfBones, 5 - mNumberOfTurns % 5);
     }
 
     // Check where your map is and what kinds of objects are in there
@@ -475,7 +475,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (mIngameMenusManager)
-            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
+            mIngameMenusManager.SetUITexts(mNumberOfBones, 5 - mNumberOfTurns % 5);
     }
 
 
@@ -653,7 +653,7 @@ public class GameManager : MonoBehaviour
     {
         mNumberOfTurns++;
         if (mIngameMenusManager)
-            mIngameMenusManager.SetUITexts(mNumberOfBones, mNumberOfTurns);
+            mIngameMenusManager.SetUITexts(mNumberOfBones, 5 - mNumberOfTurns % 5);
         if (mWon)
             return;
         if (mNumberOfTurns % 5 == 0)
